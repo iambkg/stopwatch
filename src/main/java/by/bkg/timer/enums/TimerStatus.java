@@ -3,6 +3,6 @@ package by.bkg.timer.enums;
 /**
  * @author Alexey Baryshnev
  */
-public enum Mode {
+public enum TimerStatus {
     PAUSED, RUNNING, STOPPED
 }

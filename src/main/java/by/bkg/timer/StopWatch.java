@@ -1,6 +1,7 @@
 package by.bkg.timer;
 
-import by.bkg.timer.enums.Mode;
+import by.bkg.timer.enums.TimerStatus;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,39 +11,37 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
 
-import static by.bkg.timer.enums.Mode.PAUSED;
-import static by.bkg.timer.enums.Mode.STOPPED;
+import static by.bkg.timer.enums.TimerStatus.PAUSED;
+import static by.bkg.timer.enums.TimerStatus.STOPPED;
 
 /**
  * @author Alexey Baryshnev
  */
 public class StopWatch extends JPanel {
 
-    public static final String TIME_STAMP_PATTERN = "HH:mm:ss:SSS";
+    private static final Logger LOG = Logger.getLogger(StopWatch.class.getName());
+
+    public static final String TIME_STAMP_PATTERN = "HH:mm:ss.SSS";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(TIME_STAMP_PATTERN);
+    public static final int DEFAULT_WIDTH = 400;
+    public static final int DEFAULT_HEIGHT = 100;
+    public static final String ZERO_TIME = "00:00:00.000";
     private java.util.Timer timer = new java.util.Timer();
-    private org.apache.commons.lang.time.StopWatch myTimer2;
+    private org.apache.commons.lang.time.StopWatch stopWatch;
     private Font myClockFont;
     private JButton startBtn, stopBtn, splitBtn;
     private JLabel timeLbl;
     private JPanel topPanel, bottomPanel;
-    private int clockTick;      //number of clock ticks; tick can be 1.0 s or 0.1 s
-    private double clockTime;      //time in seconds
-    private String clockTimeString;
-    private Mode timerMode;
+    private TimerStatus timerStatus;
 
     public StopWatch() {
         timer.schedule(new UpdateUITask(this), 0, 1);
-        timerMode = STOPPED;
+        timerStatus = STOPPED;
 
-        clockTick = 0;          //initial clock setting in clock ticks
-        clockTime = ((double) clockTick) / 10.0;
-
-        clockTimeString = new Double(clockTime).toString();
         myClockFont = new Font("Serif", Font.PLAIN, 50);
 
         timeLbl = new JLabel();
         timeLbl.setFont(myClockFont);
-        timeLbl.setText(clockTimeString);
 
         startBtn = new JButton("Start");
         stopBtn = new JButton("Stop");
@@ -50,7 +49,7 @@ public class StopWatch extends JPanel {
 
         updateEnabledByMode();
 
-        myTimer2 = new org.apache.commons.lang.time.StopWatch();
+        stopWatch = new org.apache.commons.lang.time.StopWatch();
 
         startBtn.addActionListener(getStartBtnListener());
         stopBtn.addActionListener(getStopBtnListener());
@@ -62,7 +61,7 @@ public class StopWatch extends JPanel {
         boolean stopEnabled = false;
         boolean splitEnabled = false;
 
-        switch (getTimerMode()) {
+        switch (getTimerStatus()) {
             case STOPPED:
                 startEnabled = true;
                 stopEnabled = false;
@@ -92,13 +91,13 @@ public class StopWatch extends JPanel {
     private ActionListener getSplitBtnListener() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                switch (getTimerMode()) {
+                switch (getTimerStatus()) {
                     case STOPPED:
                         break;
                     case RUNNING:
-                        myTimer2.split();
-                        JOptionPane.showMessageDialog(null, myTimer2.toSplitString());
-                        myTimer2.unsplit();
+                        stopWatch.split();
+                        JOptionPane.showMessageDialog(null, stopWatch.toSplitString());
+                        stopWatch.unsplit();
                         break;
                     case PAUSED:
                         break;
@@ -117,18 +116,18 @@ public class StopWatch extends JPanel {
     private ActionListener getStopBtnListener() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                switch (getTimerMode()) {
+                switch (getTimerStatus()) {
                     case STOPPED:
                         break;
                     case RUNNING:
-                        setTimerMode(PAUSED);
+                        setTimerStatus(PAUSED);
                         stopBtn.setText("Reset");
-                        myTimer2.suspend();
+                        stopWatch.suspend();
                         break;
                     case PAUSED:
-                        setTimerMode(STOPPED);
-                        myTimer2.stop();
-                        myTimer2.reset();
+                        setTimerStatus(STOPPED);
+                        stopWatch.stop();
+                        stopWatch.reset();
                         break;
                 }
                 updateEnabledByMode();
@@ -145,17 +144,17 @@ public class StopWatch extends JPanel {
     private ActionListener getStartBtnListener() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                switch (getTimerMode()) {
+                switch (getTimerStatus()) {
                     case STOPPED:
-                        setTimerMode(Mode.RUNNING);
-                        myTimer2.start();
+                        setTimerStatus(TimerStatus.RUNNING);
+                        stopWatch.start();
                         break;
                     case RUNNING:
-                        // already in his state
+                        // already in this state
                         break;
                     case PAUSED:
-                        setTimerMode(Mode.RUNNING);
-                        myTimer2.resume();
+                        setTimerStatus(TimerStatus.RUNNING);
+                        stopWatch.resume();
                         break;
                 }
                 updateEnabledByMode();
@@ -167,7 +166,7 @@ public class StopWatch extends JPanel {
     private void updateBtnTextByMode() {
         String startText = "";
         String stopText = "";
-        switch (getTimerMode()) {
+        switch (getTimerStatus()) {
             case STOPPED:
                 startText = "Start";
                 stopText = "Stop";
@@ -200,23 +199,26 @@ public class StopWatch extends JPanel {
         add(topPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        setSize(400, 100);
-        setMinimumSize(new Dimension(400, 100));
-        setPreferredSize(new Dimension(400, 100));
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         setBackground(Color.orange);
     }
 
     private String getCurrentTime() {
-        long time = myTimer2 != null ? myTimer2.getTime() : 0;
-        return new SimpleDateFormat(TIME_STAMP_PATTERN).format(new Date(time));
+        if (stopWatch == null) {
+            return ZERO_TIME;
+        }
+//        return SIMPLE_DATE_FORMAT.format(new Date(stopWatch.getTime()));
+        return stopWatch.toString();
     }
 
-    public Mode getTimerMode() {
-        return timerMode;
+    public TimerStatus getTimerStatus() {
+        return timerStatus;
     }
 
-    public void setTimerMode(Mode timerMode) {
-        this.timerMode = timerMode;
+    public void setTimerStatus(TimerStatus timerStatus) {
+        this.timerStatus = timerStatus;
     }
 
     private class UpdateUITask extends TimerTask {
