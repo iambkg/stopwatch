@@ -7,11 +7,12 @@ import java.awt.*;
  * @author Alexey Baryshnev
  */
 public class MyTestFrame extends JFrame {
+
     StopWatch StopWatch1;
 
     public MyTestFrame() {
         super("My Stop Watch");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Container myPane = getContentPane();
 
         StopWatch1 = new StopWatch();
