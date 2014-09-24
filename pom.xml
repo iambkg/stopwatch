@@ -8,6 +8,25 @@
     <artifactId>timer</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <out.version>jar-with-dependencies</out.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>bin</id>
+            <properties>
+                <out.version>bin</out.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>jar-only</id>
+            <properties>
+                <out.version>jar-with-dependencies</out.version>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -30,8 +49,7 @@
                         </manifest>
                     </archive>
                     <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                        <!--<descriptorRef>bin</descriptorRef>-->
+                        <descriptorRef>${out.version}</descriptorRef>
                     </descriptorRefs>
                 </configuration>
                 <executions>
