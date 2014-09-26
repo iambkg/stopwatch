@@ -11,7 +11,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MyTestFrame myTestFrame1 = new MyTestFrame();
+                StopWatchFrame stopWatchFrame1 = new StopWatchFrame();
             }
         });
     }

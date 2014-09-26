@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimerTask;
 
 import static by.bkg.timer.enums.TimerStatus.PAUSED;
@@ -21,11 +19,9 @@ public class StopWatch extends JPanel {
 
     private static final Logger LOG = Logger.getLogger(StopWatch.class.getName());
 
-    public static final String TIME_STAMP_PATTERN = "HH:mm:ss.SSS";
-    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(TIME_STAMP_PATTERN);
+    public static final String ZERO_TIME = "00:00:00.000";
     public static final int DEFAULT_WIDTH = 400;
     public static final int DEFAULT_HEIGHT = 100;
-    public static final String ZERO_TIME = "00:00:00.000";
     private java.util.Timer timer = new java.util.Timer();
     private org.apache.commons.lang.time.StopWatch stopWatch;
     private Font myClockFont;
@@ -184,7 +180,7 @@ public class StopWatch extends JPanel {
         stopBtn.setText(stopText);
     }
 
-    public void launchStopWatch() {
+    public void initStopWatch() {
         topPanel = new JPanel();
         topPanel.setBackground(Color.orange);
         bottomPanel = new JPanel();
@@ -199,9 +195,8 @@ public class StopWatch extends JPanel {
         add(topPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+
         setBackground(Color.orange);
     }
 
