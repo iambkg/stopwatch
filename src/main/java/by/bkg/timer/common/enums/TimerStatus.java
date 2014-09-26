@@ -1,6 +1,8 @@
-package by.bkg.timer.enums;
+package by.bkg.timer.common.enums;
 
 /**
+ * Timer statuses
+ *
  * @author Alexey Baryshnev
  */
 public enum TimerStatus {

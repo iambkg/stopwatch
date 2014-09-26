@@ -1,9 +1,14 @@
-package by.bkg.timer;
+package by.bkg.timer.mvc.view.impl;
+
+import by.bkg.timer.common.factory.ControllerFactory;
+import by.bkg.timer.mvc.view.impl.panel.StopWatchPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Application main frame
+ *
  * @author Alexey Baryshnev
  */
 public class StopWatchFrame extends JFrame {
@@ -38,9 +43,10 @@ public class StopWatchFrame extends JFrame {
     }
 
     private JPanel createEastPanel() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.initStopWatch();
-        return stopWatch;
+        StopWatchPanel stopWatchPanel = new StopWatchPanel();
+        stopWatchPanel.setController(ControllerFactory.getStopWatchController(stopWatchPanel));
+        stopWatchPanel.init();
+        return stopWatchPanel;
     }
 
     private JPanel createNorthPanel() {
