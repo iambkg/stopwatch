@@ -1,7 +1,9 @@
 package by.bkg.stopwatch.mvc.controller.impl.panel;
 
 import by.bkg.stopwatch.common.enums.TimerStatus;
+import by.bkg.stopwatch.mvc.controller.EventBus;
 import by.bkg.stopwatch.mvc.model.Split;
+import by.bkg.stopwatch.mvc.model.StopWatchData;
 import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
@@ -20,8 +22,14 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
 
     public static final String ZERO_TIME = "00:00:00.000";
 
-    public StopWatchPanelController(StopWatchPanel panel) {
+    private final StopWatchData data;
+
+    private EventBus eventBus;
+
+    public StopWatchPanelController(EventBus eventBus, StopWatchPanel panel) {
         setPanel(panel);
+        this.data = new StopWatchData();
+        this.eventBus = eventBus;
     }
 
     public void onStart() {
@@ -54,6 +62,7 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
                 getPanel().setTimerStatus(STOPPED);
                 getPanel().getStopWatch().stop();
                 getPanel().getStopWatch().reset();
+                getEventBus().resetAll();
                 break;
         }
         updatePanelByMode();
@@ -66,11 +75,12 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
             case RUNNING:
                 StopWatch stopWatch = getPanel().getStopWatch();
                 stopWatch.split();
-
                 Split split = new Split(0, stopWatch.getSplitTime(), stopWatch.toSplitString());
-                getPanel().showSplitTime(split);
-
                 stopWatch.unsplit();
+
+                getData().addSplit(split);
+                getEventBus().showSplits();
+
                 break;
             case PAUSED:
                 break;
@@ -136,5 +146,13 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
         }
         getPanel().getStartBtn().setText(startText);
         getPanel().getStopBtn().setText(stopText);
+    }
+
+    public StopWatchData getData() {
+        return data;
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
     }
 }

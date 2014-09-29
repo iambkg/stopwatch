@@ -2,7 +2,6 @@ package by.bkg.stopwatch.mvc.view.impl.panel;
 
 import by.bkg.stopwatch.common.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.controller.impl.panel.StopWatchPanelController;
-import by.bkg.stopwatch.mvc.model.Split;
 import org.apache.commons.lang.time.StopWatch;
 
 import javax.swing.*;
@@ -155,10 +154,5 @@ public class StopWatchPanel extends GenericControllablePanel<StopWatchPanelContr
             timeLabel = new JLabel();
         }
         return timeLabel;
-    }
-
-    public void showSplitTime(Split split) {
-        // TODO ABA: show in a table
-        JOptionPane.showMessageDialog(null, split.getSplitTimeAsString());
     }
 }

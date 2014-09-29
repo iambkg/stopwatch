@@ -1,6 +1,8 @@
 package by.bkg.stopwatch.mvc.view.impl;
 
 import by.bkg.stopwatch.common.factory.ControllerFactory;
+import by.bkg.stopwatch.mvc.controller.EventBus;
+import by.bkg.stopwatch.mvc.controller.impl.panel.StopWatchPanelController;
 import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 
 import javax.swing.*;
@@ -14,10 +16,18 @@ import java.awt.*;
 public class StopWatchFrame extends JFrame {
 
     public static final int DEFAULT_WIDTH = 400;
-    public static final int DEFAULT_HEIGHT = 200;
+    public static final int DEFAULT_HEIGHT = 300;
 
-    public StopWatchFrame() {
+    private EventBus eventBus;
+
+    private StopWatchPanelController stopWatchController;
+
+    private JLabel cLabel;
+
+    public StopWatchFrame(EventBus eventBus) {
         super("Stop-Watch");
+        this.eventBus = eventBus;
+        eventBus.setFrame(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createPanels();
         setupFrameSize();
@@ -29,11 +39,11 @@ public class StopWatchFrame extends JFrame {
         setLayout(new BorderLayout());
 
         Container myPane = getContentPane();
-        myPane.add(createEastPanel(), BorderLayout.EAST);
-        myPane.add(createNorthPanel(), BorderLayout.NORTH);
-        myPane.add(createWestPanel(), BorderLayout.WEST);
-        myPane.add(createSouthPanel(), BorderLayout.SOUTH);
-        myPane.add(createCenterPanel(), BorderLayout.CENTER);
+        myPane.add(createEastComponent(), BorderLayout.EAST);
+        myPane.add(createNorthComponent(), BorderLayout.NORTH);
+        myPane.add(createWestComponent(), BorderLayout.WEST);
+        myPane.add(createSouthComponent(), BorderLayout.SOUTH);
+        myPane.add(createCenterComponent(), BorderLayout.CENTER);
     }
 
     private void setupFrameSize() {
@@ -42,22 +52,23 @@ public class StopWatchFrame extends JFrame {
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
-    private JPanel createEastPanel() {
+    private JComponent createEastComponent() {
+        JPanel eLabelPanel = new JPanel();
+        JLabel eLabel = new JLabel();
+        eLabel.setText("E-label");
+        eLabelPanel.add(eLabel);
+        return eLabelPanel;
+    }
+
+    private JComponent createNorthComponent() {
         StopWatchPanel stopWatchPanel = new StopWatchPanel();
-        stopWatchPanel.setController(ControllerFactory.getStopWatchController(stopWatchPanel));
+        stopWatchController = ControllerFactory.getStopWatchController(eventBus, stopWatchPanel);
+        stopWatchPanel.setController(stopWatchController);
         stopWatchPanel.init();
         return stopWatchPanel;
     }
 
-    private JPanel createNorthPanel() {
-        JPanel nLabelPanel = new JPanel();
-        JLabel nLabel = new JLabel();
-        nLabel.setText("N-label");
-        nLabelPanel.add(nLabel);
-        return nLabelPanel;
-    }
-
-    private JPanel createWestPanel() {
+    private JComponent createWestComponent() {
         JPanel wLabelPanel = new JPanel();
         JLabel wLabel = new JLabel();
         wLabel.setText("W-label");
@@ -65,7 +76,7 @@ public class StopWatchFrame extends JFrame {
         return wLabelPanel;
     }
 
-    private JPanel createSouthPanel() {
+    private JComponent createSouthComponent() {
         JPanel sLabelPanel = new JPanel();
         JLabel sLabel = new JLabel();
         sLabel.setText("S-label");
@@ -73,11 +84,23 @@ public class StopWatchFrame extends JFrame {
         return sLabelPanel;
     }
 
-    private JPanel createCenterPanel() {
+    private JComponent createCenterComponent() {
+        // TODO ABA: add scrollpanel
+//        JScrollPane cScrollPanel = new JScrollPane();
         JPanel cLabelPanel = new JPanel();
-        JLabel cLabel = new JLabel();
+        cLabel = new JLabel();
         cLabel.setText("C-label");
         cLabelPanel.add(cLabel);
+//        cScrollPanel.add(cLabelPanel);
+//        return cScrollPanel;
         return cLabelPanel;
+    }
+
+    public JLabel getResultsLabel() {
+        return cLabel;
+    }
+
+    public StopWatchPanelController getStopWatchController() {
+        return stopWatchController;
     }
 }
