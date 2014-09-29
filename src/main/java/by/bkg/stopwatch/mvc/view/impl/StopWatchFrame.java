@@ -1,7 +1,7 @@
-package by.bkg.timer.mvc.view.impl;
+package by.bkg.stopwatch.mvc.view.impl;
 
-import by.bkg.timer.common.factory.ControllerFactory;
-import by.bkg.timer.mvc.view.impl.panel.StopWatchPanel;
+import by.bkg.stopwatch.common.factory.ControllerFactory;
+import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 
 import javax.swing.*;
 import java.awt.*;

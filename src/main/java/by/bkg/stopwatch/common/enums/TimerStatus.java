@@ -1,4 +1,4 @@
-package by.bkg.timer.common.enums;
+package by.bkg.stopwatch.common.enums;
 
 /**
  * Timer statuses

@@ -1,7 +1,7 @@
-package by.bkg.timer.mvc.controller.impl.panel;
+package by.bkg.stopwatch.mvc.controller.impl.panel;
 
-import by.bkg.timer.mvc.controller.IPanelController;
-import by.bkg.timer.mvc.view.IControllable;
+import by.bkg.stopwatch.mvc.controller.IPanelController;
+import by.bkg.stopwatch.mvc.view.IControllable;
 
 /**
  * Generic controller for IControllable Panels

@@ -1,7 +1,7 @@
-package by.bkg.timer.common.factory;
+package by.bkg.stopwatch.common.factory;
 
-import by.bkg.timer.mvc.controller.impl.panel.StopWatchPanelController;
-import by.bkg.timer.mvc.view.impl.panel.StopWatchPanel;
+import by.bkg.stopwatch.mvc.controller.impl.panel.StopWatchPanelController;
+import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 
 /**
  * Controller factory. TODO remove after Spring integration

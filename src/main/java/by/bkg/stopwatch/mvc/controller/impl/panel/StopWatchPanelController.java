@@ -1,13 +1,13 @@
-package by.bkg.timer.mvc.controller.impl.panel;
+package by.bkg.stopwatch.mvc.controller.impl.panel;
 
-import by.bkg.timer.common.enums.TimerStatus;
-import by.bkg.timer.mvc.view.impl.panel.StopWatchPanel;
+import by.bkg.stopwatch.common.enums.TimerStatus;
+import by.bkg.stopwatch.mvc.model.Split;
+import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
+import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
 
-import javax.swing.*;
-
-import static by.bkg.timer.common.enums.TimerStatus.PAUSED;
-import static by.bkg.timer.common.enums.TimerStatus.STOPPED;
+import static by.bkg.stopwatch.common.enums.TimerStatus.PAUSED;
+import static by.bkg.stopwatch.common.enums.TimerStatus.STOPPED;
 
 /**
  * StopWatch controller.
@@ -64,9 +64,13 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
             case STOPPED:
                 break;
             case RUNNING:
-                getPanel().getStopWatch().split();
-                JOptionPane.showMessageDialog(null, getPanel().getStopWatch().toSplitString());
-                getPanel().getStopWatch().unsplit();
+                StopWatch stopWatch = getPanel().getStopWatch();
+                stopWatch.split();
+
+                Split split = new Split(0, stopWatch.getSplitTime(), stopWatch.toSplitString());
+                getPanel().showSplitTime(split);
+
+                stopWatch.unsplit();
                 break;
             case PAUSED:
                 break;

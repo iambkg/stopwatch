@@ -1,6 +1,6 @@
-package by.bkg.timer;
+package by.bkg.stopwatch;
 
-import by.bkg.timer.mvc.view.impl.StopWatchFrame;
+import by.bkg.stopwatch.mvc.view.impl.StopWatchFrame;
 
 import java.awt.*;
 

@@ -1,7 +1,7 @@
-package by.bkg.timer.mvc.view.impl.panel;
+package by.bkg.stopwatch.mvc.view.impl.panel;
 
-import by.bkg.timer.mvc.controller.IPanelController;
-import by.bkg.timer.mvc.view.IControllable;
+import by.bkg.stopwatch.mvc.controller.IPanelController;
+import by.bkg.stopwatch.mvc.view.IControllable;
 
 import javax.swing.*;
 

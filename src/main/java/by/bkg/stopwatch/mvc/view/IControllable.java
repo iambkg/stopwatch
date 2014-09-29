@@ -1,6 +1,6 @@
-package by.bkg.timer.mvc.view;
+package by.bkg.stopwatch.mvc.view;
 
-import by.bkg.timer.mvc.controller.IPanelController;
+import by.bkg.stopwatch.mvc.controller.IPanelController;
 
 /**
  * Defines View classes with Controller inside
