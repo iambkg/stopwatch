@@ -30,7 +30,17 @@ public class Person {
 
     private Date birthDate;
 
-    private List<Split> splits = new ArrayList<Split>();;
+    private List<Split> splits = new ArrayList<Split>();
+
+    private Category category;
+
+    public Person() {
+    }
+
+    public Person(String lastName, Integer startNumber) {
+        this.lastName = lastName;
+        this.startNumber = startNumber;
+    }
 
     public void addSplit(Split split) {
         splits.add(split);
@@ -78,5 +88,13 @@ public class Person {
 
     public List<Split> getSplits() {
         return splits;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

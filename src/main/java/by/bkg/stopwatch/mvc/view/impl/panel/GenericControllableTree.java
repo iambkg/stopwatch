@@ -6,11 +6,11 @@ import by.bkg.stopwatch.mvc.view.IControllable;
 import javax.swing.*;
 
 /**
- * JPanel with controller.
+ * JTree with controller
  *
  * @author Alexey Baryshnev
  */
-public class GenericControllablePanel<T extends IComponentController> extends JPanel implements IControllable<T> {
+public class GenericControllableTree<T extends IComponentController> extends JTree implements IControllable<T> {
 
     private T controller;
 

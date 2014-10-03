@@ -23,8 +23,9 @@ public class EventBus {
         resultsLabel.setText(stopWatchFrame.getStopWatchController().getData().getDataAsString());
     }
 
-    public void addPerson(Person person) {
+    public void onAddPersonConfirmed(Person person) {
         stopWatchFrame.getStopWatchController().getData().addPerson(person);
+//        stopWatchFrame.getRegisteredPersonsController().getData().addPerson(person);
     }
 
     public void resetAll() {

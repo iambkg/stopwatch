@@ -1,12 +1,16 @@
 package by.bkg.stopwatch.mvc.view.impl;
 
-import by.bkg.stopwatch.common.factory.ControllerFactory;
+import by.bkg.stopwatch.common.factory.view.ComponentFactory;
 import by.bkg.stopwatch.mvc.controller.EventBus;
+import by.bkg.stopwatch.mvc.controller.impl.StopWatchAppController;
 import by.bkg.stopwatch.mvc.controller.impl.panel.StopWatchPanelController;
+import by.bkg.stopwatch.mvc.view.impl.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Application main frame
@@ -15,35 +19,40 @@ import java.awt.*;
  */
 public class StopWatchFrame extends JFrame {
 
-    public static final int DEFAULT_WIDTH = 400;
+    public static final int DEFAULT_WIDTH = 600;
     public static final int DEFAULT_HEIGHT = 300;
 
     private EventBus eventBus;
 
-    private StopWatchPanelController stopWatchController;
+    private JLabel resultsComponent;
 
-    private JLabel cLabel;
+    private StopWatchPanel stopWatchPanel;
 
-    public StopWatchFrame(EventBus eventBus) {
-        super("Stop-Watch");
+    private StopWatchAppController controller;
+
+    private RegisteredPersonsPanel registeredPersonsPanel;
+
+    public StopWatchFrame(EventBus eventBus, StopWatchAppController controller) {
+        super("Stop-Watch");  // TODO ABA: i18n
         this.eventBus = eventBus;
+        this.controller = controller;
         eventBus.setFrame(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createPanels();
         setupFrameSize();
         pack();
-        setVisible(true);
     }
 
     private void createPanels() {
         setLayout(new BorderLayout());
 
         Container myPane = getContentPane();
-        myPane.add(createEastComponent(), BorderLayout.EAST);
-        myPane.add(createNorthComponent(), BorderLayout.NORTH);
-        myPane.add(createWestComponent(), BorderLayout.WEST);
-        myPane.add(createSouthComponent(), BorderLayout.SOUTH);
-        myPane.add(createCenterComponent(), BorderLayout.CENTER);
+        myPane.add(createToolBar(), BorderLayout.NORTH);
+
+        JSplitPane splitPane = new JSplitPane();
+//        splitPane.setLeftComponent(createListOfRegisteredPersonsComponent());
+        splitPane.setRightComponent(createCenterComponent());
+        myPane.add(splitPane, BorderLayout.CENTER);
     }
 
     private void setupFrameSize() {
@@ -52,55 +61,64 @@ public class StopWatchFrame extends JFrame {
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
-    private JComponent createEastComponent() {
-        JPanel eLabelPanel = new JPanel();
-        JLabel eLabel = new JLabel();
-        eLabel.setText("E-label");
-        eLabelPanel.add(eLabel);
-        return eLabelPanel;
-    }
-
-    private JComponent createNorthComponent() {
-        StopWatchPanel stopWatchPanel = new StopWatchPanel();
-        stopWatchController = ControllerFactory.getStopWatchController(eventBus, stopWatchPanel);
-        stopWatchPanel.setController(stopWatchController);
-        stopWatchPanel.init();
-        return stopWatchPanel;
-    }
-
-    private JComponent createWestComponent() {
-        JPanel wLabelPanel = new JPanel();
-        JLabel wLabel = new JLabel();
-        wLabel.setText("W-label");
-        wLabelPanel.add(wLabel);
-        return wLabelPanel;
-    }
-
-    private JComponent createSouthComponent() {
-        JPanel sLabelPanel = new JPanel();
-        JLabel sLabel = new JLabel();
-        sLabel.setText("S-label");
-        sLabelPanel.add(sLabel);
-        return sLabelPanel;
+    private JComponent createListOfRegisteredPersonsComponent() {
+        registeredPersonsPanel = ComponentFactory.createRegisteredPersonsComponent(eventBus);
+        return new JScrollPane(registeredPersonsPanel);
     }
 
     private JComponent createCenterComponent() {
-        // TODO ABA: add scrollpanel
-//        JScrollPane cScrollPanel = new JScrollPane();
-        JPanel cLabelPanel = new JPanel();
-        cLabel = new JLabel();
-        cLabel.setText("C-label");
-        cLabelPanel.add(cLabel);
-//        cScrollPanel.add(cLabelPanel);
-//        return cScrollPanel;
-        return cLabelPanel;
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+
+        resultsComponent = new JLabel();
+        resultsComponent.setText("C-label");  // TODO ABA: i18n
+        resultsComponent.setVerticalAlignment(SwingConstants.TOP);
+
+        centerPanel.add(resultsComponent, BorderLayout.CENTER);
+        stopWatchPanel = ComponentFactory.createStopWatchComponent(eventBus);
+        centerPanel.add(stopWatchPanel, BorderLayout.NORTH);
+        return new JScrollPane(centerPanel);
     }
 
+    private JToolBar createToolBar() {
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+
+        toolBar.add(createAddPersonBtn());
+
+        return toolBar;
+    }
+
+    private JButton createAddPersonBtn() {
+        JButton addPersonBtn = new JButton();
+        addPersonBtn.setText("Add Person");     // TODO ABA: i18n
+        addPersonBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getController().onAddPersonClick(eventBus);
+            }
+        });
+        return addPersonBtn;
+    }
+
+    // TODO ABA: refactor to JComponent
     public JLabel getResultsLabel() {
-        return cLabel;
+        return resultsComponent;
     }
 
     public StopWatchPanelController getStopWatchController() {
-        return stopWatchController;
+        return getStopWatchPanel().getController();
     }
+
+    public StopWatchAppController getController() {
+        return controller;
+    }
+
+    public StopWatchPanel getStopWatchPanel() {
+        return stopWatchPanel;
+    }
+
+//    public RegisteredPersonsPanelController getRegisteredPersonsController() {
+//        return registeredPersonsPanel.getController();
+//    }
 }

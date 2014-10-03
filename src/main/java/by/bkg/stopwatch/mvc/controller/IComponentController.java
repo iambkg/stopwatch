@@ -7,7 +7,7 @@ import by.bkg.stopwatch.mvc.view.IControllable;
  *
  * @author Alexey Baryshnev
  */
-public interface IPanelController<T extends IControllable> {
+public interface IComponentController<T extends IControllable> {
 
     T getPanel();
 }

@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.mvc.controller.impl.panel;
 
-import by.bkg.stopwatch.mvc.controller.IPanelController;
+import by.bkg.stopwatch.mvc.controller.EventBus;
+import by.bkg.stopwatch.mvc.controller.IComponentController;
 import by.bkg.stopwatch.mvc.view.IControllable;
 
 /**
@@ -8,9 +9,11 @@ import by.bkg.stopwatch.mvc.view.IControllable;
  *
  * @author Alexey Baryshnev
  */
-public class GenericPanelController<T extends IControllable> implements IPanelController<T> {
+public class GenericPanelController<T extends IControllable> implements IComponentController<T> {
 
     private T panel;
+
+    private EventBus eventBus;
 
     @Override
     public T getPanel() {
@@ -19,5 +22,13 @@ public class GenericPanelController<T extends IControllable> implements IPanelCo
 
     public void setPanel(T panel) {
         this.panel = panel;
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
+    }
+
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 }

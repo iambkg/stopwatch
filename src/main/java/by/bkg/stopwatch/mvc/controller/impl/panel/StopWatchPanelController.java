@@ -1,9 +1,10 @@
 package by.bkg.stopwatch.mvc.controller.impl.panel;
 
+import by.bkg.stopwatch.common.AppConstants;
 import by.bkg.stopwatch.common.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.controller.EventBus;
 import by.bkg.stopwatch.mvc.model.Split;
-import by.bkg.stopwatch.mvc.model.StopWatchData;
+import by.bkg.stopwatch.mvc.model.panel.StopWatchData;
 import by.bkg.stopwatch.mvc.view.impl.panel.StopWatchPanel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
@@ -24,12 +25,10 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
 
     private final StopWatchData data;
 
-    private EventBus eventBus;
-
     public StopWatchPanelController(EventBus eventBus, StopWatchPanel panel) {
         setPanel(panel);
         this.data = new StopWatchData();
-        this.eventBus = eventBus;
+        setEventBus(eventBus);
     }
 
     public void onStart() {
@@ -75,7 +74,7 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
             case RUNNING:
                 StopWatch stopWatch = getPanel().getStopWatch();
                 stopWatch.split();
-                Split split = new Split(0, stopWatch.getSplitTime(), stopWatch.toSplitString());
+                Split split = new Split(getStartNumber(), stopWatch.getSplitTime(), stopWatch.toSplitString());
                 stopWatch.unsplit();
 
                 getData().addSplit(split);
@@ -86,6 +85,11 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
                 break;
         }
         updatePanelByMode();
+    }
+
+    private int getStartNumber() {
+        // TODO ABA: read start number for split from input
+        return AppConstants.NOT_ASSIGNED_START_NUMBER;
     }
 
     public String getCurrentTime() {
@@ -132,16 +136,16 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
         String stopText = "";
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
-                startText = "Start";
-                stopText = "Stop";
+                startText = "Start";         // TODO ABA: i18n
+                stopText = "Stop";           // TODO ABA: i18n
                 break;
             case RUNNING:
-                startText = "Resume";
-                stopText = "Stop";
+                startText = "Resume";       // TODO ABA: i18n
+                stopText = "Stop";          // TODO ABA: i18n
                 break;
             case PAUSED:
-                startText = "Resume";
-                stopText = "Reset";
+                startText = "Resume";       // TODO ABA: i18n
+                stopText = "Reset";         // TODO ABA: i18n
                 break;
         }
         getPanel().getStartBtn().setText(startText);
@@ -150,9 +154,5 @@ public class StopWatchPanelController extends GenericPanelController<StopWatchPa
 
     public StopWatchData getData() {
         return data;
-    }
-
-    public EventBus getEventBus() {
-        return eventBus;
     }
 }

@@ -1,6 +1,7 @@
 package by.bkg.stopwatch;
 
 import by.bkg.stopwatch.mvc.controller.EventBus;
+import by.bkg.stopwatch.mvc.controller.impl.StopWatchAppController;
 import by.bkg.stopwatch.mvc.model.Person;
 import by.bkg.stopwatch.mvc.view.impl.StopWatchFrame;
 
@@ -17,11 +18,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                EventBus eventBus = new EventBus();
-                StopWatchFrame stopWatchFrame = new StopWatchFrame(eventBus);
-
-                // TODO ABA: remove
-                eventBus.addPerson(createFakePerson());
+                new StopWatchFrame(new EventBus(), new StopWatchAppController()).setVisible(true);
             }
         });
     }
