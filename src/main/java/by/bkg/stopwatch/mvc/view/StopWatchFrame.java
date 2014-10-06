@@ -1,13 +1,13 @@
 package by.bkg.stopwatch.mvc.view;
 
-import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
 import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
+import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
+import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
-import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -6,6 +6,7 @@ import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.paneldata.RegisteredPersonsPanelData;
 import by.bkg.stopwatch.mvc.view.panel.IRegisteredPersonsPanel;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +20,5 @@ public interface IRegisteredPersonsPanelController extends IComponentController<
 
     Set<Category> getCategories();
 
-    void onAddPerson();
-
-    void onRemovePerson();
+    List<Person> getPersonsByCategory(Category category);
 }

@@ -35,4 +35,8 @@ public class RegisteredPersonsPanelData implements IPanelData {
     public Set<Category> getCategories() {
         return data.keySet();
     }
+
+    public List<Person> getPersonsByCategory(Category category) {
+        return data.get(category);
+    }
 }

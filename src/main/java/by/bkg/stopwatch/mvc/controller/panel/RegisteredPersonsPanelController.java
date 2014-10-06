@@ -6,6 +6,7 @@ import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.paneldata.RegisteredPersonsPanelData;
 import by.bkg.stopwatch.mvc.view.panel.IRegisteredPersonsPanel;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +27,7 @@ public class RegisteredPersonsPanelController extends GenericPanelController<IRe
 
     public void addPerson(Person person) {
         getData().addPerson(person);
+        getPanel().populateTree();
     }
 
     public RegisteredPersonsPanelData getData() {
@@ -36,7 +38,7 @@ public class RegisteredPersonsPanelController extends GenericPanelController<IRe
         return getData().getCategories();
     }
 
-    public void onAddPerson() {}
-
-    public void onRemovePerson() {}
+    public List<Person> getPersonsByCategory(Category category) {
+        return getData().getPersonsByCategory(category);
+    }
 }

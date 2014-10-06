@@ -12,5 +12,5 @@ public interface IRegisteredPersonsPanel extends IControllable<IRegisteredPerson
 
     void clear();
 
-
+    void populateTree();
 }
