@@ -10,11 +10,27 @@ import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
  */
 public interface IStopWatchPanelController extends IComponentController<IStopWatchPanel> {
 
+    /**
+     * What happens on "Start" button click. Generally - should make call to bus
+     */
     void onStart();
 
+    /**
+     * What happens on "Stop" button click. Generally - should make call to bus
+     */
     void onStop();
 
+    /**
+     * What happens on "Split" button click. Generally - should make call to bus
+     */
     void onSplit();
+
+    /**
+     * Add split into data
+     *
+     * @param startNumber number for which split is made
+     */
+    void makeSplit(String startNumber);
 
     String getCurrentTime();
 

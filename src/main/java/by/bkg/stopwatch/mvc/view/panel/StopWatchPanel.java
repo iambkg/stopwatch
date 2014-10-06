@@ -1,7 +1,7 @@
 package by.bkg.stopwatch.mvc.view.panel;
 
-import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
+import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import org.apache.commons.lang.time.StopWatch;
 
 import javax.swing.*;

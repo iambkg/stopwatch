@@ -156,7 +156,7 @@ public class AddPersonDialog extends JDialog {
         person.setLastName(lastNameField.getText());
         person.setFirstName(firstNameField.getText());
         person.setMiddleName(middleNameField.getText());
-        person.setStartNumber(Integer.parseInt(startNumberField.getText()));
+        person.setStartNumber(startNumberField.getText());
         return person;
     }
 }

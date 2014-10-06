@@ -26,7 +26,7 @@ public class Person {
      */
     private String lastName;
 
-    private Integer startNumber;
+    private String startNumber;
 
     private Date birthDate;
 
@@ -37,7 +37,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String lastName, Integer startNumber) {
+    public Person(String lastName, String startNumber) {
         this.lastName = lastName;
         this.startNumber = startNumber;
     }
@@ -70,11 +70,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Integer getStartNumber() {
+    public String getStartNumber() {
         return startNumber;
     }
 
-    public void setStartNumber(Integer startNumber) {
+    public void setStartNumber(String startNumber) {
         this.startNumber = startNumber;
     }
 

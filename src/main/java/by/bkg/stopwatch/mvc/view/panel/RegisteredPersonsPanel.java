@@ -47,7 +47,6 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
         }
     }
 
-
     /**
      * Remove all nodes except the root node.
      */

@@ -4,6 +4,7 @@ import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
 import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
+import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
@@ -13,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Application main frame
@@ -20,9 +23,6 @@ import java.awt.event.ActionListener;
  * @author Alexey Baryshnev
  */
 public class StopWatchFrame extends JFrame {
-
-    public static final int DEFAULT_WIDTH = 600;
-    public static final int DEFAULT_HEIGHT = 300;
 
     private IEventBus eventBus;
 
@@ -33,6 +33,8 @@ public class StopWatchFrame extends JFrame {
     private IStopWatchAppController controller;
 
     private RegisteredPersonsPanel registeredPersonsPanel;
+
+    private JTextField startNumber;
 
     public StopWatchFrame(IEventBus eventBus, IStopWatchAppController controller) {
         super("Stop-Watch");  // TODO ABA: i18n
@@ -58,9 +60,9 @@ public class StopWatchFrame extends JFrame {
     }
 
     private void setupFrameSize() {
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        setSize(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT);
+        setMinimumSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
+        setPreferredSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
     }
 
     private JComponent createListOfRegisteredPersonsComponent() {
@@ -73,13 +75,36 @@ public class StopWatchFrame extends JFrame {
         centerPanel.setLayout(new BorderLayout());
 
         resultsComponent = new JLabel();
-        resultsComponent.setText("C-label");  // TODO ABA: i18n
+        resultsComponent.setText(AppConstants.EMPTY_STRING);
         resultsComponent.setVerticalAlignment(SwingConstants.TOP);
 
         centerPanel.add(resultsComponent, BorderLayout.CENTER);
         stopWatchPanel = ComponentFactory.createStopWatchComponent(eventBus);
-        centerPanel.add(stopWatchPanel, BorderLayout.NORTH);
+
+        JPanel smallTop = new JPanel();
+        smallTop.add(stopWatchPanel);
+        smallTop.add(createStartNumberInput());
+
+        centerPanel.add(smallTop, BorderLayout.NORTH);
         return new JScrollPane(centerPanel);
+    }
+
+    private JComponent createStartNumberInput() {
+        startNumber = new JTextField();
+        startNumber.setPreferredSize(new Dimension(100, 25));
+        JLabel label = new JLabel("Start #");  // TODO ABA: i18n
+        label.setLabelFor(startNumber);
+
+        startNumber.setEnabled(false);
+        startNumber.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (KeyEvent.VK_ENTER == e.getKeyCode()) {
+                    eventBus.proceedAddPersonRequest();
+                }
+            }
+        });
+        return startNumber;
     }
 
     private JToolBar createToolBar() {
@@ -122,5 +147,20 @@ public class StopWatchFrame extends JFrame {
 
     public IRegisteredPersonsPanelController getRegisteredPersonsController() {
         return registeredPersonsPanel.getController();
+    }
+
+    public String getTypedStartNumber() {
+        return startNumber.getText();
+    }
+
+    public void clearTypedStartNumber() {
+        startNumber.setText(AppConstants.EMPTY_STRING);
+    }
+
+    public void setStartNumberFieldEnabled(boolean enabled) {
+        if (!enabled) {
+            startNumber.setText(AppConstants.EMPTY_STRING);
+        }
+        startNumber.setEnabled(enabled);
     }
 }

@@ -1,6 +1,8 @@
 package by.bkg.stopwatch.mvc.controller;
 
+import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.model.business.Person;
+import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.view.StopWatchFrame;
 
 import javax.swing.*;
@@ -29,7 +31,18 @@ public class EventBus implements IEventBus {
     }
 
     public void resetAllData() {
-        stopWatchFrame.getResultsLabel().setText("C-label");
+        stopWatchFrame.getResultsLabel().setText(AppConstants.EMPTY_STRING);
         stopWatchFrame.getStopWatchController().clearData();
+    }
+
+    public void proceedAddPersonRequest() {
+        stopWatchFrame.getStopWatchController().makeSplit(stopWatchFrame.getTypedStartNumber());
+        stopWatchFrame.clearTypedStartNumber();
+    }
+
+    public void handleNewTimerState(TimerStatus currentStatus) {
+        stopWatchFrame.getStopWatchPanel().setTimerStatus(currentStatus);
+        stopWatchFrame.getStopWatchController().updatePanelByMode();
+        stopWatchFrame.setStartNumberFieldEnabled(TimerStatus.RUNNING.equals(currentStatus));
     }
 }

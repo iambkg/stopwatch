@@ -7,19 +7,19 @@ package by.bkg.stopwatch.mvc.model.business;
  */
 public class Split {
 
-    private Integer startNumber;
+    private String startNumber;
 
     private Long splitTime;
 
     private final String splitTimeAsString;
 
-    public Split(Integer startNumber, Long splitTime, String splitTimeAsString) {
+    public Split(String startNumber, Long splitTime, String splitTimeAsString) {
         this.startNumber = startNumber;
         this.splitTime = splitTime;
         this.splitTimeAsString = splitTimeAsString;
     }
 
-    public Integer getStartNumber() {
+    public String getStartNumber() {
         return startNumber;
     }
 

@@ -1,16 +1,17 @@
 package by.bkg.stopwatch.mvc.controller.panel;
 
-import by.bkg.stopwatch.mvc.model.AppConstants;
-import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.controller.IEventBus;
+import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.business.Split;
+import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.model.paneldata.StopWatchPanelData;
 import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
 
 import static by.bkg.stopwatch.mvc.model.enums.TimerStatus.PAUSED;
+import static by.bkg.stopwatch.mvc.model.enums.TimerStatus.RUNNING;
 import static by.bkg.stopwatch.mvc.model.enums.TimerStatus.STOPPED;
 
 /**
@@ -36,14 +37,14 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
     public void onStart() {
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
-                getPanel().setTimerStatus(TimerStatus.RUNNING);
+                getEventBus().handleNewTimerState(TimerStatus.RUNNING);
                 getPanel().getStopWatch().start();
                 break;
             case RUNNING:
-                // already in this state
+                // do nothing, as already in this state
                 break;
             case PAUSED:
-                getPanel().setTimerStatus(TimerStatus.RUNNING);
+                getEventBus().handleNewTimerState(TimerStatus.RUNNING);
                 getPanel().getStopWatch().resume();
                 break;
         }
@@ -55,12 +56,11 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
             case STOPPED:
                 break;
             case RUNNING:
-                getPanel().setTimerStatus(PAUSED);
-                getPanel().getStopBtn().setText("Reset");
+                getEventBus().handleNewTimerState(PAUSED);
                 getPanel().getStopWatch().suspend();
                 break;
             case PAUSED:
-                getPanel().setTimerStatus(STOPPED);
+                getEventBus().handleNewTimerState(STOPPED);
                 getPanel().getStopWatch().stop();
                 getPanel().getStopWatch().reset();
                 getEventBus().resetAllData();
@@ -70,28 +70,21 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
     }
 
     public void onSplit() {
-        switch (getPanel().getTimerStatus()) {
-            case STOPPED:
-                break;
-            case RUNNING:
-                StopWatch stopWatch = getPanel().getStopWatch();
-                stopWatch.split();
-                Split split = new Split(getStartNumber(), stopWatch.getSplitTime(), stopWatch.toSplitString());
-                stopWatch.unsplit();
-
-                getData().addSplit(split);
-                getEventBus().showSplits();
-
-                break;
-            case PAUSED:
-                break;
+        if (RUNNING.equals(getPanel().getTimerStatus())) {
+            // call bus as not all required data available from this controller
+            getEventBus().proceedAddPersonRequest();
         }
         updatePanelByMode();
     }
 
-    private int getStartNumber() {
-        // TODO ABA: read start number for split from input
-        return AppConstants.NOT_ASSIGNED_START_NUMBER;
+    public void makeSplit(String startNumber) {
+        StopWatch stopWatch = getPanel().getStopWatch();
+        stopWatch.split();
+        Split split = new Split(startNumber, stopWatch.getSplitTime(), stopWatch.toSplitString());
+        stopWatch.unsplit();
+
+        getData().addSplit(split);
+        getEventBus().showSplits();
     }
 
     public String getCurrentTime() {
@@ -134,8 +127,8 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
     }
 
     private void updateBtnTextByMode() {
-        String startText = "";
-        String stopText = "";
+        String startText = AppConstants.EMPTY_STRING;
+        String stopText = AppConstants.EMPTY_STRING;
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
                 startText = "Start";         // TODO ABA: i18n

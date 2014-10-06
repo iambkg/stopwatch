@@ -7,5 +7,9 @@ package by.bkg.stopwatch.mvc.model;
  */
 public class AppConstants {
 
-    public static final int NOT_ASSIGNED_START_NUMBER = -1;
+    public static final int DEFAULT_WIDTH = 600;
+
+    public static final int DEFAULT_HEIGHT = 300;
+
+    public static final String EMPTY_STRING = "";
 }
