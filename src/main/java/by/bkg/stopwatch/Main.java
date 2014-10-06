@@ -1,9 +1,9 @@
 package by.bkg.stopwatch;
 
-import by.bkg.stopwatch.mvc.controller.EventBus;
-import by.bkg.stopwatch.mvc.controller.impl.StopWatchAppController;
-import by.bkg.stopwatch.mvc.model.Person;
-import by.bkg.stopwatch.mvc.view.impl.StopWatchFrame;
+import by.bkg.stopwatch.mvc.controller.factory.ControllerFactory;
+import by.bkg.stopwatch.mvc.controller.IEventBus;
+import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
+import by.bkg.stopwatch.mvc.view.StopWatchFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,13 @@ import java.awt.*;
  */
 public class Main {
 
-    public static void main(String [] args) {
+    // TODO ABA: make autowired after Spring integration implemented
+    private static IEventBus eventBus = ControllerFactory.getEventBus();
+
+    // TODO ABA: make autowired after Spring integration implemented
+    private static IStopWatchAppController appController = ControllerFactory.getAppController();
+
+    public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
@@ -30,14 +36,8 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new StopWatchFrame(new EventBus(), new StopWatchAppController()).setVisible(true);
+                new StopWatchFrame(eventBus, appController).setVisible(true);
             }
         });
-    }
-
-    private static Person createFakePerson() {
-        Person person = new Person();
-        person.setStartNumber(0);
-        return person;
     }
 }

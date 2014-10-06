@@ -10,4 +10,6 @@ import by.bkg.stopwatch.mvc.controller.IComponentController;
 public interface IControllable<T extends IComponentController> {
 
     void setController(T controller);
+
+    T getController();
 }

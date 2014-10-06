@@ -1,6 +1,6 @@
 package by.bkg.stopwatch.mvc.model.stubs;
 
-import by.bkg.stopwatch.mvc.model.Category;
+import by.bkg.stopwatch.mvc.model.business.Category;
 
 import java.util.Vector;
 

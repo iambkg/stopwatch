@@ -1,7 +1,7 @@
 package by.bkg.stopwatch.mvc.controller;
 
-import by.bkg.stopwatch.mvc.model.Person;
-import by.bkg.stopwatch.mvc.view.impl.StopWatchFrame;
+import by.bkg.stopwatch.mvc.model.business.Person;
+import by.bkg.stopwatch.mvc.view.StopWatchFrame;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ import javax.swing.*;
  *
  * @author Alexey Baryshnev
  */
-public class EventBus {
+public class EventBus implements IEventBus {
 
     private StopWatchFrame stopWatchFrame;
 
@@ -24,11 +24,12 @@ public class EventBus {
     }
 
     public void onAddPersonConfirmed(Person person) {
-        stopWatchFrame.getStopWatchController().getData().addPerson(person);
-//        stopWatchFrame.getRegisteredPersonsController().getData().addPerson(person);
+        stopWatchFrame.getStopWatchController().addPerson(person);
+        stopWatchFrame.getRegisteredPersonsController().addPerson(person);
     }
 
-    public void resetAll() {
+    public void resetAllData() {
         stopWatchFrame.getResultsLabel().setText("C-label");
+        stopWatchFrame.getStopWatchController().clearData();
     }
 }
