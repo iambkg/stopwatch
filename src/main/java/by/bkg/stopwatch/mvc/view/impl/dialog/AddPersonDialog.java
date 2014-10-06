@@ -79,8 +79,6 @@ public class AddPersonDialog extends JDialog {
 
     private JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-        BoxLayout layout = new BoxLayout(btnPanel, BoxLayout.X_AXIS);
-        btnPanel.setLayout(layout);
 
         btnPanel.add(createOkBtn());
         btnPanel.add(createCancelBtn());
