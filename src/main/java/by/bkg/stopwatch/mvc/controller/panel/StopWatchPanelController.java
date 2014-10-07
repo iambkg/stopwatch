@@ -41,7 +41,8 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
                 getPanel().getStopWatch().start();
                 break;
             case RUNNING:
-                // do nothing, as already in this state
+                getEventBus().handleNewTimerState(PAUSED);
+                getPanel().getStopWatch().suspend();
                 break;
             case PAUSED:
                 getEventBus().handleNewTimerState(TimerStatus.RUNNING);
@@ -56,9 +57,6 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
             case STOPPED:
                 break;
             case RUNNING:
-                getEventBus().handleNewTimerState(PAUSED);
-                getPanel().getStopWatch().suspend();
-                break;
             case PAUSED:
                 getEventBus().handleNewTimerState(STOPPED);
                 getPanel().getStopWatch().stop();
@@ -100,28 +98,19 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
     }
 
     private void updateEnabledByMode() {
-        boolean startEnabled = false;
         boolean stopEnabled = false;
         boolean splitEnabled = false;
 
         switch (getPanel().getTimerStatus()) {
-            case STOPPED:
-                startEnabled = true;
-                stopEnabled = false;
-                splitEnabled = false;
-                break;
             case RUNNING:
-                startEnabled = false;
                 stopEnabled = true;
                 splitEnabled = true;
                 break;
             case PAUSED:
-                startEnabled = true;
                 stopEnabled = true;
-                splitEnabled = false;
                 break;
         }
-        getPanel().getStartBtn().setEnabled(startEnabled);
+        getPanel().getStartBtn().setEnabled(true);
         getPanel().getStopBtn().setEnabled(stopEnabled);
         getPanel().getSplitBtn().setEnabled(splitEnabled);
     }
@@ -131,16 +120,16 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         String stopText = AppConstants.EMPTY_STRING;
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
-                startText = "Start";         // TODO ABA: i18n
-                stopText = "Stop";           // TODO ABA: i18n
+                startText = "►";         // TODO ABA: i18n
+                stopText = "■";           // TODO ABA: i18n
                 break;
             case RUNNING:
-                startText = "Resume";       // TODO ABA: i18n
-                stopText = "Stop";          // TODO ABA: i18n
+                startText = "❙❙";       // TODO ABA: i18n
+                stopText = "■";          // TODO ABA: i18n
                 break;
             case PAUSED:
-                startText = "Resume";       // TODO ABA: i18n
-                stopText = "Reset";         // TODO ABA: i18n
+                startText = "►";       // TODO ABA: i18n
+                stopText = "■";         // TODO ABA: i18n
                 break;
         }
         getPanel().getStartBtn().setText(startText);
