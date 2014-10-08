@@ -1,11 +1,13 @@
 package by.bkg.stopwatch.mvc.view.dialog;
 
-import by.bkg.stopwatch.mvc.model.factory.DataFactory;
-import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.model.business.Category;
 import by.bkg.stopwatch.mvc.model.business.Person;
+import by.bkg.stopwatch.mvc.model.factory.DataFactory;
+import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.view.utilities.SpringUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,7 @@ import java.awt.event.ActionListener;
  *
  * @author Alexey Baryshnev
  */
+@Component
 public class AddPersonDialog extends JDialog {
 
     private static final int MIN_WIDTH = 400;
@@ -29,6 +32,7 @@ public class AddPersonDialog extends JDialog {
     private static final int X_PAD = 6;
     private static final int Y_PAD = 6;
 
+    @Autowired
     private IEventBus eventBus;
 
     private JComboBox categoryField;
@@ -37,9 +41,7 @@ public class AddPersonDialog extends JDialog {
     private JTextField middleNameField;
     private JTextField startNumberField;
 
-    public AddPersonDialog(IEventBus eventBus) {
-        this.eventBus = eventBus;
-
+    public AddPersonDialog() {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
 
         Container c = getContentPane();
@@ -148,6 +150,11 @@ public class AddPersonDialog extends JDialog {
     }
 
     private void clearInputs() {
+        categoryField.getModel().setSelectedItem(null);
+        lastNameField.setText("");
+        firstNameField.setText("");
+        middleNameField.setText("");
+        startNumberField.setText("");
     }
 
     public Person unbind() {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="by.bkg.stopwatch"/>
+
+    <bean id="stopWatchPanel" class="by.bkg.stopwatch.mvc.view.panel.StopWatchPanel">
+        <property name="controller" ref="stopWatchPanelController"/>
+    </bean>
+
+    <bean id="stopWatchPanelController" class="by.bkg.stopwatch.mvc.controller.panel.StopWatchPanelController">
+        <property name="panel" ref="stopWatchPanel"/>
+        <property name="eventBus" ref="eventBus"/>
+    </bean>
+
+    <bean id="registeredPersonsPanel" class="by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel">
+        <property name="controller" ref="registeredPersonsPanelController"/>
+    </bean>
+
+    <bean id="registeredPersonsPanelController" class="by.bkg.stopwatch.mvc.controller.panel.RegisteredPersonsPanelController">
+        <property name="panel" ref="registeredPersonsPanel"/>
+        <property name="eventBus" ref="eventBus"/>
+    </bean>
+
+    <bean id="eventBus" class="by.bkg.stopwatch.mvc.controller.EventBus">
+        <property name="frame" ref="stopWatchFrame"/>
+    </bean>
+</beans>

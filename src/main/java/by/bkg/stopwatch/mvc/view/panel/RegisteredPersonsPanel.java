@@ -32,10 +32,12 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
 //        ToolTipManager.sharedInstance().registerComponent(this);
     }
 
-    public void init() {
+    @Override
+    public void makeInit() {
         populateTree();
     }
 
+    @Override
     public void populateTree() {
         clear();
 //        addTreeSelectionListener(getController().getSelectionListener());
@@ -45,6 +47,7 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
                 addObject(categoryNode, person);
             }
         }
+        expandAll();
     }
 
     /**

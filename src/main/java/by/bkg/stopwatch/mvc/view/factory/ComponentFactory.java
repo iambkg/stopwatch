@@ -1,10 +1,9 @@
 package by.bkg.stopwatch.mvc.view.factory;
 
-import by.bkg.stopwatch.mvc.controller.factory.ControllerFactory;
-import by.bkg.stopwatch.mvc.controller.IEventBus;
-import by.bkg.stopwatch.mvc.view.dialog.AddPersonDialog;
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -14,28 +13,26 @@ import java.awt.event.ActionListener;
  *
  * @author Alexey Baryshnev
  */
-public class ComponentFactory {
+@Component
+public final class ComponentFactory {
+
+    @Autowired
+    private StopWatchPanel stopWatchPanel;
+
+    @Autowired
+    private RegisteredPersonsPanel registeredPersonsPanel;
 
     private ComponentFactory() {
     }
 
-    public static StopWatchPanel createStopWatchComponent(IEventBus eventBus) {
-        StopWatchPanel stopWatchPanel = new StopWatchPanel();
-        stopWatchPanel.setController(ControllerFactory.getStopWatchController(eventBus, stopWatchPanel));
-        stopWatchPanel.init();
+    public StopWatchPanel createStopWatchComponent() {
+        stopWatchPanel.init();   // TODO ABA: refactor
         return stopWatchPanel;
     }
 
-    public static RegisteredPersonsPanel createRegisteredPersonsComponent(IEventBus eventBus) {
-        RegisteredPersonsPanel registeredPersonsPanel = new RegisteredPersonsPanel();
-        registeredPersonsPanel.setController(ControllerFactory.getRegisteredPersonsController(eventBus, registeredPersonsPanel));
-        registeredPersonsPanel.init();
+    public RegisteredPersonsPanel createRegisteredPersonsComponent() {
+        registeredPersonsPanel.init();       // TODO ABA: refactor
         return registeredPersonsPanel;
-    }
-
-    public static AddPersonDialog createAddPersonDialog(IEventBus eventBus) {
-        AddPersonDialog addPersonDialog = new AddPersonDialog(eventBus);
-        return addPersonDialog;
     }
 
     public static JButton createBtn(String label, ActionListener listener) {

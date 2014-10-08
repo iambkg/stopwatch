@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.mvc.view;
 
-import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
 import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
@@ -9,6 +8,8 @@ import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,29 +23,33 @@ import java.awt.event.KeyEvent;
  *
  * @author Alexey Baryshnev
  */
+@Component
 public class StopWatchFrame extends JFrame {
-
-    private IEventBus eventBus;
 
     private JLabel resultsComponent;
 
     private StopWatchPanel stopWatchPanel;
 
+    @Autowired
     private IStopWatchAppController controller;
 
     private RegisteredPersonsPanel registeredPersonsPanel;
 
     private JTextField startNumber;
 
-    public StopWatchFrame(IEventBus eventBus, IStopWatchAppController controller) {
+    @Autowired
+    private ComponentFactory componentFactory;
+
+    public StopWatchFrame() {
         super("Stop-Watch");  // TODO ABA: i18n
-        this.eventBus = eventBus;
-        this.controller = controller;
-        eventBus.setFrame(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void init() {
         createPanels();
         setupFrameSize();
         pack();
+        setVisible(true);
     }
 
     private void createPanels() {
@@ -66,7 +71,7 @@ public class StopWatchFrame extends JFrame {
     }
 
     private JComponent createListOfRegisteredPersonsComponent() {
-        registeredPersonsPanel = ComponentFactory.createRegisteredPersonsComponent(eventBus);
+        registeredPersonsPanel = componentFactory.createRegisteredPersonsComponent();
         return new JScrollPane(registeredPersonsPanel);
     }
 
@@ -79,7 +84,7 @@ public class StopWatchFrame extends JFrame {
         resultsComponent.setVerticalAlignment(SwingConstants.TOP);
 
         centerPanel.add(resultsComponent, BorderLayout.CENTER);
-        stopWatchPanel = ComponentFactory.createStopWatchComponent(eventBus);
+        stopWatchPanel = componentFactory.createStopWatchComponent();
 
         JPanel smallTop = new JPanel();
         smallTop.add(stopWatchPanel);
@@ -100,7 +105,7 @@ public class StopWatchFrame extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (KeyEvent.VK_ENTER == e.getKeyCode()) {
-                    eventBus.proceedAddPersonRequest();
+                    getController().onEnterStartNumber();
                 }
             }
         });
@@ -122,7 +127,7 @@ public class StopWatchFrame extends JFrame {
         addPersonBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().onAddPersonClick(eventBus);
+                getController().onAddPersonClick();
             }
         });
         return addPersonBtn;

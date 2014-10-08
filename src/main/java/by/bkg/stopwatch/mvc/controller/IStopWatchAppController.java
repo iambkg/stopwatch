@@ -5,5 +5,7 @@ package by.bkg.stopwatch.mvc.controller;
  */
 public interface IStopWatchAppController {
 
-    void onAddPersonClick(IEventBus eventBus);
+    void onAddPersonClick();
+
+    void onEnterStartNumber();
 }

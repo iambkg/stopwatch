@@ -66,6 +66,7 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
      */
     private ActionListener getSplitBtnListener() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 getController().onSplit();
             }
@@ -79,6 +80,7 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
      */
     private ActionListener getStopBtnListener() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 getController().onStop();
             }
@@ -92,13 +94,15 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
      */
     private ActionListener getStartBtnListener() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 getController().onStart();
             }
         };
     }
 
-    public void init() {
+    @Override
+    public void makeInit() {
         setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 //        setBackground(Color.orange);
 
@@ -125,26 +129,32 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
         return bottomPanel;
     }
 
+    @Override
     public TimerStatus getTimerStatus() {
         return timerStatus;
     }
 
+    @Override
     public void setTimerStatus(TimerStatus timerStatus) {
         this.timerStatus = timerStatus;
     }
 
+    @Override
     public JButton getStartBtn() {
         return startBtn;
     }
 
+    @Override
     public JButton getStopBtn() {
         return stopBtn;
     }
 
+    @Override
     public JButton getSplitBtn() {
         return splitBtn;
     }
 
+    @Override
     public StopWatch getStopWatch() {
         return stopWatch;
     }

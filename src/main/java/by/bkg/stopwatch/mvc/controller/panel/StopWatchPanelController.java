@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.mvc.controller.panel;
 
-import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.business.Split;
@@ -26,14 +25,13 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
 
     public static final String ZERO_TIME = "00:00:00.000";
 
-    private final StopWatchPanelData data;
+    private StopWatchPanelData data;
 
-    public StopWatchPanelController(IEventBus eventBus, IStopWatchPanel panel) {
-        setPanel(panel);
+    public StopWatchPanelController() {
         this.data = new StopWatchPanelData();
-        setEventBus(eventBus);
     }
 
+    @Override
     public void onStart() {
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
@@ -52,6 +50,7 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         updatePanelByMode();
     }
 
+    @Override
     public void onStop() {
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
@@ -67,6 +66,7 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         updatePanelByMode();
     }
 
+    @Override
     public void onSplit() {
         if (RUNNING.equals(getPanel().getTimerStatus())) {
             // call bus as not all required data available from this controller
@@ -75,6 +75,7 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         updatePanelByMode();
     }
 
+    @Override
     public void makeSplit(String startNumber) {
         StopWatch stopWatch = getPanel().getStopWatch();
         stopWatch.split();
@@ -85,6 +86,7 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         getEventBus().showSplits();
     }
 
+    @Override
     public String getCurrentTime() {
         if (getPanel().getStopWatch() == null) {
             return ZERO_TIME;
@@ -92,6 +94,7 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         return getPanel().getStopWatch().toString();
     }
 
+    @Override
     public void updatePanelByMode() {
         updateEnabledByMode();
         updateBtnTextByMode();
@@ -136,14 +139,17 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         getPanel().getStopBtn().setText(stopText);
     }
 
+    @Override
     public StopWatchPanelData getData() {
         return data;
     }
 
+    @Override
     public void addPerson(Person person) {
         getData().addPerson(person);
     }
 
+    @Override
     public void clearData() {
         getData().clear();
     }

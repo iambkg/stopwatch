@@ -1,9 +1,8 @@
 package by.bkg.stopwatch;
 
-import by.bkg.stopwatch.mvc.controller.factory.ControllerFactory;
-import by.bkg.stopwatch.mvc.controller.IEventBus;
-import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
 import by.bkg.stopwatch.mvc.view.StopWatchFrame;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +13,6 @@ import java.awt.*;
  * @author Alexey Baryshnev
  */
 public class Main {
-
-    // TODO ABA: make autowired after Spring integration implemented
-    private static IEventBus eventBus = ControllerFactory.getEventBus();
-
-    // TODO ABA: make autowired after Spring integration implemented
-    private static IStopWatchAppController appController = ControllerFactory.getAppController();
 
     public static void main(String[] args) {
         try {
@@ -36,7 +29,8 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new StopWatchFrame(eventBus, appController).setVisible(true);
+                ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+                ((StopWatchFrame) context.getBean("stopWatchFrame")).init();
             }
         });
     }

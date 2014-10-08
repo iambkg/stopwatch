@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.mvc.controller.panel;
 
-import by.bkg.stopwatch.mvc.controller.IEventBus;
 import by.bkg.stopwatch.mvc.model.business.Category;
 import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.paneldata.RegisteredPersonsPanelData;
@@ -19,25 +18,27 @@ public class RegisteredPersonsPanelController extends GenericPanelController<IRe
 
     private RegisteredPersonsPanelData data;
 
-    public RegisteredPersonsPanelController(IEventBus eventBus, IRegisteredPersonsPanel panel) {
-        setPanel(panel);
+    public RegisteredPersonsPanelController() {
         this.data = new RegisteredPersonsPanelData();
-        setEventBus(eventBus);
     }
 
+    @Override
     public void addPerson(Person person) {
         getData().addPerson(person);
         getPanel().populateTree();
     }
 
+    @Override
     public RegisteredPersonsPanelData getData() {
         return data;
     }
 
+    @Override
     public Set<Category> getCategories() {
         return getData().getCategories();
     }
 
+    @Override
     public List<Person> getPersonsByCategory(Category category) {
         return getData().getPersonsByCategory(category);
     }
