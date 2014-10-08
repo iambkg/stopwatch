@@ -5,12 +5,13 @@ import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
 import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
+import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
 import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,18 +31,22 @@ public class StopWatchFrame extends JFrame {
 
     private StopWatchPanel stopWatchPanel;
 
-    @Autowired
-    private IStopWatchAppController controller;
-
     private RegisteredPersonsPanel registeredPersonsPanel;
 
     private JTextField startNumber;
 
-    @Autowired
+    private IStopWatchAppController controller;
+
     private ComponentFactory componentFactory;
 
-    public StopWatchFrame() {
-        super("Stop-Watch");  // TODO ABA: i18n
+    private AppMessages appMessages;
+
+    @Inject
+    public StopWatchFrame(AppMessages appMessages, ComponentFactory componentFactory, IStopWatchAppController controller) {
+        this.appMessages = appMessages;
+        this.componentFactory = componentFactory;
+        this.controller = controller;
+        setTitle(appMessages.getString("label.app-name"));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
@@ -97,7 +102,7 @@ public class StopWatchFrame extends JFrame {
     private JComponent createStartNumberInput() {
         startNumber = new JTextField();
         startNumber.setPreferredSize(new Dimension(100, 25));
-        JLabel label = new JLabel("Start #");  // TODO ABA: i18n
+        JLabel label = new JLabel(appMessages.getString("label.start-number-short"));
         label.setLabelFor(startNumber);
 
         startNumber.setEnabled(false);
@@ -123,7 +128,7 @@ public class StopWatchFrame extends JFrame {
 
     private JButton createAddPersonBtn() {
         JButton addPersonBtn = new JButton();
-        addPersonBtn.setText("Add Person");     // TODO ABA: i18n
+        addPersonBtn.setText(appMessages.getString("btn.add-person"));
         addPersonBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -2,9 +2,9 @@ package by.bkg.stopwatch.mvc.view.factory;
 
 import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
@@ -16,10 +16,10 @@ import java.awt.event.ActionListener;
 @Component
 public final class ComponentFactory {
 
-    @Autowired
+    @Inject
     private StopWatchPanel stopWatchPanel;
 
-    @Autowired
+    @Inject
     private RegisteredPersonsPanel registeredPersonsPanel;
 
     private ComponentFactory() {

@@ -3,7 +3,9 @@ package by.bkg.stopwatch.mvc.view.panel;
 import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.mvc.model.business.Category;
 import by.bkg.stopwatch.mvc.model.business.Person;
+import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
 
+import javax.inject.Inject;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -18,8 +20,9 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
 
     private DefaultMutableTreeNode root;
 
-    public RegisteredPersonsPanel() {
-        super(new DefaultTreeModel(new DefaultMutableTreeNode("Root Node")));
+    @Inject
+    public RegisteredPersonsPanel(AppMessages appMessages) {
+        setModel(new DefaultTreeModel(new DefaultMutableTreeNode(appMessages.getString("label.categories"))));
         treeModel = getModel();
         root = (DefaultMutableTreeNode) treeModel.getRoot();
 

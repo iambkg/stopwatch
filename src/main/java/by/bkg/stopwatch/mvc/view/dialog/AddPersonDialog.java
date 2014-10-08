@@ -1,14 +1,16 @@
 package by.bkg.stopwatch.mvc.view.dialog;
 
 import by.bkg.stopwatch.mvc.controller.IEventBus;
+import by.bkg.stopwatch.mvc.model.AppConstants;
 import by.bkg.stopwatch.mvc.model.business.Category;
 import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.factory.DataFactory;
 import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
+import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
 import by.bkg.stopwatch.mvc.view.utilities.SpringUtilities;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,16 +34,20 @@ public class AddPersonDialog extends JDialog {
     private static final int X_PAD = 6;
     private static final int Y_PAD = 6;
 
-    @Autowired
-    private IEventBus eventBus;
-
     private JComboBox categoryField;
     private JTextField lastNameField;
     private JTextField firstNameField;
     private JTextField middleNameField;
     private JTextField startNumberField;
 
-    public AddPersonDialog() {
+    private IEventBus eventBus;
+
+    private AppMessages appMessages;
+
+    @Inject
+    public AddPersonDialog(IEventBus eventBus, AppMessages appMessages) {
+        this.eventBus = eventBus;
+        this.appMessages = appMessages;
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
 
         Container c = getContentPane();
@@ -62,19 +68,19 @@ public class AddPersonDialog extends JDialog {
         SpringLayout layout = new SpringLayout();
         formPanel.setLayout(layout);
 
-        formPanel.add(new JLabel("Category")); // TODO ABA: i18n
+        formPanel.add(new JLabel(appMessages.getString("label.category")));
         formPanel.add(createCategoryField());
 
-        formPanel.add(new JLabel("Last Name"));   // TODO ABA: i18n
+        formPanel.add(new JLabel(appMessages.getString("label.last-name")));
         formPanel.add(createLastNameField());
 
-        formPanel.add(new JLabel("First Name"));  // TODO ABA: i18n
+        formPanel.add(new JLabel(appMessages.getString("label.first-name")));
         formPanel.add(createFirstNameField());
 
-        formPanel.add(new JLabel("Middle Name"));  // TODO ABA: i18n
+        formPanel.add(new JLabel(appMessages.getString("label.middle-name")));
         formPanel.add(createMiddleNameField());
 
-        formPanel.add(new JLabel("Start Number"));  // TODO ABA: i18n
+        formPanel.add(new JLabel(appMessages.getString("label.start-number-long")));
         formPanel.add(createStartNumberField());
         return formPanel;
     }
@@ -88,7 +94,7 @@ public class AddPersonDialog extends JDialog {
     }
 
     private JComponent createOkBtn() {
-        return ComponentFactory.createBtn("Ok", new ActionListener() { // TODO ABA: i18n
+        return ComponentFactory.createBtn(appMessages.getString("btn.ok"), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onOkClick();
@@ -97,7 +103,7 @@ public class AddPersonDialog extends JDialog {
     }
 
     private JComponent createCancelBtn() {
-        return ComponentFactory.createBtn("Cancel", new ActionListener() {     // TODO ABA: i18n
+        return ComponentFactory.createBtn(appMessages.getString("btn.cancel"), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onCancelClick();
@@ -151,10 +157,10 @@ public class AddPersonDialog extends JDialog {
 
     private void clearInputs() {
         categoryField.getModel().setSelectedItem(null);
-        lastNameField.setText("");
-        firstNameField.setText("");
-        middleNameField.setText("");
-        startNumberField.setText("");
+        lastNameField.setText(AppConstants.EMPTY_STRING);
+        firstNameField.setText(AppConstants.EMPTY_STRING);
+        middleNameField.setText(AppConstants.EMPTY_STRING);
+        startNumberField.setText(AppConstants.EMPTY_STRING);
     }
 
     public Person unbind() {

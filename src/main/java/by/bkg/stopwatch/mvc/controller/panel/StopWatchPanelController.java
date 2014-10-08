@@ -5,9 +5,12 @@ import by.bkg.stopwatch.mvc.model.business.Person;
 import by.bkg.stopwatch.mvc.model.business.Split;
 import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
 import by.bkg.stopwatch.mvc.model.paneldata.StopWatchPanelData;
+import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
 import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
+
+import javax.inject.Inject;
 
 import static by.bkg.stopwatch.mvc.model.enums.TimerStatus.PAUSED;
 import static by.bkg.stopwatch.mvc.model.enums.TimerStatus.RUNNING;
@@ -27,7 +30,11 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
 
     private StopWatchPanelData data;
 
-    public StopWatchPanelController() {
+    private AppMessages appMessages;
+
+    @Inject
+    public StopWatchPanelController(AppMessages appMessages) {
+        this.appMessages = appMessages;
         this.data = new StopWatchPanelData();
     }
 
@@ -123,16 +130,16 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
         String stopText = AppConstants.EMPTY_STRING;
         switch (getPanel().getTimerStatus()) {
             case STOPPED:
-                startText = "►";         // TODO ABA: i18n
-                stopText = "■";           // TODO ABA: i18n
+                startText = appMessages.getString("btn.start");
+                stopText = appMessages.getString("btn.stop");
                 break;
             case RUNNING:
-                startText = "❙❙";       // TODO ABA: i18n
-                stopText = "■";          // TODO ABA: i18n
+                startText = appMessages.getString("btn.pause");
+                stopText = appMessages.getString("btn.stop");
                 break;
             case PAUSED:
-                startText = "►";       // TODO ABA: i18n
-                stopText = "■";         // TODO ABA: i18n
+                startText = appMessages.getString("btn.start");
+                stopText = appMessages.getString("btn.stop");
                 break;
         }
         getPanel().getStartBtn().setText(startText);

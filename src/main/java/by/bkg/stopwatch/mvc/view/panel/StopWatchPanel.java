@@ -2,8 +2,10 @@ package by.bkg.stopwatch.mvc.view.panel;
 
 import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
 import by.bkg.stopwatch.mvc.model.enums.TimerStatus;
+import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
 import org.apache.commons.lang.time.StopWatch;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +31,8 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
     private JLabel timeLabel;
     private TimerStatus timerStatus;
 
-    public StopWatchPanel() {
+    @Inject
+    public StopWatchPanel(AppMessages appMessages) {
         new java.util.Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -48,9 +51,9 @@ public class StopWatchPanel extends GenericControllablePanel<IStopWatchPanelCont
 //        Font myClockFont = new Font("Serif", Font.PLAIN, 30);
 //        getTimeLabel().setFont(myClockFont);
 
-        startBtn = new JButton("Start");    // TODO ABA: i18n
-        stopBtn = new JButton("Stop");      // TODO ABA: i18n
-        splitBtn = new JButton("Split");    // TODO ABA: i18n
+        startBtn = new JButton(appMessages.getString("btn.start"));
+        stopBtn = new JButton(appMessages.getString("btn.stop"));
+        splitBtn = new JButton(appMessages.getString("btn.split"));
 
         stopWatch = new org.apache.commons.lang.time.StopWatch();
 
