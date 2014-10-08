@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class Person {
 
+    public static final String PERSON_TO_STRING_FORMAT = "%s %s (%s)";
     /**
      * Name
      */
@@ -100,6 +101,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return getLastName() + " " + getFirstName() + " (" + getStartNumber() + ")";
+        return String.format(PERSON_TO_STRING_FORMAT, getLastName(), getFirstName(), getStartNumber());
     }
 }
