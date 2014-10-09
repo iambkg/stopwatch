@@ -29,6 +29,10 @@ public class RegisteredPersonsPanelController extends GenericPanelController<IRe
     }
 
     @Override
+    public void removePerson() {
+    }
+
+    @Override
     public RegisteredPersonsPanelData getData() {
         return data;
     }

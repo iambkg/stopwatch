@@ -16,6 +16,8 @@ public interface IRegisteredPersonsPanelController extends IComponentController<
 
     void addPerson(Person person);
 
+    void removePerson();
+
     RegisteredPersonsPanelData getData();
 
     Set<Category> getCategories();

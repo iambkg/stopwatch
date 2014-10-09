@@ -3,6 +3,8 @@ package by.bkg.stopwatch.mvc.view.panel;
 import by.bkg.stopwatch.mvc.controller.IComponentController;
 import by.bkg.stopwatch.mvc.view.IControllable;
 import by.bkg.stopwatch.mvc.view.IInitializable;
+//import org.jdesktop.swingx.JXTreeTable;
+//import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
@@ -13,12 +15,14 @@ import javax.swing.tree.TreeModel;
  * @author Alexey Baryshnev
  */
 public abstract class GenericControllableTree<T extends IComponentController> extends JTree
+//public abstract class GenericControllableTree<M extends TreeTableModel, T extends IComponentController> extends JXTreeTable
         implements IControllable<T>, IInitializable {
 
     private T controller;
 
     private Boolean initialized = false;
 
+//    public GenericControllableTree(M treeModel) {
     public GenericControllableTree(TreeModel treeModel) {
         super(treeModel);
     }
@@ -26,6 +30,11 @@ public abstract class GenericControllableTree<T extends IComponentController> ex
     public GenericControllableTree() {
         setInitialized(false);
     }
+
+//    @SuppressWarnings(value = "unchecked")
+//    public M getXTreeTableModel() {
+//        return (M) super.getTreeTableModel();
+//    }
 
     @Override
     public void setController(T controller) {

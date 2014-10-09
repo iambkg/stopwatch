@@ -17,11 +17,20 @@ import javax.swing.tree.TreeSelectionModel;
  * @author Alexey Baryshnev
  */
 public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredPersonsPanelController> implements IRegisteredPersonsPanel {
+//public class RegisteredPersonsPanel extends GenericControllableTree<MyTreeTableModel, IRegisteredPersonsPanelController>
+//        implements IRegisteredPersonsPanel {
 
     private DefaultMutableTreeNode root;
 
+    private AppMessages appMessages;
+
     @Inject
     public RegisteredPersonsPanel(AppMessages appMessages) {
+//        super(new MyTreeTableModel());
+        this.appMessages = appMessages;
+//        getColumnModel().getColumn(2).setCellRenderer(createCellRenderer());
+//        getColumnModel().getColumn(2).setCellEditor(createCellEditor());
+
         setModel(new DefaultTreeModel(new DefaultMutableTreeNode(appMessages.getString("label.categories"))));
         treeModel = getModel();
         root = (DefaultMutableTreeNode) treeModel.getRoot();
@@ -34,6 +43,67 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
         //Enable tool tips.
 //        ToolTipManager.sharedInstance().registerComponent(this);
     }
+
+//    private TableCellRenderer createCellRenderer() {
+//        return new TableCellRenderer() {
+//            @Override
+//            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//                return createDeleteButton();
+//            }
+//        };
+//    }
+//
+//    private TableCellEditor createCellEditor() {
+//        return new TableCellEditor() {
+//            @Override
+//            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+//                return createDeleteButton();
+//            }
+//
+//            @Override
+//            public Object getCellEditorValue() {
+//                return "";
+//            }
+//
+//            @Override
+//            public boolean isCellEditable(EventObject anEvent) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean shouldSelectCell(EventObject anEvent) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean stopCellEditing() {
+//                return true;
+//            }
+//
+//            @Override
+//            public void cancelCellEditing() {
+//            }
+//
+//            @Override
+//            public void addCellEditorListener(CellEditorListener l) {
+//            }
+//
+//            @Override
+//            public void removeCellEditorListener(CellEditorListener l) {
+//            }
+//        };
+//    }
+//
+//    private JButton createDeleteButton() {
+//        JButton button = new JButton(appMessages.getString("table.btn.remove-person"));
+//        button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                getController().removePerson();
+//            }
+//        });
+//        return button;
+//    }
 
     @Override
     public void makeInit() {
@@ -57,6 +127,8 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
      * Remove all nodes except the root node.
      */
     public void clear() {
+//        getXTreeTableModel().getXRoot().removeAllChildren();
+
         ((DefaultMutableTreeNode) getModel().getRoot()).removeAllChildren();
         ((DefaultTreeModel) getModel()).reload();
     }
