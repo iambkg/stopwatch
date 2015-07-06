@@ -6,25 +6,25 @@
 
     <context:component-scan base-package="by.bkg.stopwatch" annotation-config="true"/>
 
-    <bean id="stopWatchPanel" class="by.bkg.stopwatch.mvc.view.panel.StopWatchPanel">
+    <bean id="stopWatchPanel" class="by.bkg.stopwatch.mvc.view.component.panel.StopWatchPanel">
         <property name="controller" ref="stopWatchPanelController"/>
     </bean>
 
-    <bean id="stopWatchPanelController" class="by.bkg.stopwatch.mvc.controller.panel.StopWatchPanelController">
+    <bean id="stopWatchPanelController" class="by.bkg.stopwatch.mvc.view.controller.panel.StopWatchPanelController">
         <property name="panel" ref="stopWatchPanel"/>
         <property name="eventBus" ref="eventBus"/>
     </bean>
 
-    <bean id="registeredPersonsPanel" class="by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel">
+    <bean id="registeredPersonsPanel" class="by.bkg.stopwatch.mvc.view.component.panel.RegisteredPersonsPanel">
         <property name="controller" ref="registeredPersonsPanelController"/>
     </bean>
 
-    <bean id="registeredPersonsPanelController" class="by.bkg.stopwatch.mvc.controller.panel.RegisteredPersonsPanelController">
+    <bean id="registeredPersonsPanelController" class="by.bkg.stopwatch.mvc.view.controller.panel.RegisteredPersonsPanelController">
         <property name="panel" ref="registeredPersonsPanel"/>
         <property name="eventBus" ref="eventBus"/>
     </bean>
 
-    <bean id="eventBus" class="by.bkg.stopwatch.mvc.controller.EventBus">
+    <bean id="eventBus" class="by.bkg.stopwatch.mvc.view.controller.EventBus">
         <property name="frame" ref="stopWatchFrame"/>
     </bean>
 </beans>

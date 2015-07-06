@@ -1,6 +1,6 @@
 package by.bkg.stopwatch.mvc.view;
 
-import by.bkg.stopwatch.mvc.controller.IComponentController;
+import by.bkg.stopwatch.mvc.view.controller.IComponentController;
 
 /**
  * Defines View classes with Controller inside

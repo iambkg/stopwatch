@@ -1,14 +1,14 @@
 package by.bkg.stopwatch.mvc.view;
 
-import by.bkg.stopwatch.mvc.controller.IStopWatchAppController;
-import by.bkg.stopwatch.mvc.controller.panel.IRegisteredPersonsPanelController;
-import by.bkg.stopwatch.mvc.controller.panel.IStopWatchPanelController;
+import by.bkg.stopwatch.mvc.view.controller.IStopWatchAppController;
+import by.bkg.stopwatch.mvc.view.controller.panel.IRegisteredPersonsPanelController;
+import by.bkg.stopwatch.mvc.view.controller.panel.IStopWatchPanelController;
 import by.bkg.stopwatch.mvc.model.AppConstants;
-import by.bkg.stopwatch.mvc.view.factory.ComponentFactory;
+import by.bkg.stopwatch.mvc.view.component.factory.ComponentFactory;
 import by.bkg.stopwatch.mvc.view.i18n.AppMessages;
-import by.bkg.stopwatch.mvc.view.panel.IStopWatchPanel;
-import by.bkg.stopwatch.mvc.view.panel.RegisteredPersonsPanel;
-import by.bkg.stopwatch.mvc.view.panel.StopWatchPanel;
+import by.bkg.stopwatch.mvc.view.component.panel.IStopWatchPanel;
+import by.bkg.stopwatch.mvc.view.component.panel.RegisteredPersonsPanel;
+import by.bkg.stopwatch.mvc.view.component.panel.StopWatchPanel;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
