@@ -1,7 +1,7 @@
 package by.bkg.stopwatch.test.pure;
 
 import by.bkg.stopwatch.pure.model.ISplitRecord;
-import by.bkg.stopwatch.pure.service.IService;
+import by.bkg.stopwatch.pure.service.ILogicService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertTrue;
 public class SplitTest {
 
     @Autowired
-    private IService service;
+    private ILogicService service;
 
     private final String START_NUMBER = "123";
 

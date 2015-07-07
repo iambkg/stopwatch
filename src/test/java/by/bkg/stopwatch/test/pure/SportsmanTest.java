@@ -5,7 +5,7 @@ import by.bkg.stopwatch.mvc.model.stubs.CategoryDictionary;
 import by.bkg.stopwatch.pure.model.ISportsman;
 import by.bkg.stopwatch.pure.model.SportsmanData;
 import by.bkg.stopwatch.pure.model.enums.Sex;
-import by.bkg.stopwatch.pure.service.IService;
+import by.bkg.stopwatch.pure.service.ILogicService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 public class SportsmanTest {
 
     @Autowired
-    private IService service;
+    private ILogicService service;
 
     private final String F_NAME = "fName";
 

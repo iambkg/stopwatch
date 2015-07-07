@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Alexey Baryshnev
  */
-public interface IService {
+public interface ILogicService {
 
     List<ISportsman> addSportsman(ISportsmanData sportsmanData);
 

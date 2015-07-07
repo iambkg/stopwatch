@@ -9,23 +9,24 @@ import by.bkg.stopwatch.pure.model.SplitRecord;
 import by.bkg.stopwatch.pure.model.Sportsman;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author Alexey Baryshnev
  */
-@org.springframework.stereotype.Service
-public class Service implements IService {
+@Service
+public class LogicService implements ILogicService {
 
     @Autowired
     private ITimingService timingService;
 
     private Event event;
 
-    private Logger log = Logger.getLogger(Service.class);
+    private Logger log = Logger.getLogger(LogicService.class);
 
-    public Service() {
+    public LogicService() {
         this.event = new Event();
     }
 
