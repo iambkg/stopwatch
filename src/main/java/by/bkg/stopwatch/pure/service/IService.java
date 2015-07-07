@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.pure.service;
 
 import by.bkg.stopwatch.pure.model.IEvent;
+import by.bkg.stopwatch.pure.model.ISplitRecord;
 import by.bkg.stopwatch.pure.model.ISportsman;
 import by.bkg.stopwatch.pure.model.ISportsmanData;
 
@@ -21,4 +22,6 @@ public interface IService {
      * Reset Event: clear all stored sportsmen, split records
      */
     void flush();
+
+    List<ISplitRecord> doSplit(String startNumber);
 }

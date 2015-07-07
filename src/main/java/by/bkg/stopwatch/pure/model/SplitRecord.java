@@ -1,13 +1,27 @@
 package by.bkg.stopwatch.pure.model;
 
-import java.util.Date;
-
 /**
  * @author Alexey Baryshnev
  */
-public class SplitRecord {
+public class SplitRecord implements ISplitRecord {
 
-    private Long id;
+    private String startNumber;
 
-    private Date timestamp;
+    private ITimestamp timestamp;
+
+    public String getStartNumber() {
+        return startNumber;
+    }
+
+    public void setStartNumber(String startNumber) {
+        this.startNumber = startNumber;
+    }
+
+    public ITimestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(ITimestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 }

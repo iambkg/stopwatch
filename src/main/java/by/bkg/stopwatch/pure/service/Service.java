@@ -2,10 +2,13 @@ package by.bkg.stopwatch.pure.service;
 
 import by.bkg.stopwatch.pure.model.Event;
 import by.bkg.stopwatch.pure.model.IEvent;
+import by.bkg.stopwatch.pure.model.ISplitRecord;
 import by.bkg.stopwatch.pure.model.ISportsman;
 import by.bkg.stopwatch.pure.model.ISportsmanData;
+import by.bkg.stopwatch.pure.model.SplitRecord;
 import by.bkg.stopwatch.pure.model.Sportsman;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -14,6 +17,9 @@ import java.util.List;
  */
 @org.springframework.stereotype.Service
 public class Service implements IService {
+
+    @Autowired
+    private ITimingService timingService;
 
     private Event event;
 
@@ -31,13 +37,27 @@ public class Service implements IService {
 
     @Override
     public List<ISportsman> editSportsman(ISportsmanData sportsmanData) {
-        ISportsman sportsman = findSportsman(sportsmanData.getId());
+        ISportsman sportsman = findSportsman(sportsmanData.getStartNumber());
         if (sportsman != null) {
             sportsman.refresh(sportsmanData);
         } else {
-            log.error(String.format("Could not find sportsman (ID = %s) among event members", sportsmanData.getId()));
+            log.error(String.format("Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
         }
         return getEvent().getSportsmen();
+    }
+
+    @Override
+    public List<ISplitRecord> doSplit(String startNumber) {
+        List<ISplitRecord> splits = getEvent().getSplits();
+        splits.add(createSplit(startNumber));
+        return splits;
+    }
+
+    private ISplitRecord createSplit(String startNumber) {
+        ISplitRecord split = new SplitRecord();
+        split.setStartNumber(startNumber);
+        split.setTimestamp(timingService.getTimestamp());
+        return split;
     }
 
     @Override
@@ -46,9 +66,9 @@ public class Service implements IService {
         getEvent().getSportsmen().clear();
     }
 
-    private ISportsman findSportsman(Long id) {
+    private ISportsman findSportsman(String startNumber) {
         for (ISportsman sportsman : getEvent().getSportsmen()) {
-            if (id.equals(sportsman.geId())) {
+            if (startNumber.equals(sportsman.getStartNumber())) {
                 return sportsman;
             }
         }

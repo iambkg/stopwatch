@@ -9,8 +9,6 @@ import java.util.Date;
  */
 public interface IPerson {
 
-    Long getId();
-
     String getFirstName();
 
     String getMiddleName();
@@ -20,8 +18,6 @@ public interface IPerson {
     Date getDateOfBirth();
 
     Sex getSex();
-
-    // TODO ABA: setter for id field?
 
     void setFirstName(String firstName);
 

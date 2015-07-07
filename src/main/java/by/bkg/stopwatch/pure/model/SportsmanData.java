@@ -10,8 +10,6 @@ import java.util.Date;
  */
 public class SportsmanData implements ISportsmanData {
 
-    private Long id;
-
     private String firstName;
 
     private String middleName;
@@ -24,21 +22,16 @@ public class SportsmanData implements ISportsmanData {
 
     private Category category;
 
-    public SportsmanData(String firstName, String middleName, String lastName, Date dateOfBirth, Sex sex, Category category) {
+    private String startNumber;
+
+    public SportsmanData(String firstName, String middleName, String lastName, Date dateOfBirth, Sex sex, Category category, String startNumber) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
         this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.startNumber = startNumber;
     }
 
     public String getFirstName() {
@@ -87,5 +80,13 @@ public class SportsmanData implements ISportsmanData {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getStartNumber() {
+        return startNumber;
+    }
+
+    public void setStartNumber(String startNumber) {
+        this.startNumber = startNumber;
     }
 }

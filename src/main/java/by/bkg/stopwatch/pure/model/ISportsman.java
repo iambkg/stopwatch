@@ -14,7 +14,7 @@ public interface ISportsman {
 
     Category getCategory();
 
-    Long geId();
+    String getStartNumber();
 
     String getFirstName();
 
@@ -29,7 +29,7 @@ public interface ISportsman {
     /**
      * Overwrites data for current sportsman.
      * If some field in <code>sportsmanData</code> is null - null is set.
-     * If field is ISportsmanData.FAKE - nothing happens
+     * If field is ISportsmanData.EMPTY - nothing happens
      *
      * @param sportsmanData sportsman data
      */

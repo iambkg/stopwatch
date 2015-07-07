@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public interface ISportsmanData {
 
-    public Object FAKE = new Object();
+    public Object EMPTY = new Object();
 
     Category getCategory();
 
@@ -24,5 +24,5 @@ public interface ISportsmanData {
 
     Sex getSex();
 
-    Long getId();
+    String getStartNumber();
 }

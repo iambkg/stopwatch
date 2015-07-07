@@ -14,35 +14,42 @@ public class Sportsman implements ISportsman {
 
     private Category category;
 
+    private String startNumber;
+
     public Sportsman(ISportsmanData sportsmanData) {
         this.person = new Person(sportsmanData);
         this.category = sportsmanData.getCategory();
+        this.startNumber = sportsmanData.getStartNumber();
     }
 
     @Override
     public void refresh(ISportsmanData sportsmanData) {
-        if (sportsmanData.getCategory() != ISportsmanData.FAKE) {
-            this.category = sportsmanData.getCategory();
+        if (sportsmanData.getCategory() != ISportsmanData.EMPTY) {
+            setCategory(sportsmanData.getCategory());
         }
 
-        if (sportsmanData.getFirstName() != ISportsmanData.FAKE) {
+        if (sportsmanData.getFirstName() != ISportsmanData.EMPTY) {
             getPerson().setFirstName(sportsmanData.getFirstName());
         }
 
-        if (sportsmanData.getMiddleName() != ISportsmanData.FAKE) {
+        if (sportsmanData.getMiddleName() != ISportsmanData.EMPTY) {
             getPerson().setMiddleName(sportsmanData.getMiddleName());
         }
 
-        if (sportsmanData.getLastName() != ISportsmanData.FAKE) {
+        if (sportsmanData.getLastName() != ISportsmanData.EMPTY) {
             getPerson().setLastName(sportsmanData.getLastName());
         }
 
-        if (sportsmanData.getSex() != ISportsmanData.FAKE) {
+        if (sportsmanData.getSex() != ISportsmanData.EMPTY) {
             getPerson().setSex(sportsmanData.getSex());
         }
 
-        if (sportsmanData.getDateOfBirth() != ISportsmanData.FAKE) {
+        if (sportsmanData.getDateOfBirth() != ISportsmanData.EMPTY) {
             getPerson().setDateOfBirth(sportsmanData.getDateOfBirth());
+        }
+
+        if (sportsmanData.getStartNumber() != ISportsmanData.EMPTY) {
+            setStartNumber(sportsmanData.getStartNumber());
         }
     }
 
@@ -54,8 +61,16 @@ public class Sportsman implements ISportsman {
         return category;
     }
 
-    public Long geId() {
-        return getPerson().getId();
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getStartNumber() {
+        return startNumber;
+    }
+
+    public void setStartNumber(String startNumber) {
+        this.startNumber = startNumber;
     }
 
     public String getFirstName() {

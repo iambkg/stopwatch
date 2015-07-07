@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
  * @author Alexey Baryshnev
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/sportsman-test-application-context.xml")
+@ContextConfiguration("classpath:/common-test-application-context.xml")
 public class SportsmanTest {
 
     @Autowired
@@ -34,6 +34,8 @@ public class SportsmanTest {
     private final String M_NAME = "mName";
 
     private final String L_NAME = "lName";
+
+    private final String START_NUMBER = "123";
 
     @Before
     public void doBeforeTest() {
@@ -54,6 +56,7 @@ public class SportsmanTest {
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
         assertEquals(L_NAME, sportsmanToTest.getLastName());
         assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(START_NUMBER, sportsmanToTest.getStartNumber());
         assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
         assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
         assertEquals(18, dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH));
@@ -66,7 +69,7 @@ public class SportsmanTest {
         List<ISportsman> sportsmen = service.addSportsman(sportsmanData);
         assertEquals(1, sportsmen.size());
 
-        sportsmanData.setId(sportsmen.get(0).geId());
+        sportsmanData.setStartNumber(sportsmen.get(0).getStartNumber());
         String newFirstName = "newFirstName";
         sportsmanData.setFirstName(newFirstName);
 
@@ -82,6 +85,7 @@ public class SportsmanTest {
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
         assertEquals(L_NAME, sportsmanToTest.getLastName());
         assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(START_NUMBER, sportsmanToTest.getStartNumber());
         assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
         assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
         assertEquals(18, dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH));
@@ -97,6 +101,6 @@ public class SportsmanTest {
 
         Date dateOfBirth = dateOfBirthCalendar.getTime();
         Sex sex = Sex.MALE;
-        return new SportsmanData(F_NAME, M_NAME, L_NAME, dateOfBirth, sex, category);
+        return new SportsmanData(F_NAME, M_NAME, L_NAME, dateOfBirth, sex, category, START_NUMBER);
     }
 }

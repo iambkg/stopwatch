@@ -9,8 +9,6 @@ import java.util.Date;
  */
 public class Person implements IPerson {
 
-    private Long id;
-
     private String firstName;
 
     private String middleName;
@@ -22,17 +20,11 @@ public class Person implements IPerson {
     private Sex sex;
 
     public Person(ISportsmanData sportsmanData) {
-        // TODO ABA: create id correctly
-        this.id = Long.parseLong(String.valueOf((int) (Math.random() * 100)));
         this.firstName = sportsmanData.getFirstName();
         this.middleName = sportsmanData.getMiddleName();
         this.lastName = sportsmanData.getLastName();
         this.dateOfBirth = sportsmanData.getDateOfBirth();
         this.sex = sportsmanData.getSex();
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getFirstName() {

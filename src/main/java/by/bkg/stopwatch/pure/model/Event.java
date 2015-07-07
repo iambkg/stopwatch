@@ -10,18 +10,18 @@ public class Event implements IEvent {
 
     private List<ISportsman> sportsmen;
 
-    private List<SplitRecord> splits;
+    private List<ISplitRecord> splits;
 
     public Event() {
         this.sportsmen = new ArrayList<ISportsman>();
-        this.splits = new ArrayList<SplitRecord>();
+        this.splits = new ArrayList<ISplitRecord>();
     }
 
     public List<ISportsman> getSportsmen() {
         return sportsmen;
     }
 
-    public List<SplitRecord> getSplits() {
+    public List<ISplitRecord> getSplits() {
         return splits;
     }
 }
