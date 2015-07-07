@@ -6,8 +6,12 @@ import by.bkg.stopwatch.pure.model.ISportsman;
 import by.bkg.stopwatch.pure.model.SportsmanData;
 import by.bkg.stopwatch.pure.model.enums.Sex;
 import by.bkg.stopwatch.pure.service.IService;
-import by.bkg.stopwatch.pure.service.Service;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +22,12 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Alexey Baryshnev
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:/sportsman-test-application-context.xml")
 public class SportsmanTest {
+
+    @Autowired
+    private IService service;
 
     private final String F_NAME = "fName";
 
@@ -26,16 +35,56 @@ public class SportsmanTest {
 
     private final String L_NAME = "lName";
 
+    @Before
+    public void doBeforeTest() {
+        service.flush();
+    }
+
     @Test
     public void addSportsmanTest() {
-//        TODO ABA: use Spring
-        IService service = new Service();
-
         List<ISportsman> sportsmen = service.addSportsman(createSportsmanData());
 
         assertEquals(1, sportsmen.size());
-        assertEquals(F_NAME, sportsmen.get(0).getFirstName());
-        // TODO ABA: finish assertions
+
+        ISportsman sportsmanToTest = sportsmen.get(0);
+        Calendar dateOfBirthCalendar = Calendar.getInstance();
+        dateOfBirthCalendar.setTime(sportsmanToTest.getDateOfBirth());
+
+        assertEquals(F_NAME, sportsmanToTest.getFirstName());
+        assertEquals(M_NAME, sportsmanToTest.getMiddleName());
+        assertEquals(L_NAME, sportsmanToTest.getLastName());
+        assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
+        assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
+        assertEquals(18, dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test
+    public void editSportsmanTest() {
+        SportsmanData sportsmanData = createSportsmanData();
+
+        List<ISportsman> sportsmen = service.addSportsman(sportsmanData);
+        assertEquals(1, sportsmen.size());
+
+        sportsmanData.setId(sportsmen.get(0).geId());
+        String newFirstName = "newFirstName";
+        sportsmanData.setFirstName(newFirstName);
+
+        List<ISportsman> refreshedSportsmen = service.editSportsman(sportsmanData);
+
+        assertEquals(1, refreshedSportsmen.size());
+
+        ISportsman sportsmanToTest = refreshedSportsmen.get(0);
+        Calendar dateOfBirthCalendar = Calendar.getInstance();
+        dateOfBirthCalendar.setTime(sportsmanToTest.getDateOfBirth());
+
+        assertEquals(newFirstName, sportsmanToTest.getFirstName());
+        assertEquals(M_NAME, sportsmanToTest.getMiddleName());
+        assertEquals(L_NAME, sportsmanToTest.getLastName());
+        assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
+        assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
+        assertEquals(18, dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
     private SportsmanData createSportsmanData() {
@@ -49,26 +98,5 @@ public class SportsmanTest {
         Date dateOfBirth = dateOfBirthCalendar.getTime();
         Sex sex = Sex.MALE;
         return new SportsmanData(F_NAME, M_NAME, L_NAME, dateOfBirth, sex, category);
-    }
-
-    @Test
-    public void editSportsmanTest() {
-        SportsmanData sportsmanData = createSportsmanData();
-
-        // TODO ABA: use Spring
-        IService service = new Service();
-
-        List<ISportsman> sportsmen = service.addSportsman(sportsmanData);
-        assertEquals(1, sportsmen.size());
-
-        sportsmanData.setId(sportsmen.get(0).geId());
-
-        String newFirstName = "newFirstName";
-        sportsmanData.setFirstName(newFirstName);
-
-        List<ISportsman> refreshedSportsmen = service.editSportsman(sportsmanData);
-
-        assertEquals(1, refreshedSportsmen.size());
-        assertEquals(newFirstName, refreshedSportsmen.get(0).getFirstName());
     }
 }

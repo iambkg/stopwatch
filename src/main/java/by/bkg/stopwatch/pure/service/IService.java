@@ -1,6 +1,6 @@
 package by.bkg.stopwatch.pure.service;
 
-import by.bkg.stopwatch.pure.model.Event;
+import by.bkg.stopwatch.pure.model.IEvent;
 import by.bkg.stopwatch.pure.model.ISportsman;
 import by.bkg.stopwatch.pure.model.ISportsmanData;
 
@@ -15,5 +15,10 @@ public interface IService {
 
     List<ISportsman> editSportsman(ISportsmanData sportsmanData);
 
-    Event getEvent();
+    IEvent getEvent();
+
+    /**
+     * Reset Event: clear all stored sportsmen, split records
+     */
+    void flush();
 }

@@ -1,6 +1,9 @@
 package by.bkg.stopwatch.pure.model;
 
 import by.bkg.stopwatch.mvc.model.business.Category;
+import by.bkg.stopwatch.pure.model.enums.Sex;
+
+import java.util.Date;
 
 /**
  * @author Alexey Baryshnev
@@ -65,5 +68,14 @@ public class Sportsman implements ISportsman {
 
     public String getLastName() {
         return getPerson().getLastName();
+    }
+
+    public Sex getSex() {
+        return getPerson().getSex();
+    }
+
+    // TODO ABA: use class without time
+    public Date getDateOfBirth() {
+        return getPerson().getDateOfBirth();
     }
 }
