@@ -23,7 +23,7 @@ public class Person implements IPerson {
 
     public Person(ISportsmanData sportsmanData) {
         // TODO ABA: create id correctly
-        this.id = Long.getLong(String.valueOf(Math.random()));
+        this.id = Long.parseLong(String.valueOf((int) (Math.random() * 100)));
         this.firstName = sportsmanData.getFirstName();
         this.middleName = sportsmanData.getMiddleName();
         this.lastName = sportsmanData.getLastName();

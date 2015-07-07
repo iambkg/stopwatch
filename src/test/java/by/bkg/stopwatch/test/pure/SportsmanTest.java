@@ -2,9 +2,7 @@ package by.bkg.stopwatch.test.pure;
 
 import by.bkg.stopwatch.mvc.model.business.Category;
 import by.bkg.stopwatch.mvc.model.stubs.CategoryDictionary;
-import by.bkg.stopwatch.pure.model.Event;
 import by.bkg.stopwatch.pure.model.ISportsman;
-import by.bkg.stopwatch.pure.model.Sportsman;
 import by.bkg.stopwatch.pure.model.SportsmanData;
 import by.bkg.stopwatch.pure.model.enums.Sex;
 import by.bkg.stopwatch.pure.service.IService;
@@ -29,7 +27,7 @@ public class SportsmanTest {
     private final String L_NAME = "lName";
 
     @Test
-    private void addSportsmanTest() {
+    public void addSportsmanTest() {
 //        TODO ABA: use Spring
         IService service = new Service();
 
@@ -60,7 +58,10 @@ public class SportsmanTest {
         // TODO ABA: use Spring
         IService service = new Service();
 
-        service.addSportsman(sportsmanData);
+        List<ISportsman> sportsmen = service.addSportsman(sportsmanData);
+        assertEquals(1, sportsmen.size());
+
+        sportsmanData.setId(sportsmen.get(0).geId());
 
         String newFirstName = "newFirstName";
         sportsmanData.setFirstName(newFirstName);

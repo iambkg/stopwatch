@@ -27,7 +27,11 @@ public class Service implements IService {
     @Override
     public List<ISportsman> editSportsman(ISportsmanData sportsmanData) {
         ISportsman sportsman = findSportsman(sportsmanData.getId());
-        sportsman.refresh(sportsmanData);
+        if (sportsman != null) {
+            sportsman.refresh(sportsmanData);
+        } else {
+            // TODO ABA: LOG
+        }
         // TODO ABA: check that all data is refreshed
         return getEvent().getSportsmen();
     }
