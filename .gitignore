@@ -4,3 +4,6 @@
 *.ipr
 target/*
 *.class
+logs/log.out
+stopwatch-core/target/*
+stopwatch-desktop/target/*
