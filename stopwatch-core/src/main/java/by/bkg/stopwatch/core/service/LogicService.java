@@ -7,7 +7,6 @@ import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.ISportsmanData;
 import by.bkg.stopwatch.core.model.SplitRecord;
 import by.bkg.stopwatch.core.model.Sportsman;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,10 @@ public class LogicService implements ILogicService {
     @Autowired
     private ITimingService timingService;
 
-    private Event event;
+    @Autowired
+    private ILoggingService loggingService;
 
-    private Logger log = Logger.getLogger(LogicService.class);
+    private Event event;
 
     public LogicService() {
         this.event = new Event();
@@ -33,6 +33,7 @@ public class LogicService implements ILogicService {
     @Override
     public List<ISportsman> addSportsman(ISportsmanData sportsmanData) {
         getEvent().getSportsmen().add(createSportsman(sportsmanData));
+        loggingService.log(getEvent().getSportsmen());
         return getEvent().getSportsmen();
     }
 
@@ -42,7 +43,7 @@ public class LogicService implements ILogicService {
         if (sportsman != null) {
             sportsman.refresh(sportsmanData);
         } else {
-            log.error(String.format("Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
+            loggingService.error(String.format("Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
         }
         return getEvent().getSportsmen();
     }

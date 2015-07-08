@@ -92,4 +92,13 @@ public class Sportsman implements ISportsman {
     public Date getDateOfBirth() {
         return getPerson().getDateOfBirth();
     }
+
+    @Override
+    public String toString() {
+        return "Sportsman{" +
+                "person=" + person +
+                ", category=" + category +
+                ", startNumber='" + startNumber + '\'' +
+                '}';
+    }
 }

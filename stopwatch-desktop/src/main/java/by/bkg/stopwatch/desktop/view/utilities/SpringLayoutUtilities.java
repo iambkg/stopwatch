@@ -9,7 +9,7 @@ import java.awt.*;
  * <p/>
  * ABA: taken from Oracle docs.
  */
-public class SpringUtilities {
+public class SpringLayoutUtilities {
 
     /**
      * A debugging utility that prints to stdout the component's

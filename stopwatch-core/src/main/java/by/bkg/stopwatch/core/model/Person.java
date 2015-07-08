@@ -81,4 +81,15 @@ public class Person implements IPerson {
     public void setSex(Sex sex) {
         this.sex = sex;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", sex=" + sex +
+                '}';
+    }
 }

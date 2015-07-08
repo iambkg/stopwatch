@@ -3,6 +3,7 @@ package by.bkg.stopwatch.desktop.view.v2;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.v2.component.StopWatchPanelV2;
+import by.bkg.stopwatch.desktop.view.v2.component.dialog.AddSportsmanDialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,12 @@ public class StopwatchFrameV2 extends JFrame {
     @Autowired
     private StopWatchPanelV2 stopWatchPanel;
 
+    @Autowired
+    private AddSportsmanDialog addSportsmanDialog;
+
     public void init() {
         createPanels();
+        addSportsmanDialog.init();
         setupFrame();
         pack();
         setVisible(true);
@@ -113,6 +118,7 @@ public class StopwatchFrameV2 extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                    getController().onAddPersonClick();
+                addSportsmanDialog.setVisible(true);
             }
         });
         return viewSportsmenBtn;

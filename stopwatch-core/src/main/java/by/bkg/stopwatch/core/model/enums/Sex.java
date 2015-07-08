@@ -5,5 +5,15 @@ package by.bkg.stopwatch.core.model.enums;
  */
 public enum Sex {
 
-    MALE, FEMALE
+    MALE("sex.male"), FEMALE("sex.female");
+
+    private String i18nKey;
+
+    Sex(String i18nKey) {
+        this.i18nKey = i18nKey;
+    }
+
+    public String getI18nKey() {
+        return i18nKey;
+    }
 }
