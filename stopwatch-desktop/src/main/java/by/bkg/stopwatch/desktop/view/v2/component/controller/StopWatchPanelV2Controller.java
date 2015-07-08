@@ -37,19 +37,19 @@ public class StopWatchPanelV2Controller {
         switch (getTimerStatus()) {
             case STOPPED:
                 state.setStopBtnEnabled(false);
-                state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(RUNNING);
                 stopWatch.start();
                 break;
             case RUNNING:
                 state.setStopBtnEnabled(true);
-                state.setStartBtnText(appMessages.getString("btn.pause"));
+                state.setStartBtnText(appMessages.getString("btn.start"));
                 setTimerStatus(PAUSED);
                 stopWatch.suspend();
                 break;
             case PAUSED:
-                state.setStopBtnEnabled(true);
-                state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStopBtnEnabled(false);
+                state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(RUNNING);
                 stopWatch.resume();
                 break;
@@ -63,11 +63,11 @@ public class StopWatchPanelV2Controller {
 
         switch (getTimerStatus()) {
             case STOPPED:
-//                state.setStopBtnEnabled(false);
+                state.setStopBtnEnabled(true);
                 state.setStartBtnText(appMessages.getString("btn.start"));
                 break;
             case RUNNING:
-//                state.setStopBtnEnabled(true);
+                state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(STOPPED);
                 stopWatch.stop();
@@ -75,7 +75,7 @@ public class StopWatchPanelV2Controller {
 //                    getEventBus().resetAllData();
                 break;
             case PAUSED:
-//                state.setStopBtnEnabled(false);
+                state.setStopBtnEnabled(true);
                 state.setStartBtnText(appMessages.getString("btn.start"));
                 setTimerStatus(STOPPED);
                 stopWatch.stop();

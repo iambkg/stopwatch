@@ -62,8 +62,6 @@ public class StopWatchPanelV2 extends JPanel {
         setLayout(new BorderLayout());
         add(buildNorthPanel(), BorderLayout.NORTH);
         add(buildSouthPanel(), BorderLayout.SOUTH);
-
-//        getController().updatePanelByMode();
     }
 
     /**
@@ -79,7 +77,7 @@ public class StopWatchPanelV2 extends JPanel {
                     @Override
                     public void execute(StopWatchPanelState state) {
                         startBtn.setText(state.getStartBtnText());
-//                        stopBtn.setEnabled(state.getStopBtnEnabled());
+                        stopBtn.setEnabled(state.getStopBtnEnabled());
                     }
                 });
             }
@@ -99,7 +97,7 @@ public class StopWatchPanelV2 extends JPanel {
                     @Override
                     public void execute(StopWatchPanelState state) {
                         startBtn.setText(state.getStartBtnText());
-//                        stopBtn.setEnabled(state.getStopBtnEnabled());
+                        stopBtn.setEnabled(state.getStopBtnEnabled());
                     }
                 });
             }
