@@ -4,13 +4,11 @@ import by.bkg.stopwatch.desktop.view.controller.IStopWatchAppController;
 import by.bkg.stopwatch.desktop.view.controller.panel.IRegisteredPersonsPanelController;
 import by.bkg.stopwatch.desktop.view.controller.panel.IStopWatchPanelController;
 import by.bkg.stopwatch.desktop.model.AppConstants;
-import by.bkg.stopwatch.desktop.view.component.factory.ComponentFactory;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.component.panel.IStopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.panel.RegisteredPersonsPanel;
 import by.bkg.stopwatch.desktop.view.component.panel.StopWatchPanel;
 
-import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,14 +34,14 @@ public class StopWatchFrame extends JFrame {
 
     private IStopWatchAppController controller;
 
-    private ComponentFactory componentFactory;
+//    private ComponentFactory componentFactory;
 
     private AppMessages appMessages;
 
-    @Inject
-    public StopWatchFrame(AppMessages appMessages, ComponentFactory componentFactory, IStopWatchAppController controller) {
+//    @Inject
+    public StopWatchFrame(AppMessages appMessages, /*ComponentFactory componentFactory, */IStopWatchAppController controller) {
         this.appMessages = appMessages;
-        this.componentFactory = componentFactory;
+//        this.componentFactory = componentFactory;
         this.controller = controller;
         setTitle(appMessages.getString("label.app-name"));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -75,7 +73,7 @@ public class StopWatchFrame extends JFrame {
     }
 
     private JComponent createListOfRegisteredPersonsComponent() {
-        registeredPersonsPanel = componentFactory.createRegisteredPersonsComponent();
+//        registeredPersonsPanel = componentFactory.createRegisteredPersonsComponent();
         return new JScrollPane(registeredPersonsPanel);
     }
 
@@ -88,7 +86,7 @@ public class StopWatchFrame extends JFrame {
         resultsComponent.setVerticalAlignment(SwingConstants.TOP);
 
         centerPanel.add(resultsComponent, BorderLayout.CENTER);
-        stopWatchPanel = componentFactory.createStopWatchComponent();
+//        stopWatchPanel = componentFactory.createStopWatchComponent();
 
         JPanel smallTop = new JPanel();
         smallTop.add(stopWatchPanel);

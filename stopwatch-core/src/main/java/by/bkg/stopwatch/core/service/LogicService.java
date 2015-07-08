@@ -43,7 +43,18 @@ public class LogicService implements ILogicService {
         if (sportsman != null) {
             sportsman.refresh(sportsmanData);
         } else {
-            loggingService.error(String.format("Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
+            loggingService.error(String.format("EDIT: Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
+        }
+        return getEvent().getSportsmen();
+    }
+
+    @Override
+    public List<ISportsman> deleteSportsman(ISportsmanData sportsmanData) {
+        ISportsman sportsman = findSportsman(sportsmanData.getStartNumber());
+        if (sportsman != null) {
+            getEvent().getSportsmen().remove(sportsman);
+        } else {
+            loggingService.error(String.format("DELETE: Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
         }
         return getEvent().getSportsmen();
     }

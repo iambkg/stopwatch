@@ -5,7 +5,6 @@ import by.bkg.stopwatch.desktop.view.controller.panel.IRegisteredPersonsPanelCon
 import by.bkg.stopwatch.desktop.model.business.Person;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 
-import javax.inject.Inject;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -25,7 +24,6 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
 
     private AppMessages appMessages;
 
-    @Inject
     public RegisteredPersonsPanel(AppMessages appMessages) {
 //        super(new MyTreeTableModel());
         this.appMessages = appMessages;

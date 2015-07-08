@@ -16,6 +16,8 @@ public interface ILogicService {
 
     List<ISportsman> editSportsman(ISportsmanData sportsmanData);
 
+    List<ISportsman> deleteSportsman(ISportsmanData selectedSportsman);
+
     IEvent getEvent();
 
     /**

@@ -7,7 +7,8 @@ import by.bkg.stopwatch.core.model.SportsmanData;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.AddSportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.v2.component.controller.SportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.v2.model.Callback;
 import by.bkg.stopwatch.desktop.view.v2.model.SexModel;
 import by.bkg.stopwatch.desktop.view.v2.model.factory.DataFactory;
 import net.sourceforge.jdatepicker.JDatePicker;
@@ -30,7 +31,9 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Component
-public class AddSportsmanDialog extends JDialog {
+public class SportsmanDialog extends JDialog {
+
+    private Mode mode;
 
     private static final int MIN_WIDTH = 400;
     private static final int MIN_HEIGHT = 220;
@@ -57,11 +60,13 @@ public class AddSportsmanDialog extends JDialog {
     private DataFactory dataFactory;
 
     @Autowired
-    private AddSportsmanDialogController controller;
+    private SportsmanDialogController controller;
+
+    private Callback<List<ISportsman>> operationPerformedCallback;
 
     public void init() {
+        setMode(Mode.ADD);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
-        setTitle(appMessages.getString("label.add-sportsman"));
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
@@ -141,25 +146,35 @@ public class AddSportsmanDialog extends JDialog {
     }
 
     private void onOkClick() {
-        List<ISportsman> sportsmen = controller.addSportsman(unbind());
-        setVisible(false);
-        // TODO ABA: callback is set in "Sportsmen" dialog. It refreshes list of sportsmen on "Sportsmen" dialog
-//        callback.execute(sportsmen);
+        List<ISportsman> sportsmen;
+        switch (mode) {
+            case ADD:
+                sportsmen = controller.addSportsman(unbind());
+                operationPerformedCallback.execute(sportsmen);
+                break;
+            case EDIT:
+                sportsmen = controller.editSportsman(unbind());
+                operationPerformedCallback.execute(sportsmen);
+                break;
+        }
+        close();
     }
 
     private void onCancelClick() {
-        setVisible(false);
+        close();
     }
 
     private JComponent createCategoryField() {
         categoryField = new JComboBox();
         categoryField.setModel(new DefaultComboBoxModel(dataFactory.getAvailableCategories()));
+        categoryField.setSelectedIndex(0);
         return categoryField;
     }
 
     private JComponent createSexField() {
         sexField = new JComboBox();
         sexField.setModel(new DefaultComboBoxModel(dataFactory.getSexValues()));
+        sexField.setSelectedIndex(0);
         return sexField;
     }
 
@@ -183,26 +198,27 @@ public class AddSportsmanDialog extends JDialog {
         return startNumberField;
     }
 
-    @Override
-    public void setVisible(boolean newVisibility) {
-        if (newVisibility) {
-            // when set visible to true - reset input data
-            clearInputs();
-        }
-        super.setVisible(newVisibility);
-    }
-
     private void clearInputs() {
-        categoryField.getModel().setSelectedItem(null);
-        sexField.getModel().setSelectedItem(null);
+        categoryField.setSelectedIndex(0);
+        sexField.setSelectedIndex(0);
         lastNameField.setText(AppConstants.EMPTY_STRING);
         firstNameField.setText(AppConstants.EMPTY_STRING);
         middleNameField.setText(AppConstants.EMPTY_STRING);
         startNumberField.setText(AppConstants.EMPTY_STRING);
     }
 
+    public void bind(ISportsmanData data) {
+        firstNameField.setText(data.getFirstName());
+        middleNameField.setText(data.getMiddleName());
+        lastNameField.setText(data.getLastName());
+//                        new Date(), // TODO ABA: get from dialog
+//                        ((SexModel) sexField.getModel().getSelectedItem()).getSex();
+//                        (ICategory) categoryField.getModel().getSelectedItem();
+        startNumberField.setText(data.getStartNumber());
+    }
+
     public ISportsmanData unbind() {
-        ISportsmanData data = new SportsmanData(
+        SportsmanData sportsmanData = new SportsmanData(
                 firstNameField.getText(),
                 middleNameField.getText(),
                 lastNameField.getText(),
@@ -211,6 +227,51 @@ public class AddSportsmanDialog extends JDialog {
                 (ICategory) categoryField.getModel().getSelectedItem(),
                 startNumberField.getText()
         );
-        return data;
+        clearInputs();
+        return sportsmanData;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    private void setMode(Mode mode) {
+        this.mode = mode;
+        setTitle(appMessages.getString(mode.getTitleI18NKey()));
+    }
+
+    public void open(Mode mode, ISportsmanData sportsmanData, Callback<List<ISportsman>> callback) {
+        bind(sportsmanData);
+        open(mode, callback);
+    }
+
+    public void open(Mode mode, Callback<List<ISportsman>> callback) {
+        setMode(mode);
+        setOperationPerformedCallback(callback);
+        setVisible(true);
+    }
+
+    public void close() {
+        setOperationPerformedCallback(null);
+        setVisible(false);
+        clearInputs();
+    }
+
+    public void setOperationPerformedCallback(Callback<List<ISportsman>> operationPerformedCallback) {
+        this.operationPerformedCallback = operationPerformedCallback;
+    }
+
+    public enum Mode {
+        ADD("label.add-sportsman"), EDIT("label.edit-sportsman");
+
+        private String titleI18NKey;
+
+        Mode(String titleI18NKey) {
+            this.titleI18NKey = titleI18NKey;
+        }
+
+        public String getTitleI18NKey() {
+            return titleI18NKey;
+        }
     }
 }

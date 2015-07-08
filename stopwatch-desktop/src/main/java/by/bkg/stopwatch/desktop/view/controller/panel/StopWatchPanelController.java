@@ -10,8 +10,6 @@ import by.bkg.stopwatch.desktop.view.component.panel.IStopWatchPanel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
 
-import javax.inject.Inject;
-
 import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.PAUSED;
 import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.RUNNING;
 import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.STOPPED;
@@ -33,7 +31,6 @@ public class StopWatchPanelController extends GenericPanelController<IStopWatchP
 
     private AppMessages appMessages;
 
-//    @Inject
     public StopWatchPanelController(AppMessages appMessages) {
         this.appMessages = appMessages;
         this.data = new StopWatchPanelData();

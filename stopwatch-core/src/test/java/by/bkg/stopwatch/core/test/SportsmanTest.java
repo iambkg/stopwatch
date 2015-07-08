@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Alexey Baryshnev
@@ -89,6 +90,19 @@ public class SportsmanTest {
         assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
         assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
         assertEquals(18, dateOfBirthCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test
+    public void deleteSportsmanTest() {
+        assertTrue(service.getEvent().getSportsmen().isEmpty());
+
+        SportsmanData sportsmanData = createSportsmanData();
+        service.addSportsman(sportsmanData);
+
+        assertEquals(1, service.getEvent().getSportsmen().size());
+
+        service.deleteSportsman(sportsmanData);
+        assertTrue(service.getEvent().getSportsmen().isEmpty());
     }
 
     private SportsmanData createSportsmanData() {
