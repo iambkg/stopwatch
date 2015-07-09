@@ -1,6 +1,6 @@
 package by.bkg.stopwatch.desktop.view.v2.component.controller;
 
-import by.bkg.stopwatch.core.service.TimingService;
+import by.bkg.stopwatch.core.service.ILogicService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.enums.TimerStatus;
 import by.bkg.stopwatch.desktop.view.v2.model.Callback;
@@ -22,12 +22,12 @@ public class StopWatchPanelV2Controller {
     private AppMessages appMessages;
 
     @Autowired
-    private TimingService timingService;
+    private ILogicService logicService;
 
     private TimerStatus timerStatus;
 
     public void init() {
-        timingService.init();
+        logicService.init();
         setTimerStatus(STOPPED);
     }
 
@@ -39,20 +39,23 @@ public class StopWatchPanelV2Controller {
             case STOPPED:
                 state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
+                state.setStatus(RUNNING);
                 setTimerStatus(RUNNING);
-                timingService.start();
+                logicService.startEvent();
                 break;
             case RUNNING:
                 state.setStopBtnEnabled(true);
                 state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStatus(PAUSED);
                 setTimerStatus(PAUSED);
-                timingService.suspend();
+                logicService.suspendEvent();
                 break;
             case PAUSED:
                 state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
+                state.setStatus(RUNNING);
                 setTimerStatus(RUNNING);
-                timingService.resume();
+                logicService.resumeEvent();
                 break;
         }
         callback.execute(state);
@@ -63,24 +66,12 @@ public class StopWatchPanelV2Controller {
         StopWatchPanelState state = new StopWatchPanelState();
 
         switch (getTimerStatus()) {
-            case STOPPED:
-                state.setStopBtnEnabled(true);
-                state.setStartBtnText(appMessages.getString("btn.start"));
-                break;
-            case RUNNING:
-                state.setStopBtnEnabled(false);
-                state.setStartBtnText(appMessages.getString("btn.pause"));
-                setTimerStatus(STOPPED);
-                timingService.stop();
-                timingService.reset();
-//                    getEventBus().resetAllData();
-                break;
             case PAUSED:
-                state.setStopBtnEnabled(true);
+                state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStatus(STOPPED);
                 setTimerStatus(STOPPED);
-                timingService.stop();
-                timingService.reset();
+                logicService.stopEvent();
 //                    getEventBus().resetAllData();
                 break;
         }
@@ -89,7 +80,7 @@ public class StopWatchPanelV2Controller {
 
     //    @Override
     public String getCurrentTime() {
-        return timingService.getCurrentTime();
+        return logicService.getCurrentTime();
     }
 
     //    @Override

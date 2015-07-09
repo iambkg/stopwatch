@@ -12,6 +12,9 @@ import java.util.List;
  */
 public interface ILogicService {
 
+    // TODO ABA: make better? think that should not call this manually
+    void init();
+
     List<ISportsman> addSportsman(ISportsmanData sportsmanData);
 
     List<ISportsman> editSportsman(ISportsmanData sportsmanData);
@@ -26,4 +29,14 @@ public interface ILogicService {
     void flush();
 
     List<ISplitRecord> doSplit(String startNumber);
+
+    void startEvent();
+
+    void stopEvent();
+
+    void suspendEvent();
+
+    void resumeEvent();
+
+    String getCurrentTime();
 }

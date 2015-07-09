@@ -5,7 +5,6 @@ import by.bkg.stopwatch.core.model.IEvent;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.ISportsmanData;
-import by.bkg.stopwatch.core.model.SplitRecord;
 import by.bkg.stopwatch.core.model.Sportsman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,12 @@ public class LogicService implements ILogicService {
 
     public LogicService() {
         this.event = new Event();
+    }
+
+    @Override
+    public void init() {
+        event = new Event();
+        timingService.init();
     }
 
     @Override
@@ -62,21 +67,42 @@ public class LogicService implements ILogicService {
     @Override
     public List<ISplitRecord> doSplit(String startNumber) {
         List<ISplitRecord> splits = getEvent().getSplits();
-        splits.add(createSplit(startNumber));
+        splits.add(timingService.split(startNumber));
         return splits;
     }
 
-    private ISplitRecord createSplit(String startNumber) {
-        ISplitRecord split = new SplitRecord();
-        split.setStartNumber(startNumber);
-        split.setTimestamp(timingService.getTimestamp());
-        return split;
+    @Override
+    public void startEvent() {
+        timingService.start();
+    }
+
+    @Override
+    public void stopEvent() {
+        timingService.stop();
+        timingService.reset();
+    }
+
+    @Override
+    public void suspendEvent() {
+        timingService.suspend();
+    }
+
+    @Override
+    public void resumeEvent() {
+        timingService.resume();
     }
 
     @Override
     public void flush() {
+        timingService.init();
         getEvent().getSplits().clear();
         getEvent().getSportsmen().clear();
+    }
+
+
+    @Override
+    public String getCurrentTime() {
+        return timingService.getCurrentTime();
     }
 
     private ISportsman findSportsman(String startNumber) {

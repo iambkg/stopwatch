@@ -1,14 +1,6 @@
 package by.bkg.stopwatch.desktop.view.component.panel;
 
-import by.bkg.stopwatch.core.model.ICategory;
-import by.bkg.stopwatch.desktop.view.controller.panel.IRegisteredPersonsPanelController;
-import by.bkg.stopwatch.desktop.model.business.Person;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 
 /**
  * Panel for registered persons.
@@ -16,28 +8,28 @@ import javax.swing.tree.TreeSelectionModel;
  * @author Alexey Baryshnev
  */
 @Deprecated
-public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredPersonsPanelController> implements IRegisteredPersonsPanel {
+public class RegisteredPersonsPanel {
 //public class RegisteredPersonsPanel extends GenericControllableTree<MyTreeTableModel, IRegisteredPersonsPanelController>
 //        implements IRegisteredPersonsPanel {
 
-    private DefaultMutableTreeNode root;
+//    private DefaultMutableTreeNode root;
 
-    private AppMessages appMessages;
+//    private AppMessages appMessages;
 
     public RegisteredPersonsPanel(AppMessages appMessages) {
 //        super(new MyTreeTableModel());
-        this.appMessages = appMessages;
+//        this.appMessages = appMessages;
 //        getColumnModel().getColumn(2).setCellRenderer(createCellRenderer());
 //        getColumnModel().getColumn(2).setCellEditor(createCellEditor());
 
-        setModel(new DefaultTreeModel(new DefaultMutableTreeNode(appMessages.getString("label.categories"))));
-        treeModel = getModel();
-        root = (DefaultMutableTreeNode) treeModel.getRoot();
+//        setModel(new DefaultTreeModel(new DefaultMutableTreeNode(appMessages.getString("label.categories"))));
+//        treeModel = getModel();
+//        root = (DefaultMutableTreeNode) treeModel.getRoot();
 
-        setEditable(true);
-        setRootVisible(false);
-        getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        setShowsRootHandles(true);
+//        setEditable(true);
+//        setRootVisible(false);
+//        getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+//        setShowsRootHandles(true);
 
         //Enable tool tips.
 //        ToolTipManager.sharedInstance().registerComponent(this);
@@ -104,33 +96,31 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
 //        return button;
 //    }
 
-    @Override
-    public void makeInit() {
-        populateTree();
-    }
+//    public void makeInit() {
+//        populateTree();
+//    }
 
-    @Override
-    public void populateTree() {
-        clear();
-//        addTreeSelectionListener(getController().getSelectionListener());
-        for (ICategory category : getController().getCategories()) {
-            DefaultMutableTreeNode categoryNode = addCategory(category);
-            for (Person person : getController().getPersonsByCategory(category)) {
-                addObject(categoryNode, person);
-            }
-        }
-        expandAll();
-    }
+//    public void populateTree() {
+//        clear();
+////        addTreeSelectionListener(getController().getSelectionListener());
+////        for (ICategory category : getController().getCategories()) {
+////            DefaultMutableTreeNode categoryNode = addCategory(category);
+////            for (Person person : getController().getPersonsByCategory(category)) {
+////                addObject(categoryNode, person);
+////            }
+////        }
+//        expandAll();
+//    }
 
-    /**
-     * Remove all nodes except the root node.
-     */
-    public void clear() {
-//        getXTreeTableModel().getXRoot().removeAllChildren();
-
-        ((DefaultMutableTreeNode) getModel().getRoot()).removeAllChildren();
-        ((DefaultTreeModel) getModel()).reload();
-    }
+//    /**
+//     * Remove all nodes except the root node.
+//     */
+//    public void clear() {
+////        getXTreeTableModel().getXRoot().removeAllChildren();
+//
+//        ((DefaultMutableTreeNode) getModel().getRoot()).removeAllChildren();
+//        ((DefaultTreeModel) getModel()).reload();
+//    }
 
 //    /**
 //     * Remove the currently selected node.
@@ -152,40 +142,40 @@ public class RegisteredPersonsPanel extends GenericControllableTree<IRegisteredP
 //    }
 //
 
-    /**
-     * Add child
-     */
-    public DefaultMutableTreeNode addCategory(ICategory category) {
-        DefaultMutableTreeNode parentNode = null;
-        TreePath parentPath = getSelectionPath();
-
-        if (parentPath == null) {
-            parentNode = root;
-        } else {
-            parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
-        }
-
-        return addObject(parentNode, category, true);
-    }
-
-    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child) {
-        return addObject(parent, child, false);
-    }
-
-    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) {
-        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
-
-        if (parent == null) {
-            parent = (DefaultMutableTreeNode) getModel().getRoot();
-        }
-
-        //It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
-        ((DefaultTreeModel) getModel()).insertNodeInto(childNode, parent, parent.getChildCount());
-
-        //Make sure the user can see the lovely new node.
-        if (shouldBeVisible) {
-            scrollPathToVisible(new TreePath(childNode.getPath()));
-        }
-        return childNode;
-    }
+//    /**
+//     * Add child
+//     */
+//    public DefaultMutableTreeNode addCategory(ICategory category) {
+//        DefaultMutableTreeNode parentNode = null;
+//        TreePath parentPath = getSelectionPath();
+//
+//        if (parentPath == null) {
+//            parentNode = root;
+//        } else {
+//            parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
+//        }
+//
+//        return addObject(parentNode, category, true);
+//    }
+//
+//    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child) {
+//        return addObject(parent, child, false);
+//    }
+//
+//    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) {
+//        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+//
+//        if (parent == null) {
+//            parent = (DefaultMutableTreeNode) getModel().getRoot();
+//        }
+//
+//        //It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
+//        ((DefaultTreeModel) getModel()).insertNodeInto(childNode, parent, parent.getChildCount());
+//
+//        //Make sure the user can see the lovely new node.
+//        if (shouldBeVisible) {
+//            scrollPathToVisible(new TreePath(childNode.getPath()));
+//        }
+//        return childNode;
+//    }
 }

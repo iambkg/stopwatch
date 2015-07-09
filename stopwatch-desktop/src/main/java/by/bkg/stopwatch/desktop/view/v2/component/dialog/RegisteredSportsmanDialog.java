@@ -12,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import javax.tools.FileObject;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +54,7 @@ public class RegisteredSportsmanDialog extends JDialog {
 
         add(createLogicButtonPanel(), BorderLayout.NORTH);
 //        add(formPanel, BorderLayout.CENTER);
-        add(sportsmenLabel, BorderLayout.CENTER);
+        add(sportsmenLabel, BorderLayout.CENTER); // TODO ABA: add scrollpanel
         add(createButtonPanel(), BorderLayout.SOUTH);
 
         pack();

@@ -1,9 +1,12 @@
 package by.bkg.stopwatch.desktop.view.v2;
 
+import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.v2.component.StopWatchPanelV2;
+import by.bkg.stopwatch.desktop.view.v2.component.controller.StopwatchFrameV2Controller;
 import by.bkg.stopwatch.desktop.view.v2.component.dialog.RegisteredSportsmanDialog;
+import by.bkg.stopwatch.desktop.view.v2.model.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 /**
  * @author Alexey Baryshnev
@@ -28,6 +32,16 @@ public class StopwatchFrameV2 extends JFrame {
 
     @Autowired
     private RegisteredSportsmanDialog registeredSportsmanDialog;
+
+    @Autowired
+    private StopwatchFrameV2Controller controller;
+
+    private JTextField startNumber;
+
+    private JButton splitBtn;
+
+    // TODO ABA: use table instead of JLabel
+    private JLabel splitResults;
 
     public void init() {
         createPanels();
@@ -68,8 +82,56 @@ public class StopwatchFrameV2 extends JFrame {
 
         centerPanel.add(resultsComponent, BorderLayout.CENTER);
 
-        stopWatchPanel.init();
+        // TODO ABA: think about it. Looks like there is too much code here
+        Callback<Void> onStartCallback = new Callback<Void>() {
+            @Override
+            public void execute(Void param) {
+                splitBtn.setEnabled(true);
+                startNumber.setEnabled(true);
+            }
+        };
+        Callback<Void> onPauseCallback = new Callback<Void>() {
+            @Override
+            public void execute(Void param) {
+                splitBtn.setEnabled(false);
+                startNumber.setEnabled(false);
+            }
+        };
+        Callback<Void> onStopCallback = new Callback<Void>() {
+            @Override
+            public void execute(Void param) {
+                splitBtn.setEnabled(false);
+                startNumber.setEnabled(false);
+            }
+        };
+        stopWatchPanel.init(onStartCallback, onPauseCallback, onStopCallback);
 
+        centerPanel.add(createSmallTop(), BorderLayout.NORTH);
+        centerPanel.add(createSmallCenter(), BorderLayout.CENTER);
+        return centerPanel;
+    }
+
+    /**
+     * Builds Splits Table Panel
+     *
+     * @return Splits Table Panel
+     */
+    private JPanel createSmallCenter() {
+        JPanel smallCenter = new JPanel();
+
+        splitResults = new JLabel();
+        splitResults.setVerticalAlignment(SwingConstants.TOP);
+
+        smallCenter.add(splitResults); // TODO ABA: add ScrollPanel
+        return smallCenter;
+    }
+
+    /**
+     * Builds StopWatchPanel and startNumberInput for splitting
+     *
+     * @return StopWatchPanel and startNumberInput for splitting
+     */
+    private JPanel createSmallTop() {
         JPanel smallTop = new JPanel();
         smallTop.setLayout(new BoxLayout(smallTop, BoxLayout.Y_AXIS));
         smallTop.add(stopWatchPanel);
@@ -78,23 +140,22 @@ public class StopwatchFrameV2 extends JFrame {
         smallCenter.setLayout(new BoxLayout(smallCenter, BoxLayout.X_AXIS));
         smallCenter.add(createStartNumberInput());
 
-        JButton splitBtn = new JButton(appMessages.getString("btn.split"));
+        splitBtn = new JButton(appMessages.getString("btn.split"));
         splitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO ABA: implement
+                onSplit();
             }
         });
+        splitBtn.setEnabled(false);
         smallCenter.add(splitBtn);
 
         smallTop.add(smallCenter);
-
-        centerPanel.add(smallTop, BorderLayout.NORTH);
-        return new JScrollPane(centerPanel);
+        return smallTop;
     }
 
     private JComponent createStartNumberInput() {
-        JTextField startNumber = new JTextField();
+        startNumber = new JTextField();
         startNumber.setPreferredSize(new Dimension(100, 25));
 //        JLabel label = new JLabel(appMessages.getString("label.start-number-short"));
 //        label.setLabelFor(startNumber);
@@ -103,12 +164,28 @@ public class StopwatchFrameV2 extends JFrame {
         startNumber.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-//                if (KeyEvent.VK_ENTER == e.getKeyCode()) {
-//                        getController().onEnterStartNumber();
-//                }
+                if (KeyEvent.VK_ENTER == e.getKeyCode()) {
+                    onSplit();
+                }
             }
         });
+        startNumber.setEnabled(false);
         return startNumber;
+    }
+
+    private void onSplit() {
+        List<ISplitRecord> refreshedSplits = controller.onSplit(startNumber.getText());
+        showSplits(refreshedSplits);
+        startNumber.setText("");
+    }
+
+    private void showSplits(List<ISplitRecord> refreshedSplits) {
+        String splits = "<html><body>";
+        for (ISplitRecord split : refreshedSplits) {
+            splits += String.format("%s. %s<br/>", split.getStartNumber(), split.getSplitTimeAsString());
+        }
+        splits += "</body></html>";
+        splitResults.setText(splits);
     }
 
     private JButton createViewSportsmenBtn() {
@@ -117,7 +194,6 @@ public class StopwatchFrameV2 extends JFrame {
         viewSportsmenBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                    getController().onAddPersonClick();
                 registeredSportsmanDialog.setVisible(true);
             }
         });

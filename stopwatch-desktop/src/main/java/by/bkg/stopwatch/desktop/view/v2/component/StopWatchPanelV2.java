@@ -33,7 +33,14 @@ public class StopWatchPanelV2 extends JPanel {
 
     private JLabel timeLabel;
 
-    public void init() {
+    private Callback<Void> onStartCallback;
+    private Callback<Void> onStopCallback;
+    private Callback<Void> onPauseCallback;
+
+    public void init(Callback<Void> onStartCallback, Callback<Void> onPauseCallback, Callback<Void> onStopCallback) {
+        this.onStartCallback = onStartCallback;
+        this.onStopCallback = onStopCallback;
+        this.onPauseCallback = onPauseCallback;
         controller.init();
         new java.util.Timer().schedule(new TimerTask() {
             @Override
@@ -52,6 +59,8 @@ public class StopWatchPanelV2 extends JPanel {
         startBtn = new JButton(appMessages.getString("btn.start"));
         stopBtn = new JButton(appMessages.getString("btn.stop"));
 //                splitBtn = new JButton(appMessages.getString("btn.split"));
+
+        stopBtn.setEnabled(false);
 
         startBtn.addActionListener(getStartBtnListener());
         stopBtn.addActionListener(getStopBtnListener());
@@ -78,6 +87,14 @@ public class StopWatchPanelV2 extends JPanel {
                     public void execute(StopWatchPanelState state) {
                         startBtn.setText(state.getStartBtnText());
                         stopBtn.setEnabled(state.getStopBtnEnabled());
+                        switch(state.getStatus()) {
+                            case RUNNING:
+                                onStartCallback.execute(null);
+                                break;
+                            case PAUSED:
+                                onPauseCallback.execute(null);
+                                break;
+                        }
                     }
                 });
             }
@@ -98,6 +115,14 @@ public class StopWatchPanelV2 extends JPanel {
                     public void execute(StopWatchPanelState state) {
                         startBtn.setText(state.getStartBtnText());
                         stopBtn.setEnabled(state.getStopBtnEnabled());
+                        switch (state.getStatus()) {
+                            case PAUSED:
+                                onPauseCallback.execute(null);
+                                break;
+                            case STOPPED:
+                                onStopCallback.execute(null);
+                                break;
+                        }
                     }
                 });
             }

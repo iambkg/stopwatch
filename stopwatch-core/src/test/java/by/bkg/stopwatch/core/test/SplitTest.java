@@ -38,10 +38,12 @@ public class SplitTest {
 
         assertTrue(initialSplits.isEmpty());
 
+        service.startEvent();
         List<ISplitRecord> splits = service.doSplit(START_NUMBER);
+        service.stopEvent();
 
         assertEquals(1, splits.size());
         assertEquals(START_NUMBER, splits.get(0).getStartNumber());
-        assertNotNull(splits.get(0).getTimestamp());
+        assertNotNull(splits.get(0).getSplitTime());
     }
 }

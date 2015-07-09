@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.core.service;
 
 import by.bkg.stopwatch.core.model.ITimestamp;
+import by.bkg.stopwatch.core.model.SplitRecord;
 import by.bkg.stopwatch.core.model.Timestamp;
 import org.apache.commons.lang.time.StopWatch;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class TimingService implements ITimingService {
 
     @Override
     public ITimestamp getTimestamp() {
+        // TODO ABA: remove?
         return new Timestamp(new Date());
     }
 
@@ -58,5 +60,16 @@ public class TimingService implements ITimingService {
             return ZERO_TIME;
         }
         return stopWatch.toString();
+    }
+
+    @Override
+    public SplitRecord split(String startNumber) {
+        stopWatch.split();
+        SplitRecord split = new SplitRecord();
+        split.setStartNumber(startNumber);
+        split.setSplitTime(stopWatch.getSplitTime());
+        split.setSplitTimeAsString(stopWatch.toSplitString());
+        stopWatch.unsplit();
+        return split;
     }
 }
