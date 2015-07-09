@@ -16,7 +16,7 @@ import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.STOPPED;
  * @author Alexey Baryshnev
  */
 @Controller
-public class StopWatchPanelV2Controller {
+public class StopWatchPanelController {
 
     @Autowired
     private AppMessages appMessages;

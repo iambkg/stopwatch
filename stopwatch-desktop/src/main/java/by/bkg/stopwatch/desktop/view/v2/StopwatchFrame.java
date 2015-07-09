@@ -3,8 +3,8 @@ package by.bkg.stopwatch.desktop.view.v2;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.component.StopWatchPanelV2;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.StopwatchFrameV2Controller;
+import by.bkg.stopwatch.desktop.view.v2.component.StopWatchPanel;
+import by.bkg.stopwatch.desktop.view.v2.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.v2.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.v2.model.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,19 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Component
-public class StopwatchFrameV2 extends JFrame {
+public class StopwatchFrame extends JFrame {
 
     @Autowired
     private AppMessages appMessages;
 
     @Autowired
-    private StopWatchPanelV2 stopWatchPanel;
+    private StopWatchPanel stopWatchPanel;
 
     @Autowired
     private RegisteredSportsmanDialog registeredSportsmanDialog;
 
     @Autowired
-    private StopwatchFrameV2Controller controller;
+    private StopwatchFrameController controller;
 
     private JTextField startNumber;
 

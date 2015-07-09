@@ -1,7 +1,7 @@
 package by.bkg.stopwatch.desktop.view.v2.component;
 
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.StopWatchPanelV2Controller;
+import by.bkg.stopwatch.desktop.view.v2.component.controller.StopWatchPanelController;
 import by.bkg.stopwatch.desktop.view.v2.model.Callback;
 import by.bkg.stopwatch.desktop.view.v2.model.StopWatchPanelState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import java.util.TimerTask;
  * @author Alexey Baryshnev
  */
 @Component
-public class StopWatchPanelV2 extends JPanel {
+public class StopWatchPanel extends JPanel {
 
     @Autowired
     private AppMessages appMessages;
 
     @Autowired
-    private StopWatchPanelV2Controller controller;
+    private StopWatchPanelController controller;
 
     public static final int DEFAULT_WIDTH = 400;
     public static final int DEFAULT_HEIGHT = 100;
@@ -149,7 +149,7 @@ public class StopWatchPanelV2 extends JPanel {
         return timeLabel;
     }
 
-    public StopWatchPanelV2Controller getController() {
+    public StopWatchPanelController getController() {
         return controller;
     }
 }
