@@ -1,14 +1,16 @@
 package by.bkg.stopwatch.desktop.view.v2.component.controller;
 
+import by.bkg.stopwatch.core.service.TimingService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.enums.TimerStatus;
 import by.bkg.stopwatch.desktop.view.v2.model.Callback;
 import by.bkg.stopwatch.desktop.view.v2.model.StopWatchPanelState;
-import org.apache.commons.lang.time.StopWatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.*;
+import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.PAUSED;
+import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.RUNNING;
+import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.STOPPED;
 
 /**
  * @author Alexey Baryshnev
@@ -19,14 +21,13 @@ public class StopWatchPanelV2Controller {
     @Autowired
     private AppMessages appMessages;
 
-    public static final String ZERO_TIME = "00:00:00.000";
+    @Autowired
+    private TimingService timingService;
 
     private TimerStatus timerStatus;
 
-    private StopWatch stopWatch;
-
     public void init() {
-        stopWatch = new StopWatch();
+        timingService.init();
         setTimerStatus(STOPPED);
     }
 
@@ -39,19 +40,19 @@ public class StopWatchPanelV2Controller {
                 state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(RUNNING);
-                stopWatch.start();
+                timingService.start();
                 break;
             case RUNNING:
                 state.setStopBtnEnabled(true);
                 state.setStartBtnText(appMessages.getString("btn.start"));
                 setTimerStatus(PAUSED);
-                stopWatch.suspend();
+                timingService.suspend();
                 break;
             case PAUSED:
                 state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(RUNNING);
-                stopWatch.resume();
+                timingService.resume();
                 break;
         }
         callback.execute(state);
@@ -70,16 +71,16 @@ public class StopWatchPanelV2Controller {
                 state.setStopBtnEnabled(false);
                 state.setStartBtnText(appMessages.getString("btn.pause"));
                 setTimerStatus(STOPPED);
-                stopWatch.stop();
-                stopWatch.reset();
+                timingService.stop();
+                timingService.reset();
 //                    getEventBus().resetAllData();
                 break;
             case PAUSED:
                 state.setStopBtnEnabled(true);
                 state.setStartBtnText(appMessages.getString("btn.start"));
                 setTimerStatus(STOPPED);
-                stopWatch.stop();
-                stopWatch.reset();
+                timingService.stop();
+                timingService.reset();
 //                    getEventBus().resetAllData();
                 break;
         }
@@ -88,10 +89,7 @@ public class StopWatchPanelV2Controller {
 
     //    @Override
     public String getCurrentTime() {
-        if (stopWatch == null) {
-            return ZERO_TIME;
-        }
-        return stopWatch.toString();
+        return timingService.getCurrentTime();
     }
 
     //    @Override

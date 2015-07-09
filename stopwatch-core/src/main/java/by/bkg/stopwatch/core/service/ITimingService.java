@@ -8,4 +8,18 @@ import by.bkg.stopwatch.core.model.ITimestamp;
 public interface ITimingService {
 
     ITimestamp getTimestamp();
+
+    void init();
+
+    void start();
+
+    void suspend();
+
+    void resume();
+
+    void stop();
+
+    void reset();
+
+    String getCurrentTime();
 }
