@@ -1,4 +1,4 @@
-package by.bkg.stopwatch.desktop.view.v2.component.dialog;
+package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.Category;
 import by.bkg.stopwatch.core.model.ISportsman;
@@ -6,8 +6,8 @@ import by.bkg.stopwatch.core.model.ISportsmanData;
 import by.bkg.stopwatch.core.model.SportsmanData;
 import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.RegisteredSportsmanDialogController;
-import by.bkg.stopwatch.desktop.view.v2.model.Callback;
+import by.bkg.stopwatch.desktop.view.component.controller.RegisteredSportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.model.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

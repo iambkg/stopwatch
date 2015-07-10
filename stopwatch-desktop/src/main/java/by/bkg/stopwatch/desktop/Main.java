@@ -1,6 +1,6 @@
 package by.bkg.stopwatch.desktop;
 
-import by.bkg.stopwatch.desktop.view.v2.StopwatchFrame;
+import by.bkg.stopwatch.desktop.view.StopwatchFrame;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,7 +30,7 @@ public class Main {
             @Override
             public void run() {
                 ApplicationContext context = new ClassPathXmlApplicationContext("application-context-desktop.xml");
-                ((StopwatchFrame) context.getBean("stopwatchFrameV2")).init();
+                ((StopwatchFrame) context.getBean("stopwatchFrame")).init();
             }
         });
     }

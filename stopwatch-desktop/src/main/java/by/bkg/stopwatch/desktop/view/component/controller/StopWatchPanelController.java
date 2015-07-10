@@ -1,10 +1,10 @@
-package by.bkg.stopwatch.desktop.view.v2.component.controller;
+package by.bkg.stopwatch.desktop.view.component.controller;
 
 import by.bkg.stopwatch.core.service.ILogicService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.enums.TimerStatus;
-import by.bkg.stopwatch.desktop.view.v2.model.Callback;
-import by.bkg.stopwatch.desktop.view.v2.model.StopWatchPanelState;
+import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.model.StopWatchPanelState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

@@ -1,9 +1,9 @@
-package by.bkg.stopwatch.desktop.view.v2.component;
+package by.bkg.stopwatch.desktop.view.component;
 
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.StopWatchPanelController;
-import by.bkg.stopwatch.desktop.view.v2.model.Callback;
-import by.bkg.stopwatch.desktop.view.v2.model.StopWatchPanelState;
+import by.bkg.stopwatch.desktop.view.component.controller.StopWatchPanelController;
+import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.model.StopWatchPanelState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

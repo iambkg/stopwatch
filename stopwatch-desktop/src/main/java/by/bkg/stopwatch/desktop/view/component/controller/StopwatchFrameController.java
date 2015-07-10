@@ -1,4 +1,4 @@
-package by.bkg.stopwatch.desktop.view.v2.component.controller;
+package by.bkg.stopwatch.desktop.view.component.controller;
 
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.service.ILogicService;

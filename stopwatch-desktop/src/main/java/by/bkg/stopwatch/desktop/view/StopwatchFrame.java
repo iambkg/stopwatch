@@ -1,12 +1,12 @@
-package by.bkg.stopwatch.desktop.view.v2;
+package by.bkg.stopwatch.desktop.view;
 
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.component.StopWatchPanel;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.StopwatchFrameController;
-import by.bkg.stopwatch.desktop.view.v2.component.dialog.RegisteredSportsmanDialog;
-import by.bkg.stopwatch.desktop.view.v2.model.Callback;
+import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
+import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
+import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
+import by.bkg.stopwatch.desktop.view.model.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

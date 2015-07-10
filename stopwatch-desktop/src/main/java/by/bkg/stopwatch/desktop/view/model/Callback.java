@@ -1,4 +1,4 @@
-package by.bkg.stopwatch.desktop.view.v2.model;
+package by.bkg.stopwatch.desktop.view.model;
 
 /**
  * @author Alexey Baryshnev

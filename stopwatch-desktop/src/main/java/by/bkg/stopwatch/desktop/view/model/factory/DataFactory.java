@@ -1,10 +1,10 @@
-package by.bkg.stopwatch.desktop.view.v2.model.factory;
+package by.bkg.stopwatch.desktop.view.model.factory;
 
 import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.core.model.stub.CategoryDictionary;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.v2.model.SexModel;
+import by.bkg.stopwatch.desktop.view.model.SexModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

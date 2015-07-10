@@ -1,4 +1,4 @@
-package by.bkg.stopwatch.desktop.view.v2.component.dialog;
+package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
@@ -7,10 +7,10 @@ import by.bkg.stopwatch.core.model.SportsmanData;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
-import by.bkg.stopwatch.desktop.view.v2.component.controller.SportsmanDialogController;
-import by.bkg.stopwatch.desktop.view.v2.model.Callback;
-import by.bkg.stopwatch.desktop.view.v2.model.SexModel;
-import by.bkg.stopwatch.desktop.view.v2.model.factory.DataFactory;
+import by.bkg.stopwatch.desktop.view.component.controller.SportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.model.SexModel;
+import by.bkg.stopwatch.desktop.view.model.factory.DataFactory;
 import net.sourceforge.jdatepicker.JDatePicker;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
