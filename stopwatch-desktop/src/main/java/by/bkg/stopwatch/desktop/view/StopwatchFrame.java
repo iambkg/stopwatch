@@ -219,7 +219,7 @@ public class StopwatchFrame extends JFrame {
     private void showSplits(List<ISplitRecord> refreshedSplits) {
         String splits = "<html><body>";
         for (ISplitRecord split : refreshedSplits) {
-            splits += String.format("%s. %s<br/>", split.getStartNumber(), split.getSplitTimeAsString());
+            splits += String.format("%s. %s<br/>", split.getStartNumber(), split.getTimestamp().getSplitTimeAsString());
         }
         splits += "</body></html>";
         splitResults.setText(splits);

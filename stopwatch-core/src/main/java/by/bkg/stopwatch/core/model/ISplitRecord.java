@@ -9,17 +9,7 @@ public interface ISplitRecord {
 
     void setStartNumber(String startNumber);
 
-    @Deprecated
     ITimestamp getTimestamp();
 
-    @Deprecated
     void setTimestamp(ITimestamp timestamp);
-
-    Long getSplitTime();
-
-    void setSplitTime(Long splitTime);
-
-    String getSplitTimeAsString();
-
-    void setSplitTimeAsString(String splitTimeAsString);
 }

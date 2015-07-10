@@ -1,25 +1,32 @@
 package by.bkg.stopwatch.core.model;
 
-import java.util.Date;
-
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 public class Timestamp implements ITimestamp {
 
-    private Date value;
+    private Long splitTime;
 
-    public Timestamp(Date value) {
-        this.value = value;
+    private String splitTimeAsString;
+
+    public Timestamp(Long splitTime, String splitTimeAsString) {
+        this.splitTime = splitTime;
+        this.splitTimeAsString = splitTimeAsString;
     }
 
-    @Override
-    public Date getValue() {
-        return value;
+    public Long getSplitTime() {
+        return splitTime;
     }
 
-    @Override
-    public void setValue(Date value) {
-        this.value = value;
+    public void setSplitTime(Long splitTime) {
+        this.splitTime = splitTime;
+    }
+
+    public void setSplitTimeAsString(String splitTimeAsString) {
+        this.splitTimeAsString = splitTimeAsString;
+    }
+
+    public String getSplitTimeAsString() {
+        return splitTimeAsString;
     }
 }

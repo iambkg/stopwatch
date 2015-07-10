@@ -44,6 +44,6 @@ public class SplitTest {
 
         assertEquals(1, splits.size());
         assertEquals(START_NUMBER, splits.get(0).getStartNumber());
-        assertNotNull(splits.get(0).getSplitTime());
+        assertNotNull(splits.get(0).getTimestamp().getSplitTime());
     }
 }

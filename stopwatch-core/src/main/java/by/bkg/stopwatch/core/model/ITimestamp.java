@@ -1,15 +1,15 @@
 package by.bkg.stopwatch.core.model;
 
-import java.util.Date;
-
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 public interface ITimestamp {
 
-    // TODO ABA: do not use Date
+    Long getSplitTime();
 
-    Date getValue();
+    void setSplitTime(Long splitTime);
 
-    void setValue(Date value);
+    String getSplitTimeAsString();
+
+    void setSplitTimeAsString(String splitTimeAsString);
 }
