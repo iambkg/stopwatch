@@ -2,11 +2,12 @@ package by.bkg.stopwatch.desktop.view;
 
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
-import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
+import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,9 @@ public class StopwatchFrame extends JFrame {
     @Autowired
     private StopwatchFrameController controller;
 
+    @Autowired
+    private ComponentFactory componentFactory;
+
     private JTextField startNumber;
 
     private JButton splitBtn;
@@ -46,6 +50,7 @@ public class StopwatchFrame extends JFrame {
     public void init() {
         createPanels();
         registeredSportsmanDialog.init();
+        registeredSportsmanDialog.setLocationRelativeTo(this);
         setupFrame();
         pack();
         setVisible(true);
@@ -53,26 +58,45 @@ public class StopwatchFrame extends JFrame {
 
     private void createPanels() {
         setLayout(new BorderLayout());
-
         Container myPane = getContentPane();
-        myPane.add(createToolBar(), BorderLayout.NORTH);
-
-        JSplitPane splitPane = new JSplitPane();
-//        splitPane.setLeftComponent(createListOfRegisteredPersonsComponent());
-        splitPane.setRightComponent(createCenterComponent());
-        myPane.add(splitPane, BorderLayout.CENTER);
+        myPane.add(createToolbar(), BorderLayout.NORTH);
+        myPane.add(createContents(), BorderLayout.CENTER);
     }
 
-    private JToolBar createToolBar() {
-        JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-
-        toolBar.add(createViewSportsmenBtn());
-
+    private JToolBar createToolbar() {
+        JToolBar toolBar = componentFactory.createToolBar();
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
         return toolBar;
     }
 
-    private JComponent createCenterComponent() {
+    private ActionListener createViewSportsmenBtnListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registeredSportsmanDialog.setVisible(true);
+            }
+        };
+    }
+
+    private JSplitPane createContents() {
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setLeftComponent(createLeftComponent());
+        splitPane.setRightComponent(createRightComonent());
+        return splitPane;
+    }
+
+    private JComponent createLeftComponent() {
+        JPanel panel = new JPanel();
+        JToolBar toolBar = componentFactory.createToolBar();
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.edit-split"), null)); // TODO ABA: define action listener
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.delete-split"), null)); // TODO ABA: define action listener
+        panel.setLayout(new BorderLayout());
+
+        panel.add(toolBar, BorderLayout.NORTH);
+        return panel;
+    }
+
+    private JComponent createRightComonent() {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
 
@@ -83,32 +107,41 @@ public class StopwatchFrame extends JFrame {
         centerPanel.add(resultsComponent, BorderLayout.CENTER);
 
         // TODO ABA: think about it. Looks like there is too much code here
-        Callback<Void> onStartCallback = new Callback<Void>() {
+        stopWatchPanel.init(createOnStartCallback(), createOnPauseCallback(), createOnStopCallback());
+
+        centerPanel.add(stopWatchPanel, BorderLayout.NORTH);
+        centerPanel.add(createSplitFunctionalityPanel(), BorderLayout.CENTER);
+        return centerPanel;
+    }
+
+    private Callback<Void> createOnStartCallback() {
+        return new Callback<Void>() {
             @Override
             public void execute(Void param) {
                 splitBtn.setEnabled(true);
                 startNumber.setEnabled(true);
             }
         };
-        Callback<Void> onPauseCallback = new Callback<Void>() {
-            @Override
-            public void execute(Void param) {
-                splitBtn.setEnabled(false);
-                startNumber.setEnabled(false);
-            }
-        };
-        Callback<Void> onStopCallback = new Callback<Void>() {
-            @Override
-            public void execute(Void param) {
-                splitBtn.setEnabled(false);
-                startNumber.setEnabled(false);
-            }
-        };
-        stopWatchPanel.init(onStartCallback, onPauseCallback, onStopCallback);
+    }
 
-        centerPanel.add(createSmallTop(), BorderLayout.NORTH);
-        centerPanel.add(createSmallCenter(), BorderLayout.CENTER);
-        return centerPanel;
+    private Callback<Void> createOnPauseCallback() {
+        return new Callback<Void>() {
+            @Override
+            public void execute(Void param) {
+                splitBtn.setEnabled(false);
+                startNumber.setEnabled(false);
+            }
+        };
+    }
+
+    private Callback<Void> createOnStopCallback() {
+        return new Callback<Void>() {
+            @Override
+            public void execute(Void param) {
+                splitBtn.setEnabled(false);
+                startNumber.setEnabled(false);
+            }
+        };
     }
 
     /**
@@ -116,14 +149,20 @@ public class StopwatchFrame extends JFrame {
      *
      * @return Splits Table Panel
      */
-    private JPanel createSmallCenter() {
-        JPanel smallCenter = new JPanel();
+    private JPanel createSplitFunctionalityPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
 
+        panel.add(createSplitFormPanel(), BorderLayout.NORTH);
+        panel.add(createSplitResultsPanel(), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JComponent createSplitResultsPanel() {
+        // TODO ABA: add ScrollPanel
         splitResults = new JLabel();
         splitResults.setVerticalAlignment(SwingConstants.TOP);
-
-        smallCenter.add(splitResults); // TODO ABA: add ScrollPanel
-        return smallCenter;
+        return splitResults;
     }
 
     /**
@@ -131,27 +170,25 @@ public class StopwatchFrame extends JFrame {
      *
      * @return StopWatchPanel and startNumberInput for splitting
      */
-    private JPanel createSmallTop() {
-        JPanel smallTop = new JPanel();
-        smallTop.setLayout(new BoxLayout(smallTop, BoxLayout.Y_AXIS));
-        smallTop.add(stopWatchPanel);
+    private JPanel createSplitFormPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(createStartNumberInput());
 
-        JPanel smallCenter = new JPanel();
-        smallCenter.setLayout(new BoxLayout(smallCenter, BoxLayout.X_AXIS));
-        smallCenter.add(createStartNumberInput());
+        splitBtn = componentFactory.createBtn(appMessages.getString("btn.split"), createSplitBtnListener());
+        splitBtn.setEnabled(false);
+        panel.add(splitBtn);
 
-        splitBtn = new JButton(appMessages.getString("btn.split"));
-        splitBtn.addActionListener(new ActionListener() {
+        return panel;
+    }
+
+    private ActionListener createSplitBtnListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onSplit();
             }
-        });
-        splitBtn.setEnabled(false);
-        smallCenter.add(splitBtn);
-
-        smallTop.add(smallCenter);
-        return smallTop;
+        };
     }
 
     private JComponent createStartNumberInput() {
@@ -188,19 +225,8 @@ public class StopwatchFrame extends JFrame {
         splitResults.setText(splits);
     }
 
-    private JButton createViewSportsmenBtn() {
-        JButton viewSportsmenBtn = new JButton();
-        viewSportsmenBtn.setText(appMessages.getString("btn.view-sportsmen"));
-        viewSportsmenBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registeredSportsmanDialog.setVisible(true);
-            }
-        });
-        return viewSportsmenBtn;
-    }
-
     private void setupFrame() {
+        setLocation(200, 200);
         setSize(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT);
         setMinimumSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
         setPreferredSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));

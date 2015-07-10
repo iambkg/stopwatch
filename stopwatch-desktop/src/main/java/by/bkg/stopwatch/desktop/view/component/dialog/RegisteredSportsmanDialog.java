@@ -8,6 +8,7 @@ import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.component.controller.RegisteredSportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,9 @@ public class RegisteredSportsmanDialog extends JDialog {
     @Autowired
     private RegisteredSportsmanDialogController controller;
 
+    @Autowired
+    private ComponentFactory componentFactory;
+
     private static final int MIN_WIDTH = 400;
 
     private static final int MIN_HEIGHT = 220;
@@ -41,6 +45,8 @@ public class RegisteredSportsmanDialog extends JDialog {
 
     public void init() {
         sportsmanDialog.init();
+        sportsmanDialog.setLocationRelativeTo(this);
+
         sportsmenLabel = new JLabel();
         sportsmenLabel.setVerticalAlignment(SwingConstants.TOP);
 
@@ -61,28 +67,54 @@ public class RegisteredSportsmanDialog extends JDialog {
     }
 
     private JComponent createLogicButtonPanel() {
-        JPanel btnPanel = new JPanel();
+        JToolBar toolBar = componentFactory.createToolBar();
 
-        btnPanel.add(createAddBtn());
-        btnPanel.add(createEditBtn());
-        btnPanel.add(createDeleteBtn());
-        return btnPanel;
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.edit-person"), createEditBtnActionListener()));
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener()));
+        return toolBar;
     }
 
-    private JComponent createAddBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.add-person"));
-        btn.addActionListener(new ActionListener() {
+    private ActionListener createAddPersonBtnListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sportsmanDialog.open(SportsmanDialog.Mode.ADD, new Callback<java.util.List<ISportsman>>() {
+                sportsmanDialog.open(SportsmanDialog.Mode.ADD, new Callback<List<ISportsman>>() {
                     @Override
                     public void execute(List<ISportsman> refreshedSportsmenList) {
                         setSportsmen(refreshedSportsmenList);
                     }
                 });
             }
-        });
-        return btn;
+        };
+    }
+
+    private ActionListener createEditBtnActionListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sportsmanDialog.open(SportsmanDialog.Mode.EDIT, getSelectedSportsman(), new Callback<List<ISportsman>>() {
+                    @Override
+                    public void execute(List<ISportsman> refreshedSportsmenList) {
+                        setSportsmen(refreshedSportsmenList);
+                    }
+                });
+            }
+        };
+    }
+
+    private ActionListener createDeleteBtnActionListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getController().delete(getSelectedSportsman(), new Callback<List<ISportsman>>() {
+                    @Override
+                    public void execute(List<ISportsman> refreshedSportsmenList) {
+                        setSportsmen(refreshedSportsmenList);
+                    }
+                });
+            }
+        };
     }
 
     private void setSportsmen(List<ISportsman> sportsmen) {
@@ -95,54 +127,20 @@ public class RegisteredSportsmanDialog extends JDialog {
         sportsmenLabel.setText(listAsString);
     }
 
-    private JComponent createEditBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.edit-person"));
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sportsmanDialog.open(SportsmanDialog.Mode.EDIT, getSelectedSportsman(), new Callback<java.util.List<ISportsman>>() {
-                    @Override
-                    public void execute(List<ISportsman> refreshedSportsmenList) {
-                        setSportsmen(refreshedSportsmenList);
-                    }
-                });
-            }
-        });
-        return btn;
-    }
-
-    private JComponent createDeleteBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.delete-person"));
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getController().delete(getSelectedSportsman(), new Callback<java.util.List<ISportsman>>() {
-                    @Override
-                    public void execute(List<ISportsman> refreshedSportsmenList) {
-                        setSportsmen(refreshedSportsmenList);
-                    }
-                });
-            }
-        });
-        return btn;
-    }
-
     private JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
 
-        btnPanel.add(createCloseBtn());
+        btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.close"), createCloseBtnListener()));
         return btnPanel;
     }
 
-    private JComponent createCloseBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.close"));
-        btn.addActionListener(new ActionListener() {
+    private ActionListener createCloseBtnListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onCloseClick();
             }
-        });
-        return btn;
+        };
     }
 
     private void onCloseClick() {

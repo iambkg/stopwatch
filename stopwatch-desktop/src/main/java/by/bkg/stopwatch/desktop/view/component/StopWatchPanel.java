@@ -4,6 +4,7 @@ import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.component.controller.StopWatchPanelController;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.StopWatchPanelState;
+import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.TimerTask;
  * @author Alexey Baryshnev
  */
 @Component
-public class StopWatchPanel extends JPanel {
+public class StopWatchPanel extends JToolBar {
 
     @Autowired
     private AppMessages appMessages;
@@ -25,8 +26,8 @@ public class StopWatchPanel extends JPanel {
     @Autowired
     private StopWatchPanelController controller;
 
-    public static final int DEFAULT_WIDTH = 400;
-    public static final int DEFAULT_HEIGHT = 100;
+    @Autowired
+    private ComponentFactory componentFactory;
 
     private JButton startBtn;
     private JButton stopBtn;
@@ -55,22 +56,21 @@ public class StopWatchPanel extends JPanel {
                 });
             }
         }, 0, 1);
+        setFloatable(false);
 
-        startBtn = new JButton(appMessages.getString("btn.start"));
-        stopBtn = new JButton(appMessages.getString("btn.stop"));
-//                splitBtn = new JButton(appMessages.getString("btn.split"));
-
+        startBtn = componentFactory.createBtn(appMessages.getString("btn.start"), createStartBtnListener());
+        stopBtn = componentFactory.createBtn(appMessages.getString("btn.stop"), createStopBtnListener());
         stopBtn.setEnabled(false);
 
-        startBtn.addActionListener(getStartBtnListener());
-        stopBtn.addActionListener(getStopBtnListener());
+//        splitBtn = new JButton(appMessages.getString("btn.split"));
 //        getSplitBtn().addActionListener(getSplitBtnListener());
 
-        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+//        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        setLayout(new BorderLayout());
-        add(buildNorthPanel(), BorderLayout.NORTH);
-        add(buildSouthPanel(), BorderLayout.SOUTH);
+//        setLayout(new BorderLayout());
+        add(getTimeLabel());
+        add(startBtn);
+        add(stopBtn);
     }
 
     /**
@@ -78,7 +78,7 @@ public class StopWatchPanel extends JPanel {
      *
      * @return action listener
      */
-    private ActionListener getStartBtnListener() {
+    private ActionListener createStartBtnListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -106,7 +106,7 @@ public class StopWatchPanel extends JPanel {
      *
      * @return action listener
      */
-    private ActionListener getStopBtnListener() {
+    private ActionListener createStopBtnListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -127,19 +127,6 @@ public class StopWatchPanel extends JPanel {
                 });
             }
         };
-    }
-
-    private JPanel buildNorthPanel() {
-        JPanel topPanel = new JPanel();
-        topPanel.add(getTimeLabel());
-        return topPanel;
-    }
-
-    private JPanel buildSouthPanel() {
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(startBtn);
-        bottomPanel.add(stopBtn);
-        return bottomPanel;
     }
 
     private JLabel getTimeLabel() {

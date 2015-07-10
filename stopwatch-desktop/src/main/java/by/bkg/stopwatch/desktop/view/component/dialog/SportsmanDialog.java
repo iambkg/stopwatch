@@ -6,6 +6,7 @@ import by.bkg.stopwatch.core.model.ISportsmanData;
 import by.bkg.stopwatch.core.model.SportsmanData;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
+import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
 import by.bkg.stopwatch.desktop.view.component.controller.SportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -32,6 +33,9 @@ import java.util.List;
  */
 @Component
 public class SportsmanDialog extends JDialog {
+
+    @Autowired
+    private ComponentFactory componentFactory;
 
     private Mode mode;
 
@@ -117,32 +121,27 @@ public class SportsmanDialog extends JDialog {
 
     private JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-
-        btnPanel.add(createOkBtn());
-        btnPanel.add(createCancelBtn());
+        btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.ok"), createOkBtnListener()));
+        btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.cancel"), createCancelBtnListener()));
         return btnPanel;
     }
 
-    private JComponent createOkBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.ok"));
-        btn.addActionListener(new ActionListener() {
+    private ActionListener createOkBtnListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onOkClick();
             }
-        });
-        return btn;
+        };
     }
 
-    private JComponent createCancelBtn() {
-        JButton btn = new JButton(appMessages.getString("btn.cancel"));
-        btn.addActionListener(new ActionListener() {
+    private ActionListener createCancelBtnListener() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onCancelClick();
             }
-        });
-        return btn;
+        };
     }
 
     private void onOkClick() {
@@ -262,6 +261,7 @@ public class SportsmanDialog extends JDialog {
     }
 
     public enum Mode {
+
         ADD("label.add-sportsman"), EDIT("label.edit-sportsman");
 
         private String titleI18NKey;
