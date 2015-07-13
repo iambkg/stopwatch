@@ -11,19 +11,35 @@ public interface ISportsman {
 
     IPerson getPerson();
 
+    void setPerson(IPerson person);
+
     ICategory getCategory();
+
+    void setCategory(ICategory category);
 
     String getStartNumber();
 
+    void setStartNumber(String startNumber);
+
     String getFirstName();
+
+    void setFirstName(String firstName);
 
     String getMiddleName();
 
+    void setMiddleName(String middleName);
+
     String getLastName();
+
+    void setLastName(String lastName);
 
     Sex getSex();
 
+    void setSex(Sex sex);
+
     Date getDateOfBirth();
+
+    void setDateOfBirth(Date dateOfBirth);
 
     /**
      * Overwrites data for current sportsman.
@@ -32,5 +48,5 @@ public interface ISportsman {
      *
      * @param sportsmanData sportsman data
      */
-    void refresh(ISportsmanData sportsmanData);
+    void refresh(ISportsman sportsmanData);
 }

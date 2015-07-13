@@ -4,7 +4,6 @@ import by.bkg.stopwatch.core.model.Event;
 import by.bkg.stopwatch.core.model.IEvent;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.ISportsman;
-import by.bkg.stopwatch.core.model.ISportsmanData;
 import by.bkg.stopwatch.core.model.Sportsman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,30 +41,35 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISportsman> addSportsman(ISportsmanData sportsmanData) {
-        getEvent().getSportsmen().add(createSportsman(sportsmanData));
+    public List<ISportsman> getSportsmen() {
+        return getEvent().getSportsmen();
+    }
+
+    @Override
+    public List<ISportsman> addSportsman(ISportsman sportsman) {
+        getEvent().getSportsmen().add(createSportsman(sportsman));
         loggingService.log(getEvent().getSportsmen());
         return getEvent().getSportsmen();
     }
 
     @Override
-    public List<ISportsman> editSportsman(ISportsmanData sportsmanData) {
-        ISportsman sportsman = findSportsman(sportsmanData.getStartNumber());
+    public List<ISportsman> editSportsman(ISportsman sportsmanToEdit) {
+        ISportsman sportsman = findSportsman(sportsmanToEdit.getStartNumber());
         if (sportsman != null) {
-            sportsman.refresh(sportsmanData);
+            sportsman.refresh(sportsmanToEdit);
         } else {
-            loggingService.error(String.format("EDIT: Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
+            loggingService.error(String.format("EDIT: Could not find sportsman (ID = %s) among event members", sportsmanToEdit.getStartNumber()));
         }
         return getEvent().getSportsmen();
     }
 
     @Override
-    public List<ISportsman> deleteSportsman(ISportsmanData sportsmanData) {
-        ISportsman sportsman = findSportsman(sportsmanData.getStartNumber());
+    public List<ISportsman> deleteSportsman(ISportsman sportsmanToDelete) {
+        ISportsman sportsman = findSportsman(sportsmanToDelete.getStartNumber());
         if (sportsman != null) {
             getEvent().getSportsmen().remove(sportsman);
         } else {
-            loggingService.error(String.format("DELETE: Could not find sportsman (ID = %s) among event members", sportsmanData.getStartNumber()));
+            loggingService.error(String.format("DELETE: Could not find sportsman (ID = %s) among event members", sportsmanToDelete.getStartNumber()));
         }
         return getEvent().getSportsmen();
     }
@@ -107,24 +111,24 @@ public class LogicService implements ILogicService {
 
     @Override
     public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
-//        ISplitRecord split = findSplit(splitToEdit.getStartNumber());
-//        if (split != null) {
-//            split.refresh(splitToEdit);
-//        } else {
-//            loggingService.error(String.format("EDIT SPLIT: Could not find split"));
-//        }
+        ISplitRecord split = findSplit(splitToEdit.getTimestamp().getSplitTimeAsString());
+        if (split != null) {
+            split.refresh(splitToEdit);
+        } else {
+            loggingService.error(String.format("EDIT SPLIT: Could not find split"));
+        }
         return getEvent().getSplits();
     }
 
-//    private ISplitRecord findSplit(String startNumber) {
-//        for (ISplitRecord split : getEvent().getSplits()) {
-//            if (split.getStartNumber().equals(startNumber)) {
-//                return split;
-//            }
-//        }
-//        loggingService.error("Did not find split");
-//        return null;
-//    }
+    private ISplitRecord findSplit(String splitTimeAsString) {
+        for (ISplitRecord split : getEvent().getSplits()) {
+            if (split.getTimestamp().getSplitTimeAsString().equals(splitTimeAsString)) {
+                return split;
+            }
+        }
+        loggingService.error("Did not find split");
+        return null;
+    }
 
     @Override
     public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
@@ -152,8 +156,8 @@ public class LogicService implements ILogicService {
         return null;
     }
 
-    private Sportsman createSportsman(ISportsmanData sportsmanData) {
-        return new Sportsman(sportsmanData);
+    private Sportsman createSportsman(ISportsman sportsman) {
+        return new Sportsman(sportsman);
     }
 
     public IEvent getEvent() {

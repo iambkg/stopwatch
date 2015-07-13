@@ -9,6 +9,16 @@ public class SplitRecord implements ISplitRecord {
 
     private ITimestamp timestamp;
 
+    public SplitRecord(String startNumber, Long splitTime, String splitTimeAsString) {
+        this.startNumber = startNumber;
+        this.timestamp = new Timestamp(splitTime, splitTimeAsString);
+    }
+
+    @Override
+    public void refresh(ISplitRecord newData) {
+        this.startNumber = newData.getStartNumber();
+    }
+
     public String getStartNumber() {
         return startNumber;
     }

@@ -12,4 +12,6 @@ public interface ISplitRecord {
     ITimestamp getTimestamp();
 
     void setTimestamp(ITimestamp timestamp);
+
+    void refresh(ISplitRecord newData);
 }

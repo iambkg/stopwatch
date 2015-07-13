@@ -2,7 +2,7 @@ package by.bkg.stopwatch.core.test;
 
 import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
-import by.bkg.stopwatch.core.model.SportsmanData;
+import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.core.model.stub.CategoryDictionary;
 import by.bkg.stopwatch.core.service.ILogicService;
@@ -45,7 +45,7 @@ public class SportsmanTest {
 
     @Test
     public void addSportsmanTest() {
-        List<ISportsman> sportsmen = service.addSportsman(createSportsmanData());
+        List<ISportsman> sportsmen = service.addSportsman(createSportsman());
 
         assertEquals(1, sportsmen.size());
 
@@ -65,16 +65,16 @@ public class SportsmanTest {
 
     @Test
     public void editSportsmanTest() {
-        SportsmanData sportsmanData = createSportsmanData();
+        ISportsman sportsman = createSportsman();
 
-        List<ISportsman> sportsmen = service.addSportsman(sportsmanData);
+        List<ISportsman> sportsmen = service.addSportsman(sportsman);
         assertEquals(1, sportsmen.size());
 
-        sportsmanData.setStartNumber(sportsmen.get(0).getStartNumber());
+        sportsman.setStartNumber(sportsmen.get(0).getStartNumber());
         String newFirstName = "newFirstName";
-        sportsmanData.setFirstName(newFirstName);
+        sportsman.setFirstName(newFirstName);
 
-        List<ISportsman> refreshedSportsmen = service.editSportsman(sportsmanData);
+        List<ISportsman> refreshedSportsmen = service.editSportsman(sportsman);
 
         assertEquals(1, refreshedSportsmen.size());
 
@@ -96,7 +96,7 @@ public class SportsmanTest {
     public void deleteSportsmanTest() {
         assertTrue(service.getEvent().getSportsmen().isEmpty());
 
-        SportsmanData sportsmanData = createSportsmanData();
+        ISportsman sportsmanData = createSportsman();
         service.addSportsman(sportsmanData);
 
         assertEquals(1, service.getEvent().getSportsmen().size());
@@ -105,7 +105,7 @@ public class SportsmanTest {
         assertTrue(service.getEvent().getSportsmen().isEmpty());
     }
 
-    private SportsmanData createSportsmanData() {
+    private ISportsman createSportsman() {
         Calendar dateOfBirthCalendar = Calendar.getInstance();
         dateOfBirthCalendar.set(Calendar.YEAR, 1988);
         dateOfBirthCalendar.set(Calendar.MONTH, 10);
@@ -115,6 +115,14 @@ public class SportsmanTest {
 
         Date dateOfBirth = dateOfBirthCalendar.getTime();
         Sex sex = Sex.MALE;
-        return new SportsmanData(F_NAME, M_NAME, L_NAME, dateOfBirth, sex, category, START_NUMBER);
+        Sportsman sportsman = new Sportsman();
+        sportsman.setFirstName(F_NAME); // TODO ABA: order this shit
+        sportsman.setMiddleName(M_NAME);
+        sportsman.setLastName(L_NAME);
+        sportsman.setDateOfBirth(dateOfBirth);
+        sportsman.setSex(sex);
+        sportsman.setCategory(category);
+        sportsman.setStartNumber(START_NUMBER);
+        return sportsman;
     }
 }

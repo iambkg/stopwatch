@@ -15,45 +15,54 @@ public class Sportsman implements ISportsman {
 
     private String startNumber;
 
-    public Sportsman(ISportsmanData sportsmanData) {
-        this.person = new Person(sportsmanData);
-        this.category = sportsmanData.getCategory();
-        this.startNumber = sportsmanData.getStartNumber();
+    public Sportsman() {
+        this.person = new Person();
+    }
+
+    public Sportsman(ISportsman sportsman) {
+        this.person = new Person(sportsman);
+        this.category = sportsman.getCategory();
+        this.startNumber = sportsman.getStartNumber();
     }
 
     @Override
-    public void refresh(ISportsmanData sportsmanData) {
-        if (sportsmanData.getCategory() != ISportsmanData.EMPTY) {
-            setCategory(sportsmanData.getCategory());
-        }
+    public void refresh(ISportsman sportsman) {
+//        if (sportsman.getCategory() != ISportsmanData.EMPTY) {
+        setCategory(sportsman.getCategory());
+//        }
 
-        if (sportsmanData.getFirstName() != ISportsmanData.EMPTY) {
-            getPerson().setFirstName(sportsmanData.getFirstName());
-        }
+//        if (sportsman.getFirstName() != ISportsmanData.EMPTY) {
+        getPerson().setFirstName(sportsman.getFirstName());
+//        }
 
-        if (sportsmanData.getMiddleName() != ISportsmanData.EMPTY) {
-            getPerson().setMiddleName(sportsmanData.getMiddleName());
-        }
+//        if (sportsman.getMiddleName() != ISportsmanData.EMPTY) {
+        getPerson().setMiddleName(sportsman.getMiddleName());
+//        }
 
-        if (sportsmanData.getLastName() != ISportsmanData.EMPTY) {
-            getPerson().setLastName(sportsmanData.getLastName());
-        }
+//        if (sportsman.getLastName() != ISportsmanData.EMPTY) {
+        getPerson().setLastName(sportsman.getLastName());
+//        }
 
-        if (sportsmanData.getSex() != ISportsmanData.EMPTY) {
-            getPerson().setSex(sportsmanData.getSex());
-        }
+//        if (sportsman.getSex() != ISportsmanData.EMPTY) {
+        getPerson().setSex(sportsman.getSex());
+//        }
 
-        if (sportsmanData.getDateOfBirth() != ISportsmanData.EMPTY) {
-            getPerson().setDateOfBirth(sportsmanData.getDateOfBirth());
-        }
+//        if (sportsman.getDateOfBirth() != ISportsmanData.EMPTY) {
+        getPerson().setDateOfBirth(sportsman.getDateOfBirth());
+//        }
 
-        if (sportsmanData.getStartNumber() != ISportsmanData.EMPTY) {
-            setStartNumber(sportsmanData.getStartNumber());
-        }
+//        if (sportsman.getStartNumber() != ISportsmanData.EMPTY) {
+        setStartNumber(sportsman.getStartNumber());
+//        }
     }
 
     public IPerson getPerson() {
         return person;
+    }
+
+    @Override
+    public void setPerson(IPerson person) {
+        this.person = person;
     }
 
     public ICategory getCategory() {
@@ -76,21 +85,45 @@ public class Sportsman implements ISportsman {
         return getPerson().getFirstName();
     }
 
+    @Override
+    public void setFirstName(String firstName) {
+        getPerson().setFirstName(firstName);
+    }
+
     public String getMiddleName() {
         return getPerson().getMiddleName();
+    }
+
+    @Override
+    public void setMiddleName(String middleName) {
+        getPerson().setMiddleName(middleName);
     }
 
     public String getLastName() {
         return getPerson().getLastName();
     }
 
+    @Override
+    public void setLastName(String lastName) {
+        getPerson().setLastName(lastName);
+    }
+
     public Sex getSex() {
         return getPerson().getSex();
+    }
+
+    @Override
+    public void setSex(Sex sex) {
+        getPerson().setSex(sex);
     }
 
     // TODO ABA: use class without time
     public Date getDateOfBirth() {
         return getPerson().getDateOfBirth();
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        getPerson().setDateOfBirth(dateOfBirth);
     }
 
     @Override

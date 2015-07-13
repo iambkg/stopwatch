@@ -2,8 +2,7 @@ package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
-import by.bkg.stopwatch.core.model.ISportsmanData;
-import by.bkg.stopwatch.core.model.SportsmanData;
+import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
@@ -32,7 +31,7 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Component
-public class SportsmanDialog extends JDialog {
+public class SportsmanDialog extends AbstractDialog<ISportsman> {
 
     @Autowired
     private ComponentFactory componentFactory;
@@ -66,8 +65,7 @@ public class SportsmanDialog extends JDialog {
     @Autowired
     private SportsmanDialogController controller;
 
-    private Callback<List<ISportsman>> operationPerformedCallback;
-
+    @Override
     public void init() {
         setMode(Mode.ADD);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
@@ -85,7 +83,8 @@ public class SportsmanDialog extends JDialog {
         pack();
     }
 
-    private JPanel createFormPanel() {
+    @Override
+    protected JPanel createFormPanel() {
         JPanel formPanel = new JPanel();
         SpringLayout layout = new SpringLayout();
         formPanel.setLayout(layout);
@@ -119,7 +118,8 @@ public class SportsmanDialog extends JDialog {
         return dateOfBirthField;
     }
 
-    private JComponent createButtonPanel() {
+    @Override
+    protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
         btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.ok"), createOkBtnListener()));
         btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.cancel"), createCancelBtnListener()));
@@ -198,7 +198,8 @@ public class SportsmanDialog extends JDialog {
         return startNumberField;
     }
 
-    private void clearInputs() {
+    @Override
+    protected void clearInputs() {
         categoryField.setSelectedIndex(0);
         sexField.setSelectedIndex(0);
         lastNameField.setText(AppConstants.EMPTY_STRING);
@@ -207,28 +208,29 @@ public class SportsmanDialog extends JDialog {
         startNumberField.setText(AppConstants.EMPTY_STRING);
     }
 
-    public void bind(ISportsmanData data) {
-        firstNameField.setText(data.getFirstName());
-        middleNameField.setText(data.getMiddleName());
-        lastNameField.setText(data.getLastName());
+    @Override
+    public void bind(ISportsman toBind) {
+        firstNameField.setText(toBind.getFirstName());
+        middleNameField.setText(toBind.getMiddleName());
+        lastNameField.setText(toBind.getLastName());
 //                        new Date(), // TODO ABA: get from dialog
 //                        ((SexModel) sexField.getModel().getSelectedItem()).getSex();
 //                        (ICategory) categoryField.getModel().getSelectedItem();
-        startNumberField.setText(data.getStartNumber());
+        startNumberField.setText(toBind.getStartNumber());
     }
 
-    public ISportsmanData unbind() {
-        SportsmanData sportsmanData = new SportsmanData(
-                firstNameField.getText(),
-                middleNameField.getText(),
-                lastNameField.getText(),
-                new Date(), // TODO ABA: get from dialog
-                ((SexModel) sexField.getModel().getSelectedItem()).getSex(),
-                (ICategory) categoryField.getModel().getSelectedItem(),
-                startNumberField.getText()
-        );
+    @Override
+    public ISportsman unbind() {
+        ISportsman sportsman = new Sportsman();
+        sportsman.setFirstName(firstNameField.getText());
+        sportsman.setMiddleName(middleNameField.getText());
+        sportsman.setLastName(lastNameField.getText());
+        sportsman.setDateOfBirth(new Date()); // TODO ABA: get from dialog
+        sportsman.setSex(((SexModel) sexField.getModel().getSelectedItem()).getSex());
+        sportsman.setCategory((ICategory) categoryField.getModel().getSelectedItem());
+        sportsman.setStartNumber(startNumberField.getText());
         clearInputs();
-        return sportsmanData;
+        return sportsman;
     }
 
     public Mode getMode() {
@@ -243,25 +245,24 @@ public class SportsmanDialog extends JDialog {
         }
     }
 
-    public void open(Mode mode, ISportsmanData sportsmanData, Callback<List<ISportsman>> callback) {
-        bind(sportsmanData);
+    public void open(Mode mode, ISportsman sportsman, Callback<List<ISportsman>> callback) {
+        bind(sportsman);
         open(mode, callback);
     }
 
     public void open(Mode mode, Callback<List<ISportsman>> callback) {
         setMode(mode);
-        setOperationPerformedCallback(callback);
-        setVisible(true);
+        super.open(callback);
     }
 
-    public void close() {
-        setOperationPerformedCallback(null);
-        setVisible(false);
-        clearInputs();
+    @Override
+    public void open(ISportsman sportsman, Callback<List<ISportsman>> callback) {
+        open(Mode.ADD, sportsman, callback);
     }
 
-    public void setOperationPerformedCallback(Callback<List<ISportsman>> operationPerformedCallback) {
-        this.operationPerformedCallback = operationPerformedCallback;
+    @Override
+    public void open(Callback<List<ISportsman>> callback) {
+        open(Mode.ADD, callback);
     }
 
     public enum Mode {

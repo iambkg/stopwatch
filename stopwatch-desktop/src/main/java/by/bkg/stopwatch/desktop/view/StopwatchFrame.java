@@ -101,7 +101,7 @@ public class StopwatchFrame extends JFrame {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registeredSportsmanDialog.setVisible(true);
+                registeredSportsmanDialog.open();
             }
         };
     }
@@ -109,7 +109,7 @@ public class StopwatchFrame extends JFrame {
     private JSplitPane createContents() {
         JSplitPane splitPane = new JSplitPane();
         splitPane.setLeftComponent(createLeftComponent());
-        splitPane.setRightComponent(createRightComonent());
+        splitPane.setRightComponent(createRightComponent());
         return splitPane;
     }
 
@@ -160,10 +160,16 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void startEditing(ISplitRecord splitToEdit) {
-        editSplitDialog.setVisible(true);
+        editSplitDialog.open(splitToEdit, new Callback<List<ISplitRecord>>() {
+            @Override
+            public void execute(List<ISplitRecord> refreshedSplits) {
+                showSplitsInList(refreshedSplits);
+                showSplitsInTable(refreshedSplits);
+            }
+        });
     }
 
-    private JComponent createRightComonent() {
+    private JComponent createRightComponent() {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
 

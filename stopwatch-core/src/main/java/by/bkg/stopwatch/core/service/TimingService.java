@@ -56,9 +56,7 @@ public class TimingService implements ITimingService {
     @Override
     public SplitRecord split(String startNumber) {
         stopWatch.split();
-        SplitRecord split = new SplitRecord();
-        split.setStartNumber(startNumber);
-        split.setTimestamp(new Timestamp(stopWatch.getSplitTime(), stopWatch.toSplitString()));
+        SplitRecord split = new SplitRecord(startNumber, stopWatch.getSplitTime(), stopWatch.toSplitString());
         stopWatch.unsplit();
         return split;
     }
