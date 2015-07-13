@@ -20,4 +20,12 @@ public class StopwatchFrameController {
     public List<ISplitRecord> onSplit(String startNumber) {
         return logicService.doSplit(startNumber);
     }
+
+    public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
+        return logicService.deleteSplit(splitToDelete);
+    }
+
+//    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
+//        return logicService.editSplit(splitToEdit);
+//    }
 }

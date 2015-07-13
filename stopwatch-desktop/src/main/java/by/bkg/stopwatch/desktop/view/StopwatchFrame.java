@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,8 +46,14 @@ public class StopwatchFrame extends JFrame {
 
     private JButton splitBtn;
 
+    private JButton editSplitBtn;
+
+    private JButton deleteSplitBtn;
+
     // TODO ABA: use table instead of JLabel
     private JLabel splitResults;
+
+    private JList splitsList;
 
     public void init() {
         createPanels();
@@ -87,13 +95,52 @@ public class StopwatchFrame extends JFrame {
 
     private JComponent createLeftComponent() {
         JPanel panel = new JPanel();
-        JToolBar toolBar = componentFactory.createToolBar();
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.edit-split"), null)); // TODO ABA: define action listener
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.delete-split"), null)); // TODO ABA: define action listener
         panel.setLayout(new BorderLayout());
 
+        JToolBar toolBar = componentFactory.createToolBar();
+
+        editSplitBtn = componentFactory.createBtn(appMessages.getString("btn.edit-split"), new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startEditing((ISplitRecord) splitsList.getSelectedValue());
+            }
+        });
+        editSplitBtn.setEnabled(false);
+
+        deleteSplitBtn = componentFactory.createBtn(appMessages.getString("btn.delete-split"), new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<ISplitRecord> refreshedSplits = controller.deleteSplit((ISplitRecord) splitsList.getSelectedValue());
+                showSplitsInList(refreshedSplits);
+                showSplitsInTable(refreshedSplits);
+            }
+        });
+        deleteSplitBtn.setEnabled(false);
+
+        toolBar.add(editSplitBtn);
+        toolBar.add(deleteSplitBtn);
+
         panel.add(toolBar, BorderLayout.NORTH);
+
+        splitsList = new JList();
+        splitsList.setLayoutOrientation(JList.VERTICAL);
+        splitsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        splitsList.setModel(new DefaultListModel());
+        splitsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                boolean valueSelected = !splitsList.isSelectionEmpty();
+                editSplitBtn.setEnabled(valueSelected);
+                deleteSplitBtn.setEnabled(valueSelected);
+            }
+        });
+
+        panel.add(new JScrollPane(splitsList), BorderLayout.CENTER);
         return panel;
+    }
+
+    private void startEditing(ISplitRecord splitToEdit) {
+        // TODO ABA: open editSplitDialog
     }
 
     private JComponent createRightComonent() {
@@ -212,11 +259,20 @@ public class StopwatchFrame extends JFrame {
 
     private void onSplit() {
         List<ISplitRecord> refreshedSplits = controller.onSplit(startNumber.getText());
-        showSplits(refreshedSplits);
+        showSplitsInList(refreshedSplits);
+        showSplitsInTable(refreshedSplits);
         startNumber.setText("");
     }
 
-    private void showSplits(List<ISplitRecord> refreshedSplits) {
+    private void showSplitsInList(List<ISplitRecord> refreshedSplits) {
+        DefaultListModel splitsListModel = (DefaultListModel) splitsList.getModel();
+        splitsListModel.clear();
+        for (ISplitRecord refreshedSplit : refreshedSplits) {
+            splitsListModel.addElement(refreshedSplit);
+        }
+    }
+
+    private void showSplitsInTable(List<ISplitRecord> refreshedSplits) {
         String splits = "<html><body>";
         for (ISplitRecord split : refreshedSplits) {
             splits += String.format("%s. %s<br/>", split.getStartNumber(), split.getTimestamp().getSplitTimeAsString());

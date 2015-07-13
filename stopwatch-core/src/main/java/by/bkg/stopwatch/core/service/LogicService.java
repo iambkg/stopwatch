@@ -99,6 +99,14 @@ public class LogicService implements ILogicService {
         getEvent().getSportsmen().clear();
     }
 
+    @Override
+    public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
+        List<ISplitRecord> splits = getEvent().getSplits();
+        if (splits.contains(splitToDelete)) {
+            splits.remove(splitToDelete);
+        }
+        return splits;
+    }
 
     @Override
     public String getCurrentTime() {

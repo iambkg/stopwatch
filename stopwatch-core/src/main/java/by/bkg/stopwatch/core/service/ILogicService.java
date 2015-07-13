@@ -39,4 +39,6 @@ public interface ILogicService {
     void resumeEvent();
 
     String getCurrentTime();
+
+    List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete);
 }

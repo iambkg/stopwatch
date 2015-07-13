@@ -24,4 +24,9 @@ public class SplitRecord implements ISplitRecord {
     public void setTimestamp(ITimestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s. %s", this.startNumber, this.timestamp.getSplitTimeAsString());
+    }
 }

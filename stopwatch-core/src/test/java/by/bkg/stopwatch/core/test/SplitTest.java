@@ -23,27 +23,43 @@ import static junit.framework.Assert.assertTrue;
 public class SplitTest {
 
     @Autowired
-    private ILogicService service;
+    private ILogicService logicService;
 
     private final String START_NUMBER = "123";
 
     @Before
     public void doBefore() {
-        service.flush();
+        logicService.flush();
     }
 
     @Test
     public void splitTest() {
-        List<ISplitRecord> initialSplits = service.getEvent().getSplits();
+        List<ISplitRecord> initialSplits = logicService.getEvent().getSplits();
 
         assertTrue(initialSplits.isEmpty());
 
-        service.startEvent();
-        List<ISplitRecord> splits = service.doSplit(START_NUMBER);
-        service.stopEvent();
+        logicService.startEvent();
+        List<ISplitRecord> splits = logicService.doSplit(START_NUMBER);
+        logicService.stopEvent();
 
         assertEquals(1, splits.size());
         assertEquals(START_NUMBER, splits.get(0).getStartNumber());
         assertNotNull(splits.get(0).getTimestamp().getSplitTime());
+    }
+
+    @Test
+    public void deleteSplitTest() {
+        List<ISplitRecord> initialSplits = logicService.getEvent().getSplits();
+
+        assertTrue(initialSplits.isEmpty());
+
+        logicService.startEvent();
+        List<ISplitRecord> splits = logicService.doSplit(START_NUMBER);
+        logicService.stopEvent();
+
+        assertEquals(1, splits.size());
+        logicService.deleteSplit(splits.get(0));
+
+        assertTrue(initialSplits.isEmpty());
     }
 }
