@@ -41,4 +41,6 @@ public interface ILogicService {
     String getCurrentTime();
 
     List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete);
+
+    List<ISplitRecord> startNewEvent();
 }

@@ -74,7 +74,19 @@ public class StopwatchFrame extends JFrame {
     private JToolBar createToolbar() {
         JToolBar toolBar = componentFactory.createToolBar();
         toolBar.add(componentFactory.createBtn(appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
+        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         return toolBar;
+    }
+
+    private ActionListener createNewEventBtnListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<ISplitRecord> splits = controller.startNewEvent();
+                showSplitsInList(splits);
+                showSplitsInTable(splits);
+            }
+        };
     }
 
     private ActionListener createViewSportsmenBtnListener() {

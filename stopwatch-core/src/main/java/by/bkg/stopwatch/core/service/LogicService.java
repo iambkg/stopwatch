@@ -31,8 +31,14 @@ public class LogicService implements ILogicService {
 
     @Override
     public void init() {
-        event = new Event();
+        startNewEvent();
         timingService.init();
+    }
+
+    @Override
+    public List<ISplitRecord> startNewEvent() {
+        event = new Event();
+        return getEvent().getSplits();
     }
 
     @Override
