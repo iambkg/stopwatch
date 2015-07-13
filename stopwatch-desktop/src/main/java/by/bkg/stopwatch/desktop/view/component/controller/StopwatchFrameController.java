@@ -25,11 +25,11 @@ public class StopwatchFrameController {
         return logicService.deleteSplit(splitToDelete);
     }
 
-//    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
-//        return logicService.editSplit(splitToEdit);
-//    }
+    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
+        return logicService.editSplit(splitToEdit);
+    }
 
-	public List<ISplitRecord> startNewEvent() {
-    	return logicService.startNewEvent();
-	}
+    public List<ISplitRecord> startNewEvent() {
+        return logicService.startNewEvent();
+    }
 }

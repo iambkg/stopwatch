@@ -106,6 +106,27 @@ public class LogicService implements ILogicService {
     }
 
     @Override
+    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
+//        ISplitRecord split = findSplit(splitToEdit.getStartNumber());
+//        if (split != null) {
+//            split.refresh(splitToEdit);
+//        } else {
+//            loggingService.error(String.format("EDIT SPLIT: Could not find split"));
+//        }
+        return getEvent().getSplits();
+    }
+
+//    private ISplitRecord findSplit(String startNumber) {
+//        for (ISplitRecord split : getEvent().getSplits()) {
+//            if (split.getStartNumber().equals(startNumber)) {
+//                return split;
+//            }
+//        }
+//        loggingService.error("Did not find split");
+//        return null;
+//    }
+
+    @Override
     public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
         List<ISplitRecord> splits = getEvent().getSplits();
         if (splits.contains(splitToDelete)) {

@@ -4,6 +4,7 @@ import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
+import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -37,6 +38,9 @@ public class StopwatchFrame extends JFrame {
     private RegisteredSportsmanDialog registeredSportsmanDialog;
 
     @Autowired
+    private EditSplitDialog editSplitDialog;
+
+    @Autowired
     private StopwatchFrameController controller;
 
     @Autowired
@@ -59,6 +63,10 @@ public class StopwatchFrame extends JFrame {
         createPanels();
         registeredSportsmanDialog.init();
         registeredSportsmanDialog.setLocationRelativeTo(this);
+
+        editSplitDialog.init();
+        editSplitDialog.setLocationRelativeTo(this);
+
         setupFrame();
         pack();
         setVisible(true);
@@ -152,7 +160,7 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void startEditing(ISplitRecord splitToEdit) {
-        // TODO ABA: open editSplitDialog
+        editSplitDialog.setVisible(true);
     }
 
     private JComponent createRightComonent() {

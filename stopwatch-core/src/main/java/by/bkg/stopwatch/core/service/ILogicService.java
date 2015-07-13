@@ -40,6 +40,8 @@ public interface ILogicService {
 
     String getCurrentTime();
 
+    List<ISplitRecord> editSplit(ISplitRecord splitToEdit);
+
     List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete);
 
     List<ISplitRecord> startNewEvent();
