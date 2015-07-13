@@ -1,22 +1,21 @@
 package by.bkg.stopwatch.desktop.view.component.dialog;
 
-import by.bkg.stopwatch.core.model.Category;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.ISportsmanData;
 import by.bkg.stopwatch.core.model.SportsmanData;
-import by.bkg.stopwatch.core.model.enums.Sex;
-import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.component.controller.RegisteredSportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,18 +36,32 @@ public class RegisteredSportsmanDialog extends JDialog {
     @Autowired
     private ComponentFactory componentFactory;
 
-    private static final int MIN_WIDTH = 400;
+    private static final int MIN_WIDTH = 300;
 
     private static final int MIN_HEIGHT = 220;
 
-    private JLabel sportsmenLabel;
+    private JList sportsmenList;
+
+    private JButton editPersonBtn;
+
+    private JButton deletePersonBtn;
 
     public void init() {
         sportsmanDialog.init();
         sportsmanDialog.setLocationRelativeTo(this);
 
-        sportsmenLabel = new JLabel();
-        sportsmenLabel.setVerticalAlignment(SwingConstants.TOP);
+        sportsmenList = new JList();
+        sportsmenList.setModel(new DefaultListModel());
+        sportsmenList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        sportsmenList.setLayoutOrientation(JList.VERTICAL);
+        sportsmenList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                boolean sportsmanSelected = !sportsmenList.isSelectionEmpty();
+                editPersonBtn.setEnabled(sportsmanSelected);
+                deletePersonBtn.setEnabled(sportsmanSelected);
+            }
+        });
 
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setTitle(appMessages.getString("label.sportsmen"));
@@ -56,11 +69,8 @@ public class RegisteredSportsmanDialog extends JDialog {
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
 
-//        JPanel formPanel = createFormPanel();
-
         add(createLogicButtonPanel(), BorderLayout.NORTH);
-//        add(formPanel, BorderLayout.CENTER);
-        add(sportsmenLabel, BorderLayout.CENTER); // TODO ABA: add scrollpanel
+        add(new JScrollPane(sportsmenList), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
 
         pack();
@@ -68,10 +78,14 @@ public class RegisteredSportsmanDialog extends JDialog {
 
     private JComponent createLogicButtonPanel() {
         JToolBar toolBar = componentFactory.createToolBar();
+        editPersonBtn = componentFactory.createBtn(appMessages.getString("btn.edit-person"), createEditBtnActionListener());
+        editPersonBtn.setEnabled(false);
+        deletePersonBtn = componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
+        deletePersonBtn.setEnabled(false);
 
         toolBar.add(componentFactory.createBtn(appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.edit-person"), createEditBtnActionListener()));
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener()));
+        toolBar.add(editPersonBtn);
+        toolBar.add(deletePersonBtn);
         return toolBar;
     }
 
@@ -82,7 +96,7 @@ public class RegisteredSportsmanDialog extends JDialog {
                 sportsmanDialog.open(SportsmanDialog.Mode.ADD, new Callback<List<ISportsman>>() {
                     @Override
                     public void execute(List<ISportsman> refreshedSportsmenList) {
-                        setSportsmen(refreshedSportsmenList);
+                        showSportsmenList(refreshedSportsmenList);
                     }
                 });
             }
@@ -96,7 +110,7 @@ public class RegisteredSportsmanDialog extends JDialog {
                 sportsmanDialog.open(SportsmanDialog.Mode.EDIT, getSelectedSportsman(), new Callback<List<ISportsman>>() {
                     @Override
                     public void execute(List<ISportsman> refreshedSportsmenList) {
-                        setSportsmen(refreshedSportsmenList);
+                        showSportsmenList(refreshedSportsmenList);
                     }
                 });
             }
@@ -110,21 +124,19 @@ public class RegisteredSportsmanDialog extends JDialog {
                 getController().delete(getSelectedSportsman(), new Callback<List<ISportsman>>() {
                     @Override
                     public void execute(List<ISportsman> refreshedSportsmenList) {
-                        setSportsmen(refreshedSportsmenList);
+                        showSportsmenList(refreshedSportsmenList);
                     }
                 });
             }
         };
     }
 
-    private void setSportsmen(List<ISportsman> sportsmen) {
-        // TODO ABA: use correct component
-        String listAsString = "<html><body>";
+    private void showSportsmenList(List<ISportsman> sportsmen) {
+        DefaultListModel model = (DefaultListModel) sportsmenList.getModel();
+        model.clear();
         for (ISportsman sportsman : sportsmen) {
-            listAsString += String.format("%s. %s %s %s - %s<br/>", sportsman.getStartNumber(), sportsman.getLastName(), sportsman.getFirstName(), sportsman.getMiddleName(), sportsman.getCategory().getName());
+            model.addElement(sportsman);
         }
-        listAsString += "</body></html>";
-        sportsmenLabel.setText(listAsString);
     }
 
     private JComponent createButtonPanel() {
@@ -148,12 +160,7 @@ public class RegisteredSportsmanDialog extends JDialog {
     }
 
     public ISportsmanData getSelectedSportsman() {
-        // TODO ABA:
-        // call controller
-        // pass selected start number to controller
-        // controller gets Event from LogicService and searches selected Sportsman
-        // return found sportsman (sportsmanData)
-        return new SportsmanData("fake", "fake", "fake", new Date(), Sex.MALE, new Category("dsdsd"), "123");
+        return new SportsmanData((ISportsman) sportsmenList.getSelectedValue());
     }
 
     public RegisteredSportsmanDialogController getController() {

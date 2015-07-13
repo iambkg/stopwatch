@@ -194,6 +194,7 @@ public class SportsmanDialog extends JDialog {
 
     private JComponent createStartNumberField() {
         startNumberField = new JTextField();
+        startNumberField.setEnabled(Mode.ADD.equals(mode));
         return startNumberField;
     }
 
@@ -237,6 +238,9 @@ public class SportsmanDialog extends JDialog {
     private void setMode(Mode mode) {
         this.mode = mode;
         setTitle(appMessages.getString(mode.getTitleI18NKey()));
+        if (startNumberField != null) {
+            startNumberField.setEnabled(Mode.ADD.equals(mode));
+        }
     }
 
     public void open(Mode mode, ISportsmanData sportsmanData, Callback<List<ISportsman>> callback) {

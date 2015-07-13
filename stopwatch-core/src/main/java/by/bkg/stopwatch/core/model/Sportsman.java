@@ -95,10 +95,6 @@ public class Sportsman implements ISportsman {
 
     @Override
     public String toString() {
-        return "Sportsman{" +
-                "person=" + person +
-                ", category=" + category +
-                ", startNumber='" + startNumber + '\'' +
-                '}';
+        return String.format("%s. %s %s %s - %s", startNumber, person.getLastName(), person.getFirstName(), person.getMiddleName(), category.getName());
     }
 }

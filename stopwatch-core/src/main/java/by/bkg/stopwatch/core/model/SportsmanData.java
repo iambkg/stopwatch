@@ -33,6 +33,10 @@ public class SportsmanData implements ISportsmanData {
         this.startNumber = startNumber;
     }
 
+    public SportsmanData(ISportsman sportsman) {
+        this(sportsman.getFirstName(), sportsman.getMiddleName(), sportsman.getLastName(), sportsman.getDateOfBirth(), sportsman.getSex(), sportsman.getCategory(), sportsman.getStartNumber());
+    }
+
     public String getFirstName() {
         return firstName;
     }

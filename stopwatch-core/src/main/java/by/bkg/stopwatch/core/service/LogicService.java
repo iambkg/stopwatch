@@ -104,6 +104,8 @@ public class LogicService implements ILogicService {
         List<ISplitRecord> splits = getEvent().getSplits();
         if (splits.contains(splitToDelete)) {
             splits.remove(splitToDelete);
+        } else {
+            loggingService.error(String.format("Trying to delete split which is not in splits list. No action taken."));
         }
         return splits;
     }
@@ -119,6 +121,7 @@ public class LogicService implements ILogicService {
                 return sportsman;
             }
         }
+        loggingService.error(String.format("Did not find sportsman (start number %s)", startNumber));
         return null;
     }
 
