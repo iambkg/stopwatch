@@ -235,8 +235,16 @@ public class StopwatchFrame extends JFrame {
     private JComponent createSplitTable() {
         splitTable = new JTable();
         splitTable.setFillsViewportHeight(true);
+        splitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        splitTable.setDragEnabled(false);
         splitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        DefaultTableModel model = new DefaultTableModel();
+        splitTable.getTableHeader().setReorderingAllowed(false);
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(final int row, final int column) {
+                return false;
+            }
+        };
         splitTable.setModel(model);
         String[] colNames = {String.format("%s %d", appMessages.getString("label.lap"), 1)}; // TODO ABA: add start number as column
         model.setColumnIdentifiers(colNames);
