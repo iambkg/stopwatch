@@ -22,4 +22,11 @@ public class ComponentFactory {
         btn.addActionListener(listener);
         return btn;
     }
+
+    public JButton createBtn(final String iconPath, final String tooltip, final ActionListener listener) {
+        JButton btn = new JButton(new ImageIcon(iconPath));
+        btn.setToolTipText(tooltip);
+        btn.addActionListener(listener);
+        return btn;
+    }
 }
