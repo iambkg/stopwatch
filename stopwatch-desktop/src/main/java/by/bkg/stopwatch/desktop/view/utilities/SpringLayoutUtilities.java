@@ -15,7 +15,7 @@ public class SpringLayoutUtilities {
      * A debugging utility that prints to stdout the component's
      * minimum, preferred, and maximum sizes.
      */
-    public static void printSizes(Component c) {
+    public static void printSizes(final Component c) {
         System.out.println("minimumSize = " + c.getMinimumSize());
         System.out.println("preferredSize = " + c.getPreferredSize());
         System.out.println("maximumSize = " + c.getMaximumSize());
@@ -35,10 +35,10 @@ public class SpringLayoutUtilities {
      * @param xPad     x padding between cells
      * @param yPad     y padding between cells
      */
-    public static void makeGrid(Container parent,
-                                int rows, int cols,
-                                int initialX, int initialY,
-                                int xPad, int yPad) {
+    public static void makeGrid(final Container parent,
+                                final int rows, final int cols,
+                                final int initialX, final int initialY,
+                                final int xPad, final int yPad) {
         SpringLayout layout;
         try {
             layout = (SpringLayout) parent.getLayout();
@@ -103,7 +103,7 @@ public class SpringLayoutUtilities {
     }
 
     /* Used by makeCompactGrid. */
-    private static SpringLayout.Constraints getConstraintsForCell(int row, int col, Container parent, int cols) {
+    private static SpringLayout.Constraints getConstraintsForCell(final int row, final int col, final Container parent, final int cols) {
         SpringLayout layout = (SpringLayout) parent.getLayout();
         Component c = parent.getComponent(row * cols + col);
         return layout.getConstraints(c);
@@ -124,8 +124,8 @@ public class SpringLayoutUtilities {
      * @param xPad     x padding between cells
      * @param yPad     y padding between cells
      */
-    public static void makeCompactGrid(Container parent, int rows, int cols, int initialX, int initialY,
-                                       int xPad, int yPad) {
+    public static void makeCompactGrid(final Container parent, final int rows, final int cols, final int initialX, final int initialY,
+                                       final int xPad, final int yPad) {
         SpringLayout layout;
         try {
             layout = (SpringLayout) parent.getLayout();

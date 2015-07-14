@@ -12,17 +12,17 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Controller
-public class RegisteredSportsmanDialogController {
+public class RegisteredSportsmanDialogController {     // TODO ABA: add "implenets"
 
     @Autowired
     private ILogicService logicService;
 
-    public void delete(ISportsman selectedSportsman, Callback<List<ISportsman>> deleteCallback) {
+    public void delete(final ISportsman selectedSportsman, final Callback<List<ISportsman>> deleteCallback) {
         List<ISportsman> refreshedList = logicService.deleteSportsman(selectedSportsman);
         deleteCallback.execute(refreshedList);
     }
 
-    public List<ISportsman> getSportsmen() {
+    public final List<ISportsman> getSportsmen() {
         return logicService.getSportsmen();
     }
 }

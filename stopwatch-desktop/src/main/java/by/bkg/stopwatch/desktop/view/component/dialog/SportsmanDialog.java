@@ -43,10 +43,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
 
     private static final Integer NUMBER_OF_ROWS = 7;
     private static final int NUMBER_OF_COLS = 2;
-    private static final int INITIAL_X = 6;          // TODO ABA: rename
-    private static final int INITIAL_Y = 6;          // TODO ABA: rename
-    private static final int X_PAD = 6;              // TODO ABA: rename
-    private static final int Y_PAD = 6;              // TODO ABA: rename
 
     private JComboBox categoryField;
     private JComboBox sexField;
@@ -209,7 +205,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     }
 
     @Override
-    public void bind(ISportsman toBind) {
+    public void bind(final ISportsman toBind) {
         firstNameField.setText(toBind.getFirstName());
         middleNameField.setText(toBind.getMiddleName());
         lastNameField.setText(toBind.getLastName());
@@ -237,7 +233,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         return mode;
     }
 
-    private void setMode(Mode mode) {
+    private void setMode(final Mode mode) {
         this.mode = mode;
         setTitle(appMessages.getString(mode.getTitleI18NKey()));
         if (startNumberField != null) {
@@ -245,18 +241,18 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         }
     }
 
-    public void open(Mode mode, ISportsman sportsman, Callback<List<ISportsman>> callback) {
+    public void open(final Mode mode, final ISportsman sportsman, final Callback<List<ISportsman>> callback) {
         bind(sportsman);
         open(mode, callback);
     }
 
-    public void open(Mode mode, Callback<List<ISportsman>> callback) {
+    public void open(final Mode mode, final Callback<List<ISportsman>> callback) {
         setMode(mode);
         super.open(callback);
     }
 
     @Override
-    public void open(ISportsman sportsman, Callback<List<ISportsman>> callback) {
+    public void open(final ISportsman sportsman, final Callback<List<ISportsman>> callback) {
         open(Mode.ADD, sportsman, callback);
     }
 
@@ -271,7 +267,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
 
         private String titleI18NKey;
 
-        Mode(String titleI18NKey) {
+        Mode(final String titleI18NKey) {
             this.titleI18NKey = titleI18NKey;
         }
 

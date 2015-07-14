@@ -20,7 +20,7 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Component
-public class RegisteredSportsmanDialog extends JDialog {
+public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it to extend AbstractDialog
 
     @Autowired
     private SportsmanDialog sportsmanDialog;
@@ -129,7 +129,7 @@ public class RegisteredSportsmanDialog extends JDialog {
         };
     }
 
-    private void showSportsmenList(List<ISportsman> sportsmen) {
+    private void showSportsmenList(final List<ISportsman> sportsmen) {
         DefaultListModel model = (DefaultListModel) sportsmenList.getModel();
         model.clear();
         for (ISportsman sportsman : sportsmen) {

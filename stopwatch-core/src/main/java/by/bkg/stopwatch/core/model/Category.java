@@ -9,10 +9,7 @@ public class Category implements ICategory {
 
     private String name;
 
-    public Category() {
-    }
-
-    public Category(String name) {
+    public Category(final String name) {
         this.name = name;
     }
 
@@ -26,7 +23,7 @@ public class Category implements ICategory {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof Category) {
             return this.name.equals(((Category)obj).getName());
         }

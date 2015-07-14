@@ -1,7 +1,6 @@
 package by.bkg.stopwatch.core.service;
 
 import by.bkg.stopwatch.core.model.SplitRecord;
-import by.bkg.stopwatch.core.model.Timestamp;
 import org.apache.commons.lang.time.StopWatch;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +53,7 @@ public class TimingService implements ITimingService {
     }
 
     @Override
-    public SplitRecord split(String startNumber) {
+    public SplitRecord split(final String startNumber) {
         stopWatch.split();
         SplitRecord split = new SplitRecord(startNumber, stopWatch.getSplitTime(), stopWatch.toSplitString());
         stopWatch.unsplit();

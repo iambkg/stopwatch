@@ -17,7 +17,7 @@ public class StopWatchPanelState {
         return status;
     }
 
-    public void setStatus(TimerStatus status) {
+    public void setStatus(final TimerStatus status) {
         this.status = status;
     }
 
@@ -25,7 +25,7 @@ public class StopWatchPanelState {
         return startBtnText;
     }
 
-    public void setStartBtnText(String startBtnText) {
+    public void setStartBtnText(final String startBtnText) {
         this.startBtnText = startBtnText;
     }
 
@@ -33,7 +33,7 @@ public class StopWatchPanelState {
         return stopBtnEnabled;
     }
 
-    public void setStopBtnEnabled(Boolean stopBtnEnabled) {
+    public void setStopBtnEnabled(final Boolean stopBtnEnabled) {
         this.stopBtnEnabled = stopBtnEnabled;
     }
 }

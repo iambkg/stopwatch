@@ -5,5 +5,5 @@ package by.bkg.stopwatch.desktop.view.model;
  */
 public abstract class Callback<T> {
 
-    public abstract void execute(T param);
+    public abstract void execute(final T param);
 }

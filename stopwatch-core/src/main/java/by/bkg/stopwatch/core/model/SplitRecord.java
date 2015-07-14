@@ -9,13 +9,13 @@ public class SplitRecord implements ISplitRecord {
 
     private ITimestamp timestamp;
 
-    public SplitRecord(String startNumber, Long splitTime, String splitTimeAsString) {
+    public SplitRecord(final String startNumber, final Long splitTime, final String splitTimeAsString) {
         this.startNumber = startNumber;
         this.timestamp = new Timestamp(splitTime, splitTimeAsString);
     }
 
     @Override
-    public void refresh(ISplitRecord newData) {
+    public void refresh(final ISplitRecord newData) {
         this.startNumber = newData.getStartNumber();
     }
 
@@ -23,7 +23,7 @@ public class SplitRecord implements ISplitRecord {
         return startNumber;
     }
 
-    public void setStartNumber(String startNumber) {
+    public void setStartNumber(final String startNumber) {
         this.startNumber = startNumber;
     }
 
@@ -31,7 +31,7 @@ public class SplitRecord implements ISplitRecord {
         return timestamp;
     }
 
-    public void setTimestamp(ITimestamp timestamp) {
+    public void setTimestamp(final ITimestamp timestamp) {
         this.timestamp = timestamp;
     }
 

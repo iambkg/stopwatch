@@ -11,12 +11,12 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Controller
-public class EditSplitDialogController {
+public class EditSplitDialogController {  // TODO ABA: add "implenets"
 
     @Autowired
     private ILogicService logicService;
 
-    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
+    public List<ISplitRecord> editSplit(final ISplitRecord splitToEdit) {
         return logicService.editSplit(splitToEdit);
     }
 }

@@ -17,7 +17,7 @@ public class AppMessages {
         this.rb = ResourceBundle.getBundle("AppMessages", Locale.getDefault());
     }
 
-    public String getString(String key) {
+    public String getString(final String key) {
         return rb.getString(key);
     }
 }

@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.desktop.view.component.dialog;
 
-import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 
 import javax.swing.*;
@@ -32,7 +31,7 @@ public abstract class AbstractDialog<T> extends JDialog {
 
     public abstract void open(final T splitToEdit, Callback<List<T>> callback);
 
-    public void open(Callback<List<T>> callback) {
+    public void open(final Callback<List<T>> callback) {
         setOperationPerformedCallback(callback);
         setVisible(true);
     }

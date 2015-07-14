@@ -14,18 +14,22 @@ public class Timestamp implements ITimestamp {
         this.splitTimeAsString = splitTimeAsString;
     }
 
+    @Override
     public Long getSplitTime() {
         return splitTime;
     }
 
-    public void setSplitTime(Long splitTime) {
+    @Override
+    public void setSplitTime(final Long splitTime) {
         this.splitTime = splitTime;
     }
 
-    public void setSplitTimeAsString(String splitTimeAsString) {
+    @Override
+    public void setSplitTimeAsString(final String splitTimeAsString) {
         this.splitTimeAsString = splitTimeAsString;
     }
 
+    @Override
     public String getSplitTimeAsString() {
         return splitTimeAsString;
     }

@@ -17,10 +17,12 @@ public class Event implements IEvent {
         this.splits = new ArrayList<ISplitRecord>();
     }
 
+    @Override
     public List<ISportsman> getSportsmen() {
         return sportsmen;
     }
 
+    @Override
     public List<ISplitRecord> getSplits() {
         return splits;
     }

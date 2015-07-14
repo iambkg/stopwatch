@@ -45,14 +45,14 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISportsman> addSportsman(ISportsman sportsman) {
+    public List<ISportsman> addSportsman(final ISportsman sportsman) {
         getEvent().getSportsmen().add(sportsman);
         loggingService.log(getEvent().getSportsmen());
         return getEvent().getSportsmen();
     }
 
     @Override
-    public List<ISportsman> editSportsman(ISportsman sportsmanToEdit) {
+    public List<ISportsman> editSportsman(final ISportsman sportsmanToEdit) {
         ISportsman sportsman = findSportsman(sportsmanToEdit.getStartNumber());
         if (sportsman != null) {
             sportsman.refresh(sportsmanToEdit);
@@ -63,7 +63,7 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISportsman> deleteSportsman(ISportsman sportsmanToDelete) {
+    public List<ISportsman> deleteSportsman(final ISportsman sportsmanToDelete) {
         ISportsman sportsman = findSportsman(sportsmanToDelete.getStartNumber());
         if (sportsman != null) {
             getEvent().getSportsmen().remove(sportsman);
@@ -74,7 +74,7 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISplitRecord> doSplit(String startNumber) {
+    public List<ISplitRecord> doSplit(final String startNumber) {
         List<ISplitRecord> splits = getEvent().getSplits();
         splits.add(timingService.split(startNumber));
         return splits;
@@ -109,7 +109,7 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISplitRecord> editSplit(ISplitRecord splitToEdit) {
+    public List<ISplitRecord> editSplit(final ISplitRecord splitToEdit) {
         ISplitRecord split = findSplit(splitToEdit.getTimestamp().getSplitTimeAsString());
         if (split != null) {
             split.refresh(splitToEdit);
@@ -119,7 +119,7 @@ public class LogicService implements ILogicService {
         return getEvent().getSplits();
     }
 
-    private ISplitRecord findSplit(String splitTimeAsString) {
+    private ISplitRecord findSplit(final String splitTimeAsString) {
         for (ISplitRecord split : getEvent().getSplits()) {
             if (split.getTimestamp().getSplitTimeAsString().equals(splitTimeAsString)) {
                 return split;
@@ -130,7 +130,7 @@ public class LogicService implements ILogicService {
     }
 
     @Override
-    public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
+    public List<ISplitRecord> deleteSplit(final ISplitRecord splitToDelete) {
         List<ISplitRecord> splits = getEvent().getSplits();
         if (splits.contains(splitToDelete)) {
             splits.remove(splitToDelete);
@@ -145,7 +145,7 @@ public class LogicService implements ILogicService {
         return timingService.getCurrentTime();
     }
 
-    private ISportsman findSportsman(String startNumber) {
+    private ISportsman findSportsman(final String startNumber) {
         for (ISportsman sportsman : getEvent().getSportsmen()) {
             if (startNumber.equals(sportsman.getStartNumber())) {
                 return sportsman;

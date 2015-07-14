@@ -41,43 +41,53 @@ public class Person implements IPerson {
     public Person() {
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    @Override
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
+    @Override
     public String getMiddleName() {
         return middleName;
     }
 
-    public void setMiddleName(String middleName) {
+    @Override
+    public void setMiddleName(final String middleName) {
         this.middleName = middleName;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    @Override
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    @Override
+    public void setDateOfBirth(final Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Override
     public Sex getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    @Override
+    public void setSex(final Sex sex) {
         this.sex = sex;
     }
 

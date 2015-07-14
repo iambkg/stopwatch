@@ -38,7 +38,7 @@ public class StopWatchPanel extends JToolBar {
     private Callback<Void> onStopCallback;
     private Callback<Void> onPauseCallback;
 
-    public void init(Callback<Void> onStartCallback, Callback<Void> onPauseCallback, Callback<Void> onStopCallback) {
+    public StopWatchPanel init(Callback<Void> onStartCallback, Callback<Void> onPauseCallback, Callback<Void> onStopCallback) {
         this.onStartCallback = onStartCallback;
         this.onStopCallback = onStopCallback;
         this.onPauseCallback = onPauseCallback;
@@ -71,6 +71,8 @@ public class StopWatchPanel extends JToolBar {
         add(getTimeLabel());
         add(startBtn);
         add(stopBtn);
+
+        return this;
     }
 
     /**

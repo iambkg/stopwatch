@@ -17,7 +17,7 @@ public class ComponentFactory {
         return toolBar;
     }
 
-    public JButton createBtn(String text, ActionListener listener) {
+    public JButton createBtn(final String text, final ActionListener listener) {
         JButton btn = new JButton(text);
         btn.addActionListener(listener);
         return btn;

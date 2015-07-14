@@ -11,17 +11,17 @@ import java.util.List;
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Controller
-public class SportsmanDialogController {
+public class SportsmanDialogController {    // TODO ABA: add "implenets"
 
     @Autowired
     private ILogicService logicService;
 
-    public List<ISportsman> addSportsman(ISportsman sportsmanToAdd) {
+    public List<ISportsman> addSportsman(final ISportsman sportsmanToAdd) {
         List<ISportsman> sportsmen = logicService.addSportsman(sportsmanToAdd);
         return sportsmen;
     }
 
-    public List<ISportsman> editSportsman(ISportsman sportsmanToEdit) {
+    public List<ISportsman> editSportsman(final ISportsman sportsmanToEdit) {
         List<ISportsman> sportsmen = logicService.editSportsman(sportsmanToEdit);
         return sportsmen;
     }

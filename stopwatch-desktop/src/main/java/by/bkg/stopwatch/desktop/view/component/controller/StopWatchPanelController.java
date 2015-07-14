@@ -16,7 +16,7 @@ import static by.bkg.stopwatch.desktop.view.model.enums.TimerStatus.STOPPED;
  * @author Alexey Baryshnev
  */
 @Controller
-public class StopWatchPanelController {
+public class StopWatchPanelController {    // TODO ABA: add "implenets"
 
     @Autowired
     private AppMessages appMessages;
@@ -31,8 +31,8 @@ public class StopWatchPanelController {
         setTimerStatus(STOPPED);
     }
 
-    //    @Override
-    public void onStart(Callback<StopWatchPanelState> callback) {
+//    @Override
+    public void onStart(final Callback<StopWatchPanelState> callback) {
         StopWatchPanelState state = new StopWatchPanelState();
 
         switch (getTimerStatus()) {
@@ -61,8 +61,8 @@ public class StopWatchPanelController {
         callback.execute(state);
     }
 
-    //    @Override
-    public void onStop(Callback<StopWatchPanelState> callback) {
+//    @Override
+    public void onStop(final Callback<StopWatchPanelState> callback) {
         StopWatchPanelState state = new StopWatchPanelState();
 
         switch (getTimerStatus()) {
@@ -72,24 +72,23 @@ public class StopWatchPanelController {
                 state.setStatus(STOPPED);
                 setTimerStatus(STOPPED);
                 logicService.stopEvent();
-//                    getEventBus().resetAllData();
                 break;
         }
         callback.execute(state);
     }
 
-    //    @Override
+//    @Override
     public String getCurrentTime() {
         return logicService.getCurrentTime();
     }
 
-    //    @Override
+//    @Override
     public TimerStatus getTimerStatus() {
         return timerStatus;
     }
 
-    //    @Override
-    public void setTimerStatus(TimerStatus timerStatus) {
+//    @Override
+    public void setTimerStatus(final TimerStatus timerStatus) {
         this.timerStatus = timerStatus;
     }
 }

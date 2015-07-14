@@ -14,13 +14,15 @@ public class LoggingService implements ILoggingService {
 
     private Logger log = Logger.getLogger("stopwatch");
 
-    public void log(List<ISportsman> sportsmen) {
+    @Override
+    public void log(final List<ISportsman> sportsmen) {
         for (ISportsman sportsman : sportsmen) {
             log.info(sportsman);
         }
     }
 
-    public void error(String message) {
+    @Override
+    public void error(final String message) {
         log.error(message);
     }
 }

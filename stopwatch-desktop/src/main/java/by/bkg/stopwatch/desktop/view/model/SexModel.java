@@ -3,7 +3,9 @@ package by.bkg.stopwatch.desktop.view.model;
 import by.bkg.stopwatch.core.model.enums.Sex;
 
 /**
- * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
+ * Used on UI
+ *
+ * @author Alexey Baryshnev
  */
 public class SexModel {
 
@@ -11,7 +13,7 @@ public class SexModel {
 
     private String displayText;
 
-    public SexModel(Sex sex, String displayText) {
+    public SexModel(final Sex sex, final String displayText) {
         this.sex = sex;
         this.displayText = displayText;
     }

@@ -55,7 +55,7 @@ public class StopwatchFrame extends JFrame {
     private JButton deleteSplitBtn;
 
     // TODO ABA: use table instead of JLabel
-    private JLabel splitResults;
+    private JLabel splitTable;
 
     private JList splitsList;
 
@@ -159,7 +159,7 @@ public class StopwatchFrame extends JFrame {
         return panel;
     }
 
-    private void startEditing(ISplitRecord splitToEdit) {
+    private void startEditing(final ISplitRecord splitToEdit) {
         editSplitDialog.open(splitToEdit, new Callback<List<ISplitRecord>>() {
             @Override
             public void execute(List<ISplitRecord> refreshedSplits) {
@@ -173,17 +173,9 @@ public class StopwatchFrame extends JFrame {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
 
-        JLabel resultsComponent = new JLabel();
-        resultsComponent.setText(AppConstants.EMPTY_STRING);
-        resultsComponent.setVerticalAlignment(SwingConstants.TOP);
-
-        centerPanel.add(resultsComponent, BorderLayout.CENTER);
-
-        // TODO ABA: think about it. Looks like there is too much code here
-        stopWatchPanel.init(createOnStartCallback(), createOnPauseCallback(), createOnStopCallback());
-
-        centerPanel.add(stopWatchPanel, BorderLayout.NORTH);
+        centerPanel.add(stopWatchPanel.init(createOnStartCallback(), createOnPauseCallback(), createOnStopCallback()), BorderLayout.NORTH);
         centerPanel.add(createSplitFunctionalityPanel(), BorderLayout.CENTER);
+
         return centerPanel;
     }
 
@@ -227,15 +219,16 @@ public class StopwatchFrame extends JFrame {
         panel.setLayout(new BorderLayout());
 
         panel.add(createSplitFormPanel(), BorderLayout.NORTH);
-        panel.add(createSplitResultsPanel(), BorderLayout.CENTER);
+        panel.add(createSplitTable(), BorderLayout.CENTER);
         return panel;
     }
 
-    private JComponent createSplitResultsPanel() {
-        // TODO ABA: add ScrollPanel
-        splitResults = new JLabel();
-        splitResults.setVerticalAlignment(SwingConstants.TOP);
-        return splitResults;
+    private JComponent createSplitTable() {
+        splitTable = new JLabel();
+        splitTable.setVerticalAlignment(SwingConstants.TOP);
+
+//        splitTable.setFillsViewportHeight(true);
+        return new JScrollPane(splitTable);
     }
 
     /**
@@ -270,7 +263,6 @@ public class StopwatchFrame extends JFrame {
 //        JLabel label = new JLabel(appMessages.getString("label.start-number-short"));
 //        label.setLabelFor(startNumber);
 
-//        startNumber.setEnabled(false);
         startNumber.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -290,7 +282,7 @@ public class StopwatchFrame extends JFrame {
         startNumber.setText("");
     }
 
-    private void showSplitsInList(List<ISplitRecord> refreshedSplits) {
+    private void showSplitsInList(final List<ISplitRecord> refreshedSplits) {
         DefaultListModel splitsListModel = (DefaultListModel) splitsList.getModel();
         splitsListModel.clear();
         for (ISplitRecord refreshedSplit : refreshedSplits) {
@@ -298,13 +290,13 @@ public class StopwatchFrame extends JFrame {
         }
     }
 
-    private void showSplitsInTable(List<ISplitRecord> refreshedSplits) {
+    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits) {
         String splits = "<html><body>";
         for (ISplitRecord split : refreshedSplits) {
             splits += String.format("%s. %s<br/>", split.getStartNumber(), split.getTimestamp().getSplitTimeAsString());
         }
         splits += "</body></html>";
-        splitResults.setText(splits);
+        splitTable.setText(splits);
     }
 
     private void setupFrame() {

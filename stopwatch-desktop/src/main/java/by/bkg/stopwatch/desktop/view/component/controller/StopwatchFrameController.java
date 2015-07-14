@@ -11,17 +11,17 @@ import java.util.List;
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Controller
-public class StopwatchFrameController {
+public class StopwatchFrameController {        // TODO ABA: add "implenets"
 
     @Autowired
     private ILogicService logicService;
 
 
-    public List<ISplitRecord> onSplit(String startNumber) {
+    public List<ISplitRecord> onSplit(final String startNumber) {
         return logicService.doSplit(startNumber);
     }
 
-    public List<ISplitRecord> deleteSplit(ISplitRecord splitToDelete) {
+    public List<ISplitRecord> deleteSplit(final ISplitRecord splitToDelete) {
         return logicService.deleteSplit(splitToDelete);
     }
 
