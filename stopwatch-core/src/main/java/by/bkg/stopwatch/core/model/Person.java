@@ -34,17 +34,11 @@ public class Person implements IPerson {
      */
     private Sex sex;
 
-    public Person() {
-    }
+//    private City city;
 
-    public Person(ISportsman sportsman) {
-        this.firstName = sportsman.getFirstName();
-        this.middleName = sportsman.getMiddleName();
-        this.lastName = sportsman.getLastName();
-        this.dateOfBirth = sportsman.getDateOfBirth();
-        this.sex = sportsman.getSex();
-//        this.city = city;
-//        this.country = country;
+//    private Country country;
+
+    public Person() {
     }
 
     public String getFirstName() {

@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.core.test;
 
-import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.core.model.enums.Sex;
@@ -110,19 +109,17 @@ public class SportsmanTest {
         dateOfBirthCalendar.set(Calendar.YEAR, 1988);
         dateOfBirthCalendar.set(Calendar.MONTH, 10);
         dateOfBirthCalendar.set(Calendar.DAY_OF_MONTH, 18);
-
-        ICategory category = new CategoryDictionary().getAvailableCategories().firstElement();
-
         Date dateOfBirth = dateOfBirthCalendar.getTime();
-        Sex sex = Sex.MALE;
+
         Sportsman sportsman = new Sportsman();
-        sportsman.setFirstName(F_NAME); // TODO ABA: order this shit
+        sportsman.setFirstName(F_NAME);
         sportsman.setMiddleName(M_NAME);
         sportsman.setLastName(L_NAME);
         sportsman.setDateOfBirth(dateOfBirth);
-        sportsman.setSex(sex);
-        sportsman.setCategory(category);
+        sportsman.setSex(Sex.MALE);
+        sportsman.setCategory(new CategoryDictionary().getAvailableCategories().firstElement());
         sportsman.setStartNumber(START_NUMBER);
+
         return sportsman;
     }
 }

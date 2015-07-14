@@ -1,7 +1,6 @@
 package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.ISportsman;
-import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.desktop.view.component.controller.RegisteredSportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -159,7 +158,7 @@ public class RegisteredSportsmanDialog extends JDialog {
     }
 
     public ISportsman getSelectedSportsman() {
-        return new Sportsman((ISportsman) sportsmenList.getSelectedValue());
+        return (ISportsman) sportsmenList.getSelectedValue();
     }
 
     public RegisteredSportsmanDialogController getController() {

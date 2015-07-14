@@ -19,14 +19,8 @@ public class Sportsman implements ISportsman {
         this.person = new Person();
     }
 
-    public Sportsman(ISportsman sportsman) {
-        this.person = new Person(sportsman);
-        this.category = sportsman.getCategory();
-        this.startNumber = sportsman.getStartNumber();
-    }
-
     @Override
-    public void refresh(ISportsman sportsman) {
+    public void refresh(final ISportsman sportsman) {
 //        if (sportsman.getCategory() != ISportsmanData.EMPTY) {
         setCategory(sportsman.getCategory());
 //        }
@@ -56,73 +50,84 @@ public class Sportsman implements ISportsman {
 //        }
     }
 
+    @Override
     public IPerson getPerson() {
         return person;
     }
 
     @Override
-    public void setPerson(IPerson person) {
+    public void setPerson(final IPerson person) {
         this.person = person;
     }
 
+    @Override
     public ICategory getCategory() {
         return category;
     }
 
-    public void setCategory(ICategory category) {
+    @Override
+    public void setCategory(final ICategory category) {
         this.category = category;
     }
 
+    @Override
     public String getStartNumber() {
         return startNumber;
     }
 
-    public void setStartNumber(String startNumber) {
+    @Override
+    public void setStartNumber(final String startNumber) {
         this.startNumber = startNumber;
     }
 
+    @Override
     public String getFirstName() {
         return getPerson().getFirstName();
     }
 
     @Override
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         getPerson().setFirstName(firstName);
     }
 
+    @Override
     public String getMiddleName() {
         return getPerson().getMiddleName();
     }
 
     @Override
-    public void setMiddleName(String middleName) {
+    public void setMiddleName(final String middleName) {
         getPerson().setMiddleName(middleName);
     }
 
+    @Override
     public String getLastName() {
         return getPerson().getLastName();
     }
 
     @Override
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         getPerson().setLastName(lastName);
     }
 
+    @Override
     public Sex getSex() {
         return getPerson().getSex();
     }
 
     @Override
-    public void setSex(Sex sex) {
+    public void setSex(final Sex sex) {
         getPerson().setSex(sex);
     }
 
     // TODO ABA: use class without time
+    @Override
     public Date getDateOfBirth() {
         return getPerson().getDateOfBirth();
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    @Override
+    public void setDateOfBirth(final Date dateOfBirth) {
         getPerson().setDateOfBirth(dateOfBirth);
     }
 
