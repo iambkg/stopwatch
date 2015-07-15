@@ -76,12 +76,12 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
 
     private JComponent createLogicButtonPanel() {
         JToolBar toolBar = componentFactory.createToolBar();
-        editPersonBtn = componentFactory.createBtn(appMessages.getString("btn.edit-person"), createEditBtnActionListener());
+        editPersonBtn = componentFactory.createBtn("icons/x16/Edit.png", appMessages.getString("btn.edit-person"), createEditBtnActionListener());
         editPersonBtn.setEnabled(false);
-        deletePersonBtn = componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
+        deletePersonBtn = componentFactory.createBtn("icons/x16/Symbol-Remove.png", appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
         deletePersonBtn.setEnabled(false);
 
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
+        toolBar.add(componentFactory.createBtn("icons/x16/Symbol-Add.png", appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
         toolBar.add(editPersonBtn);
         toolBar.add(deletePersonBtn);
         return toolBar;
@@ -140,7 +140,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
     private JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
 
-        btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.close"), createCloseBtnListener()));
+        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.close"), appMessages.getString("btn.close"), createCloseBtnListener()));
         return btnPanel;
     }
 

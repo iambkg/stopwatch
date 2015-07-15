@@ -9,9 +9,11 @@ public class StopWatchPanelState {
 
     private TimerStatus status;
 
-    private String startBtnText;
+    private String startBtnTooltipText;
 
     private Boolean stopBtnEnabled;
+
+    private String startBtnIcon;
 
     public TimerStatus getStatus() {
         return status;
@@ -21,12 +23,12 @@ public class StopWatchPanelState {
         this.status = status;
     }
 
-    public String getStartBtnText() {
-        return startBtnText;
+    public String getStartBtnTooltipText() {
+        return startBtnTooltipText;
     }
 
-    public void setStartBtnText(final String startBtnText) {
-        this.startBtnText = startBtnText;
+    public void setStartBtnTooltipText(final String startBtnTooltipText) {
+        this.startBtnTooltipText = startBtnTooltipText;
     }
 
     public Boolean getStopBtnEnabled() {
@@ -35,5 +37,13 @@ public class StopWatchPanelState {
 
     public void setStopBtnEnabled(final Boolean stopBtnEnabled) {
         this.stopBtnEnabled = stopBtnEnabled;
+    }
+
+    public String getStartBtnIcon() {
+        return startBtnIcon;
+    }
+
+    public void setStartBtnIcon(String startBtnIcon) {
+        this.startBtnIcon = startBtnIcon;
     }
 }

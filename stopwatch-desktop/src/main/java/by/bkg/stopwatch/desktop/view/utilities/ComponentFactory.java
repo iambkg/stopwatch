@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
@@ -23,10 +24,23 @@ public class ComponentFactory {
         return btn;
     }
 
+    public JButton createBtn(final String iconPath, final String text, final String tooltip, final ActionListener listener) {
+        JButton btn = createBtn(iconPath, tooltip, listener);
+        btn.setText(text);
+        return btn;
+    }
+
     public JButton createBtn(final String iconPath, final String tooltip, final ActionListener listener) {
-        JButton btn = new JButton(new ImageIcon(iconPath));
+        JButton btn = new JButton();
+        refreshIcon(btn, iconPath);
         btn.setToolTipText(tooltip);
         btn.addActionListener(listener);
         return btn;
+    }
+
+    public void refreshIcon(JButton btn, String iconPath) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        URL imageUrl = cl.getResource(iconPath);
+        btn.setIcon(new ImageIcon(imageUrl));
     }
 }
