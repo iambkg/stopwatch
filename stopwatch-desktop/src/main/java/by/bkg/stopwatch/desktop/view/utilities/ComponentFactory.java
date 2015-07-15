@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
@@ -24,7 +25,9 @@ public class ComponentFactory {
     }
 
     public JButton createBtn(final String iconPath, final String tooltip, final ActionListener listener) {
-        JButton btn = new JButton(new ImageIcon(iconPath));
+        ClassLoader cl = this.getClass().getClassLoader();
+        URL imageUrl = cl.getResource(iconPath);
+        JButton btn = new JButton(new ImageIcon(imageUrl));
         btn.setToolTipText(tooltip);
         btn.addActionListener(listener);
         return btn;

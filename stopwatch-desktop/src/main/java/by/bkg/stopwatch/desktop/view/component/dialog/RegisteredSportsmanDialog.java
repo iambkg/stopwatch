@@ -76,7 +76,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
 
     private JComponent createLogicButtonPanel() {
         JToolBar toolBar = componentFactory.createToolBar();
-        editPersonBtn = componentFactory.createBtn(appMessages.getString("btn.edit-person"), createEditBtnActionListener());
+        editPersonBtn = componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Edit.png", appMessages.getString("btn.edit-person"), createEditBtnActionListener());
         editPersonBtn.setEnabled(false);
         deletePersonBtn = componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
         deletePersonBtn.setEnabled(false);
