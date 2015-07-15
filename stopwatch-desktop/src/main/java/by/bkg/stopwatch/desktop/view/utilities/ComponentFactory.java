@@ -24,12 +24,23 @@ public class ComponentFactory {
         return btn;
     }
 
+    public JButton createBtn(final String iconPath, final String text, final String tooltip, final ActionListener listener) {
+        JButton btn = createBtn(iconPath, tooltip, listener);
+        btn.setText(text);
+        return btn;
+    }
+
     public JButton createBtn(final String iconPath, final String tooltip, final ActionListener listener) {
-        ClassLoader cl = this.getClass().getClassLoader();
-        URL imageUrl = cl.getResource(iconPath);
-        JButton btn = new JButton(new ImageIcon(imageUrl));
+        JButton btn = new JButton();
+        refreshIcon(btn, iconPath);
         btn.setToolTipText(tooltip);
         btn.addActionListener(listener);
         return btn;
+    }
+
+    public void refreshIcon(JButton btn, String iconPath) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        URL imageUrl = cl.getResource(iconPath);
+        btn.setIcon(new ImageIcon(imageUrl));
     }
 }

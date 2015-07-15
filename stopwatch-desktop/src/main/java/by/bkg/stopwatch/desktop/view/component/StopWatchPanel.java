@@ -58,8 +58,8 @@ public class StopWatchPanel extends JToolBar {
         }, 0, 1);
         setFloatable(false);
 
-        startBtn = componentFactory.createBtn(appMessages.getString("btn.start"), createStartBtnListener());
-        stopBtn = componentFactory.createBtn(appMessages.getString("btn.stop"), createStopBtnListener());
+        startBtn = componentFactory.createBtn("icons/x24/Timer-Start.png", appMessages.getString("btn.start"), createStartBtnListener());
+        stopBtn = componentFactory.createBtn("icons/x24/Timer-Stop.png", appMessages.getString("btn.stop"), createStopBtnListener());
         stopBtn.setEnabled(false);
 
 //        splitBtn = new JButton(appMessages.getString("btn.split"));
@@ -75,6 +75,10 @@ public class StopWatchPanel extends JToolBar {
         return this;
     }
 
+    public void reset() {
+//        onStop();     // TODO ABA: implement
+    }
+
     /**
      * Listener for "Start" button
      *
@@ -87,9 +91,10 @@ public class StopWatchPanel extends JToolBar {
                 getController().onStart(new Callback<StopWatchPanelState>() {
                     @Override
                     public void execute(StopWatchPanelState state) {
-                        startBtn.setText(state.getStartBtnText());
+                        startBtn.setToolTipText(state.getStartBtnTooltipText());
+                        componentFactory.refreshIcon(startBtn, state.getStartBtnIcon());
                         stopBtn.setEnabled(state.getStopBtnEnabled());
-                        switch(state.getStatus()) {
+                        switch (state.getStatus()) {
                             case RUNNING:
                                 onStartCallback.execute(null);
                                 break;
@@ -112,28 +117,34 @@ public class StopWatchPanel extends JToolBar {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                getController().onStop(new Callback<StopWatchPanelState>() {
-                    @Override
-                    public void execute(StopWatchPanelState state) {
-                        startBtn.setText(state.getStartBtnText());
-                        stopBtn.setEnabled(state.getStopBtnEnabled());
-                        switch (state.getStatus()) {
-                            case PAUSED:
-                                onPauseCallback.execute(null);
-                                break;
-                            case STOPPED:
-                                onStopCallback.execute(null);
-                                break;
-                        }
-                    }
-                });
+                onStop();
             }
         };
+    }
+
+    private void onStop() {
+        getController().onStop(new Callback<StopWatchPanelState>() {
+            @Override
+            public void execute(StopWatchPanelState state) {
+                startBtn.setToolTipText(state.getStartBtnTooltipText());
+                componentFactory.refreshIcon(startBtn, state.getStartBtnIcon());
+                stopBtn.setEnabled(state.getStopBtnEnabled());
+                switch (state.getStatus()) {
+                    case PAUSED:
+                        onPauseCallback.execute(null);
+                        break;
+                    case STOPPED:
+                        onStopCallback.execute(null);
+                        break;
+                }
+            }
+        });
     }
 
     private JLabel getTimeLabel() {
         if (timeLabel == null) {
             timeLabel = new JLabel();
+            timeLabel.setFont(new Font(timeLabel.getFont().getName(), Font.PLAIN, 25));
         }
         return timeLabel;
     }

@@ -38,21 +38,24 @@ public class StopWatchPanelController {    // TODO ABA: add "implenets"
         switch (getTimerStatus()) {
             case STOPPED:
                 state.setStopBtnEnabled(false);
-                state.setStartBtnText(appMessages.getString("btn.pause"));
+                state.setStartBtnTooltipText(appMessages.getString("btn.pause"));
+                state.setStartBtnIcon("icons/x24/Timer-Pause.png");
                 state.setStatus(RUNNING);
                 setTimerStatus(RUNNING);
                 logicService.startEvent();
                 break;
             case RUNNING:
                 state.setStopBtnEnabled(true);
-                state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStartBtnTooltipText(appMessages.getString("btn.start"));
+                state.setStartBtnIcon("icons/x24/Timer-Start.png");
                 state.setStatus(PAUSED);
                 setTimerStatus(PAUSED);
                 logicService.suspendEvent();
                 break;
             case PAUSED:
                 state.setStopBtnEnabled(false);
-                state.setStartBtnText(appMessages.getString("btn.pause"));
+                state.setStartBtnTooltipText(appMessages.getString("btn.pause"));
+                state.setStartBtnIcon("icons/x24/Timer-Pause.png");
                 state.setStatus(RUNNING);
                 setTimerStatus(RUNNING);
                 logicService.resumeEvent();
@@ -68,7 +71,8 @@ public class StopWatchPanelController {    // TODO ABA: add "implenets"
         switch (getTimerStatus()) {
             case PAUSED:
                 state.setStopBtnEnabled(false);
-                state.setStartBtnText(appMessages.getString("btn.start"));
+                state.setStartBtnTooltipText(appMessages.getString("btn.start"));
+                state.setStartBtnIcon("icons/x24/Timer-Start.png");
                 state.setStatus(STOPPED);
                 setTimerStatus(STOPPED);
                 logicService.stopEvent();
