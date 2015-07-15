@@ -10,7 +10,7 @@ import java.util.Vector;
  */
 public interface ISplitFilter {
 
-    Vector<Vector<ISplitRecord>> getDataVector(final List<ISplitRecord> refreshedSplits);
+    Vector<Vector<ISplitRecord>> getDataVector(final List<ISplitRecord> refreshedSplits, List<FilterCriteria> filterCriterias);
 
-    Vector<String> getColumnIdentifiers(final List<ISplitRecord> refreshedSplits);
+    Vector<String> getColumnIdentifiers(final List<ISplitRecord> refreshedSplits, List<FilterCriteria> filterCriterias);
 }
