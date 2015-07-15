@@ -45,6 +45,17 @@ public class LogicService implements ILogicService {
     }
 
     @Override
+    public ISportsman getSportsmanByStartNumber(String startNumber) {
+        for (ISportsman sportsman : getEvent().getSportsmen()) {
+            if (sportsman.getStartNumber().equals(startNumber)) {
+                return sportsman;
+            }
+        }
+        loggingService.error(String.format("Could not find sportsman (startNumber = %s)", startNumber));
+        return null;
+    }
+
+    @Override
     public List<ISportsman> addSportsman(final ISportsman sportsman) {
         getEvent().getSportsmen().add(sportsman);
         loggingService.log(getEvent().getSportsmen());

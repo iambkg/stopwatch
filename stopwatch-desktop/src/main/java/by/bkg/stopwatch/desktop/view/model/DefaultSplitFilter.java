@@ -1,7 +1,11 @@
 package by.bkg.stopwatch.desktop.view.model;
 
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.ISportsman;
+import by.bkg.stopwatch.core.service.ILogicService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,17 +19,18 @@ import java.util.Vector;
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
+@Component
 public class DefaultSplitFilter implements ISplitFilter {
 
+    @Autowired
     private AppMessages appMessages;
 
-    public DefaultSplitFilter(final AppMessages appMessages) {
-        this.appMessages = appMessages;
-    }
+    @Autowired
+    private ILogicService logicService;
 
     @Override
-    public Vector<Vector<ISplitRecord>> getDataVector(final List<ISplitRecord> refreshedSplits) {
-        Map<String, List<ISplitRecord>> orderedSplits = orderSplits(refreshedSplits);
+    public Vector<Vector<ISplitRecord>> getDataVector(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
+        Map<String, List<ISplitRecord>> orderedSplits = orderSplits(refreshedSplits, filterCriterias);
         Vector<Vector<ISplitRecord>> result = new Vector<Vector<ISplitRecord>>();
 
         for (String startNumber : orderedSplits.keySet()) {
@@ -68,9 +73,12 @@ public class DefaultSplitFilter implements ISplitFilter {
         return toSort;
     }
 
-    private Map<String, List<ISplitRecord>> orderSplits(final List<ISplitRecord> refreshedSplits) {
+    private Map<String, List<ISplitRecord>> orderSplits(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
         SortedMap<String, List<ISplitRecord>> results = new TreeMap<String, List<ISplitRecord>>();
         for (ISplitRecord split : refreshedSplits) {
+//            if (matchesCriterias(logicService.getSportsmanByStartNumber(split.getStartNumber()), filterCriterias)) {
+//                continue;
+//            }
             String startNumber = split.getStartNumber();
             List<ISplitRecord> splits = results.get(startNumber);
             if (splits == null) {
@@ -80,6 +88,14 @@ public class DefaultSplitFilter implements ISplitFilter {
             splits.add(split);
         }
         return results;
+    }
+
+    private boolean matchesCriterias(ISportsman sportsman, List<FilterCriteria> filterCriterias) {
+        boolean matches = true;
+        for (FilterCriteria filterCriteria : filterCriterias) {
+            matches = matches && filterCriteria.matches(sportsman);
+        }
+        return matches;
     }
 
     private int countLaps(final Map<String, List<ISplitRecord>> orderedSplits) {
@@ -94,8 +110,8 @@ public class DefaultSplitFilter implements ISplitFilter {
     }
 
     @Override
-    public Vector<String> getColumnIdentifiers(final List<ISplitRecord> refreshedSplits) {
-        Map<String, List<ISplitRecord>> orderedSplits = orderSplits(refreshedSplits);
+    public Vector<String> getColumnIdentifiers(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
+        Map<String, List<ISplitRecord>> orderedSplits = orderSplits(refreshedSplits, filterCriterias);
         int numberOfLaps = countLaps(orderedSplits);
         Vector<String> result = new Vector<String>();
 

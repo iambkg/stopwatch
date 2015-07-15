@@ -8,7 +8,7 @@ import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
-import by.bkg.stopwatch.desktop.view.model.DefaultSplitFilter;
+import by.bkg.stopwatch.desktop.view.model.FilterCriteria;
 import by.bkg.stopwatch.desktop.view.model.ISplitFilter;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,9 @@ public class StopwatchFrame extends JFrame {
     @Autowired
     private ComponentFactory componentFactory;
 
+    @Autowired
+    private ISplitFilter defaultFilter;
+
     private JTextField startNumber;
 
     private JButton splitBtn;
@@ -61,11 +65,8 @@ public class StopwatchFrame extends JFrame {
 
     private JList splitsList;
 
-    private DefaultSplitFilter defaultFilter;
-
     public void init() {
         createPanels();
-        defaultFilter = new DefaultSplitFilter(appMessages);
         registeredSportsmanDialog.init();
         registeredSportsmanDialog.setLocationRelativeTo(this);
 
@@ -97,13 +98,13 @@ public class StopwatchFrame extends JFrame {
             public void actionPerformed(final ActionEvent e) {
                 List<ISplitRecord> splits = controller.startNewEvent();
                 showSplitsInList(splits);
-                showSplitsInTable(splits, getSelectedFilter());
+                showSplitsInTable(splits);
             }
         };
     }
 
-    private ISplitFilter getSelectedFilter() {
-        return defaultFilter;
+    private List<FilterCriteria> getSelectedFilterCriterias() {
+        return new ArrayList<FilterCriteria>(); // TODO ABA: read from filter panel
     }
 
     private ActionListener createViewSportsmenBtnListener() {
@@ -141,7 +142,7 @@ public class StopwatchFrame extends JFrame {
             public void actionPerformed(final ActionEvent e) {
                 List<ISplitRecord> refreshedSplits = controller.deleteSplit((ISplitRecord) splitsList.getSelectedValue());
                 showSplitsInList(refreshedSplits);
-                showSplitsInTable(refreshedSplits, getSelectedFilter());
+                showSplitsInTable(refreshedSplits);
             }
         });
         deleteSplitBtn.setEnabled(false);
@@ -173,7 +174,7 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void execute(final List<ISplitRecord> refreshedSplits) {
                 showSplitsInList(refreshedSplits);
-                showSplitsInTable(refreshedSplits, getSelectedFilter());
+                showSplitsInTable(refreshedSplits);
             }
         });
     }
@@ -301,7 +302,7 @@ public class StopwatchFrame extends JFrame {
     private void onSplit() {
         List<ISplitRecord> refreshedSplits = controller.onSplit(startNumber.getText());
         showSplitsInList(refreshedSplits);
-        showSplitsInTable(refreshedSplits, getSelectedFilter());
+        showSplitsInTable(refreshedSplits);
         startNumber.setText("");
     }
 
@@ -313,11 +314,11 @@ public class StopwatchFrame extends JFrame {
         }
     }
 
-    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, ISplitFilter splitFilter) {
+    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits) {
         DefaultTableModel model = (DefaultTableModel) splitTable.getModel();
         model.setRowCount(0);
         model.setColumnCount(0);
-        model.setDataVector(splitFilter.getDataVector(refreshedSplits), splitFilter.getColumnIdentifiers(refreshedSplits));
+        model.setDataVector(defaultFilter.getDataVector(refreshedSplits, getSelectedFilterCriterias()), defaultFilter.getColumnIdentifiers(refreshedSplits, getSelectedFilterCriterias()));
     }
 
     private void setupFrame() {
