@@ -78,10 +78,10 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
         JToolBar toolBar = componentFactory.createToolBar();
         editPersonBtn = componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Edit.png", appMessages.getString("btn.edit-person"), createEditBtnActionListener());
         editPersonBtn.setEnabled(false);
-        deletePersonBtn = componentFactory.createBtn(appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
+        deletePersonBtn = componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Symbol-Remove.png", appMessages.getString("btn.delete-person"), createDeleteBtnActionListener());
         deletePersonBtn.setEnabled(false);
 
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
+        toolBar.add(componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Symbol-Add.png", appMessages.getString("btn.add-person"), createAddPersonBtnListener()));
         toolBar.add(editPersonBtn);
         toolBar.add(deletePersonBtn);
         return toolBar;

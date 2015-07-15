@@ -117,7 +117,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     @Override
     protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-        btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.ok"), createOkBtnListener()));
+        btnPanel.add(componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Symbol-Check.png", appMessages.getString("btn.ok"), createOkBtnListener()));
         btnPanel.add(componentFactory.createBtn(appMessages.getString("btn.cancel"), createCancelBtnListener()));
         return btnPanel;
     }

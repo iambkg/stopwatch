@@ -86,7 +86,7 @@ public class StopwatchFrame extends JFrame {
 
     private JToolBar createToolbar() {
         JToolBar toolBar = componentFactory.createToolBar();
-        toolBar.add(componentFactory.createBtn(appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
+        toolBar.add(componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
         toolBar.add(componentFactory.createBtn(appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         return toolBar;
     }
@@ -128,7 +128,7 @@ public class StopwatchFrame extends JFrame {
 
         JToolBar toolBar = componentFactory.createToolBar();
 
-        editSplitBtn = componentFactory.createBtn(appMessages.getString("btn.edit-split"), new ActionListener() {
+        editSplitBtn = componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Edit.png", appMessages.getString("btn.edit-split"), new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 startEditing((ISplitRecord) splitsList.getSelectedValue());
@@ -136,7 +136,7 @@ public class StopwatchFrame extends JFrame {
         });
         editSplitBtn.setEnabled(false);
 
-        deleteSplitBtn = componentFactory.createBtn(appMessages.getString("btn.delete-split"), new ActionListener() {
+        deleteSplitBtn = componentFactory.createBtn("icons/df_On_Stage_Icon_Set/PNG/Symbol-Remove.png", appMessages.getString("btn.delete-split"), new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 List<ISplitRecord> refreshedSplits = controller.deleteSplit((ISplitRecord) splitsList.getSelectedValue());
