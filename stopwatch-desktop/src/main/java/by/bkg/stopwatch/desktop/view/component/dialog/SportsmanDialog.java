@@ -235,9 +235,29 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         middleNameField.setText(toBind.getMiddleName());
         lastNameField.setText(toBind.getLastName());
         setDateOfBirthFieldValue(toBind);
-//                        ((SexModel) sexField.getModel().getSelectedItem()).getSex();
-//                        (ICategory) categoryField.getModel().getSelectedItem();
+        selectSex(toBind);
+        selectCategory(toBind);
         startNumberField.setText(toBind.getStartNumber());
+    }
+
+    private void selectSex(ISportsman toBind) {
+        for (int i = 0; i < sexField.getModel().getSize(); i++) {
+            SexModel sexModel = (SexModel) sexField.getModel().getElementAt(i);
+            if (sexModel.getSex().equals(toBind.getSex())) {
+                sexField.setSelectedItem(sexModel);
+                return;
+            }
+        }
+    }
+
+    private void selectCategory(ISportsman toBind) {
+        for (int i = 0; i < categoryField.getModel().getSize(); i++) {
+            ICategory category = (ICategory) categoryField.getModel().getElementAt(i);
+            if (category.equals(toBind.getCategory())) {
+                categoryField.setSelectedItem(category);
+                return;
+            }
+        }
     }
 
     private void setDateOfBirthFieldValue(ISportsman toBind) {
