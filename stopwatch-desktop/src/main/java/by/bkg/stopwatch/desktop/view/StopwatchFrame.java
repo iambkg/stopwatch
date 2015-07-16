@@ -366,5 +366,6 @@ public class StopwatchFrame extends JFrame {
         setPreferredSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
         setTitle(appMessages.getString("label.app-name"));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(componentFactory.getImageIcon("icons/x16/Stopwatch.png").getImage());
     }
 }
