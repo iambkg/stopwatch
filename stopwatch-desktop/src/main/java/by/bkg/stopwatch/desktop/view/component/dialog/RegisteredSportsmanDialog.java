@@ -63,6 +63,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
 
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setTitle(appMessages.getString("label.sportsmen"));
+        setModalityType(ModalityType.APPLICATION_MODAL);
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());

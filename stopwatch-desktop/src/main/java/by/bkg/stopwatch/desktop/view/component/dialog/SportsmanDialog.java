@@ -77,6 +77,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
 
         SpringLayoutUtilities.makeCompactGrid(formPanel, NUMBER_OF_ROWS, NUMBER_OF_COLS, INITIAL_X, INITIAL_Y, X_PAD, Y_PAD);
         clearInputs();
+        setModalityType(ModalityType.APPLICATION_MODAL);
 
         pack();
     }
