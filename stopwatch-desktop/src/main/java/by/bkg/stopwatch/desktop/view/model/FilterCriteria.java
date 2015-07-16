@@ -15,9 +15,9 @@ public class FilterCriteria {
     public boolean matches(ISportsman sportsman) {
         switch (filterType) {
             case BY_CATEGORY:
-                return false;
+                return sportsman.getCategory().equals(value);
             case BY_SEX:
-                return false;
+                return sportsman.getSex().equals(value);
         }
         return false;
     }
