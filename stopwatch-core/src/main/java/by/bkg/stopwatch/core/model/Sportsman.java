@@ -2,7 +2,7 @@ package by.bkg.stopwatch.core.model;
 
 import by.bkg.stopwatch.core.model.enums.Sex;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * @author Alexey Baryshnev
@@ -122,12 +122,12 @@ public class Sportsman implements ISportsman {
 
     // TODO ABA: use class without time
     @Override
-    public Date getDateOfBirth() {
+    public Calendar getDateOfBirth() {
         return getPerson().getDateOfBirth();
     }
 
     @Override
-    public void setDateOfBirth(final Date dateOfBirth) {
+    public void setDateOfBirth(final Calendar dateOfBirth) {
         getPerson().setDateOfBirth(dateOfBirth);
     }
 

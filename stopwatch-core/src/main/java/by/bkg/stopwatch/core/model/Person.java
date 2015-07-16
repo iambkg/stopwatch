@@ -2,7 +2,7 @@ package by.bkg.stopwatch.core.model;
 
 import by.bkg.stopwatch.core.model.enums.Sex;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * @author Alexey Baryshnev
@@ -27,7 +27,7 @@ public class Person implements IPerson {
     /**
      * Date of Birth
      */
-    private Date dateOfBirth;
+    private Calendar dateOfBirth;
 
     /**
      * Sex
@@ -72,12 +72,12 @@ public class Person implements IPerson {
     }
 
     @Override
-    public Date getDateOfBirth() {
+    public Calendar getDateOfBirth() {
         return dateOfBirth;
     }
 
     @Override
-    public void setDateOfBirth(final Date dateOfBirth) {
+    public void setDateOfBirth(final Calendar dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

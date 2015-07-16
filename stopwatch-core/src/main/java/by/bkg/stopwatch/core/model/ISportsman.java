@@ -2,7 +2,7 @@ package by.bkg.stopwatch.core.model;
 
 import by.bkg.stopwatch.core.model.enums.Sex;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * @author Alexey Baryshnev
@@ -37,9 +37,9 @@ public interface ISportsman {
 
     void setSex(Sex sex);
 
-    Date getDateOfBirth();
+    Calendar getDateOfBirth();
 
-    void setDateOfBirth(Date dateOfBirth);
+    void setDateOfBirth(Calendar dateOfBirth);
 
     /**
      * Overwrites data for current sportsman.

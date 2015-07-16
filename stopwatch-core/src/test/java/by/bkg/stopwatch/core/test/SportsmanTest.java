@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -49,8 +48,7 @@ public class SportsmanTest {
         assertEquals(1, sportsmen.size());
 
         ISportsman sportsmanToTest = sportsmen.get(0);
-        Calendar dateOfBirthCalendar = Calendar.getInstance();
-        dateOfBirthCalendar.setTime(sportsmanToTest.getDateOfBirth());
+        Calendar dateOfBirthCalendar = sportsmanToTest.getDateOfBirth();
 
         assertEquals(F_NAME, sportsmanToTest.getFirstName());
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
@@ -78,8 +76,7 @@ public class SportsmanTest {
         assertEquals(1, refreshedSportsmen.size());
 
         ISportsman sportsmanToTest = refreshedSportsmen.get(0);
-        Calendar dateOfBirthCalendar = Calendar.getInstance();
-        dateOfBirthCalendar.setTime(sportsmanToTest.getDateOfBirth());
+        Calendar dateOfBirthCalendar = sportsmanToTest.getDateOfBirth();
 
         assertEquals(newFirstName, sportsmanToTest.getFirstName());
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
@@ -109,13 +106,12 @@ public class SportsmanTest {
         dateOfBirthCalendar.set(Calendar.YEAR, 1988);
         dateOfBirthCalendar.set(Calendar.MONTH, 10);
         dateOfBirthCalendar.set(Calendar.DAY_OF_MONTH, 18);
-        Date dateOfBirth = dateOfBirthCalendar.getTime();
 
         Sportsman sportsman = new Sportsman();
         sportsman.setFirstName(F_NAME);
         sportsman.setMiddleName(M_NAME);
         sportsman.setLastName(L_NAME);
-        sportsman.setDateOfBirth(dateOfBirth);
+        sportsman.setDateOfBirth(dateOfBirthCalendar);
         sportsman.setSex(Sex.MALE);
         sportsman.setCategory(new CategoryDictionary().getAvailableCategories().firstElement());
         sportsman.setStartNumber(START_NUMBER);
