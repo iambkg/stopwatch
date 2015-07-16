@@ -48,6 +48,7 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord> {
     public void init() {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setTitle(appMessages.getString("label.edit-split"));
+        setModalityType(ModalityType.APPLICATION_MODAL);
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
