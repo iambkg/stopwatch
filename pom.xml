@@ -15,23 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <out.version>jar-with-dependencies</out.version>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>bin</id>
-            <properties>
-                <out.version>bin</out.version>
-            </properties>
-        </profile>
-        <profile>
-            <id>jar-only</id>
-            <properties>
-                <out.version>jar-with-dependencies</out.version>
-            </properties>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
@@ -43,30 +27,6 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>by.bkg.stopwatch.desktop.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>${out.version}</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
