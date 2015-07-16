@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.desktop.view;
 
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
@@ -10,6 +11,7 @@ import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.FilterCriteria;
 import by.bkg.stopwatch.desktop.view.model.ISplitFilter;
+import by.bkg.stopwatch.desktop.view.model.enums.FilterType;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -105,7 +107,23 @@ public class StopwatchFrame extends JFrame {
     }
 
     private List<FilterCriteria> getSelectedFilterCriterias() {
-        return new ArrayList<FilterCriteria>(); // TODO ABA: read from filter panel
+        // TODO ABA: read from filter panel
+
+        FilterCriteria bySexCriteria = new FilterCriteria();
+        bySexCriteria.setFilterType(FilterType.BY_SEX);
+        bySexCriteria.setValue(Sex.MALE);
+
+        List<FilterCriteria> list = new ArrayList<FilterCriteria>();
+
+//        list.add(bySexCriteria);
+
+        FilterCriteria byCategoryCriteria = new FilterCriteria();
+        byCategoryCriteria.setFilterType(FilterType.BY_CATEGORY);
+        byCategoryCriteria.setValue("Men Masters+");
+
+//        list.add(byCategoryCriteria);
+
+        return list;
     }
 
     private ActionListener createViewSportsmenBtnListener() {
