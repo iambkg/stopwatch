@@ -1,17 +1,17 @@
 package by.bkg.stopwatch.desktop.view;
 
+import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.enums.FilterType;
 import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.model.AppConstants;
+import by.bkg.stopwatch.desktop.model.SplitTableData;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
-import by.bkg.stopwatch.desktop.view.model.FilterCriteria;
-import by.bkg.stopwatch.desktop.view.model.ISplitFilter;
-import by.bkg.stopwatch.desktop.view.model.enums.FilterType;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,9 +51,6 @@ public class StopwatchFrame extends JFrame {
 
     @Autowired
     private ComponentFactory componentFactory;
-
-    @Autowired
-    private ISplitFilter defaultFilter;
 
     private JTextField startNumber;
 
@@ -259,18 +256,17 @@ public class StopwatchFrame extends JFrame {
         splitTable.setDragEnabled(false);
         splitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         splitTable.getTableHeader().setReorderingAllowed(false);
+
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
         };
-        splitTable.setModel(model);
         String[] colNames = {String.format("%s %d", appMessages.getString("label.lap"), 1)}; // TODO ABA: add start number as column
         model.setColumnIdentifiers(colNames);
+        splitTable.setModel(model);
 
-//        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(splitTable.getModel());
-//        splitTable.setRowSorter(sorter);
         return new JScrollPane(splitTable);
     }
 
@@ -337,7 +333,8 @@ public class StopwatchFrame extends JFrame {
         DefaultTableModel model = (DefaultTableModel) splitTable.getModel();
         model.setRowCount(0);
         model.setColumnCount(0);
-        model.setDataVector(defaultFilter.getDataVector(refreshedSplits, getSelectedFilterCriterias()), defaultFilter.getColumnIdentifiers(refreshedSplits, getSelectedFilterCriterias()));
+        SplitTableData data = controller.getSplitTableData(refreshedSplits, getSelectedFilterCriterias());
+        model.setDataVector(data.getDataVector(), data.getColumnIdentifiers());
     }
 
     private void setupFrame() {

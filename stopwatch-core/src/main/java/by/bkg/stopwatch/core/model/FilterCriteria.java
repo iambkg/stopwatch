@@ -1,7 +1,6 @@
-package by.bkg.stopwatch.desktop.view.model;
+package by.bkg.stopwatch.core.model;
 
-import by.bkg.stopwatch.core.model.ISportsman;
-import by.bkg.stopwatch.desktop.view.model.enums.FilterType;
+import by.bkg.stopwatch.core.model.enums.FilterType;
 
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
