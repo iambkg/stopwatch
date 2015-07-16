@@ -4,17 +4,16 @@ import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.desktop.model.AppConstants;
-import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
-import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
 import by.bkg.stopwatch.desktop.view.component.controller.SportsmanDialogController;
+import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.SexModel;
 import by.bkg.stopwatch.desktop.view.model.factory.DataFactory;
-import net.sourceforge.jdatepicker.JDatePicker;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
+import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
+import org.jdatepicker.DateModel;
+import org.jdatepicker.JDateComponentFactory;
+import org.jdatepicker.impl.JDatePickerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     private Mode mode;
 
     private static final int MIN_WIDTH = 400;
-    private static final int MIN_HEIGHT = 220;
+    private static final int MIN_HEIGHT = 280;
 
     private static final Integer NUMBER_OF_ROWS = 7;
     private static final int NUMBER_OF_COLS = 2;
@@ -50,7 +51,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     private JTextField firstNameField;
     private JTextField middleNameField;
     private JTextField startNumberField;
-    private JDatePicker dateOfBirthField;
+    private JDatePickerImpl dateOfBirthField;
 
     @Autowired
     private AppMessages appMessages;
@@ -75,6 +76,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         add(createButtonPanel(), BorderLayout.SOUTH);
 
         SpringLayoutUtilities.makeCompactGrid(formPanel, NUMBER_OF_ROWS, NUMBER_OF_COLS, INITIAL_X, INITIAL_Y, X_PAD, Y_PAD);
+        clearInputs();
 
         pack();
     }
@@ -101,16 +103,38 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         formPanel.add(createSexField());
 
         formPanel.add(new JLabel(appMessages.getString("label.date-of-birth")));
-//        formPanel.add(createDateOfBirthField());
-        formPanel.add(new JLabel("field will be here"));
+        formPanel.add(createDateOfBirthField());
 
         formPanel.add(new JLabel(appMessages.getString("label.start-number-long")));
         formPanel.add(createStartNumberField());
         return formPanel;
     }
 
-    private JDatePicker createDateOfBirthField() {
-        dateOfBirthField = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel()));
+    private JDatePickerImpl createDateOfBirthField() {
+        JFormattedTextField.AbstractFormatter formatter = new JFormattedTextField.AbstractFormatter() {
+            private SimpleDateFormat dateFormatter = new SimpleDateFormat(appMessages.getString("inner.date-format"));
+
+            @Override
+            public Object stringToValue(String text) throws ParseException {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dateFormatter.parse(text));
+                return cal;
+            }
+
+            @Override
+            public String valueToString(Object value) throws ParseException {
+                if (value != null) {
+                    Calendar cal = (Calendar) value;
+                    return dateFormatter.format(cal.getTime());
+                }
+
+                return "";
+            }
+        };
+
+        JDateComponentFactory dateComponentFactory = new JDateComponentFactory(null, formatter, null);
+        dateOfBirthField = (JDatePickerImpl) dateComponentFactory.createJDatePicker();
+        dateOfBirthField.setShowYearButtons(true);
         return dateOfBirthField;
     }
 
@@ -198,6 +222,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     protected void clearInputs() {
         categoryField.setSelectedIndex(0);
         sexField.setSelectedIndex(0);
+        dateOfBirthField.getModel().setDate(1990, 0, 1);
         lastNameField.setText(AppConstants.EMPTY_STRING);
         firstNameField.setText(AppConstants.EMPTY_STRING);
         middleNameField.setText(AppConstants.EMPTY_STRING);
@@ -209,10 +234,15 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         firstNameField.setText(toBind.getFirstName());
         middleNameField.setText(toBind.getMiddleName());
         lastNameField.setText(toBind.getLastName());
-//                        new Date(), // TODO ABA: get from dialog
+        setDateOfBirthFieldValue(toBind);
 //                        ((SexModel) sexField.getModel().getSelectedItem()).getSex();
 //                        (ICategory) categoryField.getModel().getSelectedItem();
         startNumberField.setText(toBind.getStartNumber());
+    }
+
+    private void setDateOfBirthFieldValue(ISportsman toBind) {
+        Calendar dateOfBirth = toBind.getDateOfBirth();
+        dateOfBirthField.getModel().setDate(dateOfBirth.get(Calendar.YEAR), dateOfBirth.get(Calendar.MONTH), dateOfBirth.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
@@ -221,12 +251,28 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
         sportsman.setFirstName(firstNameField.getText());
         sportsman.setMiddleName(middleNameField.getText());
         sportsman.setLastName(lastNameField.getText());
-        sportsman.setDateOfBirth(new Date()); // TODO ABA: get from dialog
+        sportsman.setDateOfBirth(getDateOfBirthFromField());
         sportsman.setSex(((SexModel) sexField.getModel().getSelectedItem()).getSex());
         sportsman.setCategory((ICategory) categoryField.getModel().getSelectedItem());
         sportsman.setStartNumber(startNumberField.getText());
         clearInputs();
         return sportsman;
+    }
+
+    private Calendar getDateOfBirthFromField() {
+        DateModel<?> model = dateOfBirthField.getModel();
+
+        Calendar dateOfBirth = Calendar.getInstance();
+        dateOfBirth.set(Calendar.YEAR, model.getYear());
+        dateOfBirth.set(Calendar.MONTH, model.getMonth());
+        dateOfBirth.set(Calendar.DAY_OF_MONTH, model.getDay());
+
+        dateOfBirth.set(Calendar.HOUR_OF_DAY, 0);
+        dateOfBirth.set(Calendar.MINUTE, 0);
+        dateOfBirth.set(Calendar.SECOND, 0);
+        dateOfBirth.set(Calendar.MILLISECOND, 0);
+
+        return dateOfBirth;
     }
 
     public Mode getMode() {

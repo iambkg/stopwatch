@@ -2,7 +2,7 @@ package by.bkg.stopwatch.core.model;
 
 import by.bkg.stopwatch.core.model.enums.Sex;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * @author Alexey Baryshnev
@@ -15,7 +15,7 @@ public interface IPerson {
 
     String getLastName();
 
-    Date getDateOfBirth();
+    Calendar getDateOfBirth();
 
     Sex getSex();
 
@@ -25,7 +25,7 @@ public interface IPerson {
 
     void setLastName(String lastName);
 
-    void setDateOfBirth(Date dateOfBirth);
+    void setDateOfBirth(Calendar dateOfBirth);
 
     void setSex(Sex sex);
 }
