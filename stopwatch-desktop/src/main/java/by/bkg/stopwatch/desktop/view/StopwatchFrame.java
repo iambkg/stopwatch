@@ -9,6 +9,7 @@ import by.bkg.stopwatch.desktop.model.SplitTableData;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
+import by.bkg.stopwatch.desktop.view.component.dialog.FilterDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -44,6 +45,9 @@ public class StopwatchFrame extends JFrame {
     private RegisteredSportsmanDialog registeredSportsmanDialog;
 
     @Autowired
+    private FilterDialog filterDialog;
+
+    @Autowired
     private EditSplitDialog editSplitDialog;
 
     @Autowired
@@ -72,6 +76,9 @@ public class StopwatchFrame extends JFrame {
         editSplitDialog.init();
         editSplitDialog.setLocationRelativeTo(this);
 
+        filterDialog.init();
+        filterDialog.setLocationRelativeTo(this);
+
         setupFrame();
         pack();
         setVisible(true);
@@ -88,6 +95,7 @@ public class StopwatchFrame extends JFrame {
         JToolBar toolBar = componentFactory.createToolBar();
         toolBar.add(componentFactory.createBtn("icons/x24/DocumentPlain.png", appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
+        toolBar.add(componentFactory.createBtn("icons/x24/Filter.png", appMessages.getString("btn.open-filter"), createOpenFilterBtnListener()));
         return toolBar;
     }
 
@@ -128,6 +136,20 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 registeredSportsmanDialog.open();
+            }
+        };
+    }
+
+    private ActionListener createOpenFilterBtnListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterDialog.open(new Callback<List<FilterCriteria>>() {
+                    @Override
+                    public void execute(List<FilterCriteria> param) {
+                        // TODO ABA: implement
+                    }
+                });
             }
         };
     }

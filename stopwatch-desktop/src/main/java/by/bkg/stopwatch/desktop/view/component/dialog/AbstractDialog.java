@@ -25,11 +25,14 @@ public abstract class AbstractDialog<T> extends JDialog {
 
     protected abstract void clearInputs();
 
-    public abstract void bind(final T splitToEdit);
+    public abstract void bind(final T model);
 
     public abstract T unbind();
 
-    public abstract void open(final T splitToEdit, Callback<List<T>> callback);
+    public void open(final T model, Callback<List<T>> callback) {
+        bind(model);
+        open(callback);
+    }
 
     public void open(final Callback<List<T>> callback) {
         setOperationPerformedCallback(callback);
