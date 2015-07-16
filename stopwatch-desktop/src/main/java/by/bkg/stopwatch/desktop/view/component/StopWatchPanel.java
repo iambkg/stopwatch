@@ -92,7 +92,7 @@ public class StopWatchPanel extends JToolBar {
                     @Override
                     public void execute(StopWatchPanelState state) {
                         startBtn.setToolTipText(state.getStartBtnTooltipText());
-                        componentFactory.refreshIcon(startBtn, state.getStartBtnIcon());
+                        startBtn.setIcon(componentFactory.getImageIcon(state.getStartBtnIcon()));
                         stopBtn.setEnabled(state.getStopBtnEnabled());
                         switch (state.getStatus()) {
                             case RUNNING:
@@ -127,7 +127,7 @@ public class StopWatchPanel extends JToolBar {
             @Override
             public void execute(StopWatchPanelState state) {
                 startBtn.setToolTipText(state.getStartBtnTooltipText());
-                componentFactory.refreshIcon(startBtn, state.getStartBtnIcon());
+                startBtn.setIcon(componentFactory.getImageIcon(state.getStartBtnIcon()));
                 stopBtn.setEnabled(state.getStopBtnEnabled());
                 switch (state.getStatus()) {
                     case PAUSED:

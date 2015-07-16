@@ -32,15 +32,15 @@ public class ComponentFactory {
 
     public JButton createBtn(final String iconPath, final String tooltip, final ActionListener listener) {
         JButton btn = new JButton();
-        refreshIcon(btn, iconPath);
+        btn.setIcon(getImageIcon(iconPath));
         btn.setToolTipText(tooltip);
         btn.addActionListener(listener);
         return btn;
     }
 
-    public void refreshIcon(JButton btn, String iconPath) {
+    public ImageIcon getImageIcon(String iconPath) {
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource(iconPath);
-        btn.setIcon(new ImageIcon(imageUrl));
+        return new ImageIcon(imageUrl);
     }
 }

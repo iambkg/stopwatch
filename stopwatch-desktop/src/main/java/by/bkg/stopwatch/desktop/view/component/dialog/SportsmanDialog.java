@@ -66,6 +66,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman> {
     public void init() {
         setMode(Mode.ADD);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+        setIconImage(componentFactory.getImageIcon("icons/x16/Buddy.png").getImage());
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
