@@ -76,9 +76,10 @@ public class DefaultSplitFilter implements ISplitFilter {
     private Map<String, List<ISplitRecord>> orderSplits(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
         SortedMap<String, List<ISplitRecord>> results = new TreeMap<String, List<ISplitRecord>>();
         for (ISplitRecord split : refreshedSplits) {
-//            if (matchesCriterias(logicService.getSportsmanByStartNumber(split.getStartNumber()), filterCriterias)) {
-//                continue;
-//            }
+            if (!matchesCriterias(logicService.getSportsmanByStartNumber(split.getStartNumber()), filterCriterias)) {
+                // specified split does not match selected filter criterias, do not add it into results
+                continue;
+            }
             String startNumber = split.getStartNumber();
             List<ISplitRecord> splits = results.get(startNumber);
             if (splits == null) {
