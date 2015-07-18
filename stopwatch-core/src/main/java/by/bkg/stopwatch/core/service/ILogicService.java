@@ -46,4 +46,6 @@ public interface ILogicService {
     List<ISplitRecord> startNewEvent();
 
     List<ISportsman> getSportsmen();
+
+    ISportsman getSportsmanByStartNumber(String startNumber);
 }

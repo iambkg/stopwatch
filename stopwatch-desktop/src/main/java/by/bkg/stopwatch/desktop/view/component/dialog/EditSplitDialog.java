@@ -21,7 +21,7 @@ import java.util.List;
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Component
-public class EditSplitDialog extends AbstractDialog<ISplitRecord> {
+public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRecord>> {
 
     @Autowired
     private ComponentFactory componentFactory;

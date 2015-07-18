@@ -1,15 +1,18 @@
 package by.bkg.stopwatch.desktop.view;
 
+import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.enums.FilterType;
+import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.model.AppConstants;
+import by.bkg.stopwatch.desktop.model.SplitTableData;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
+import by.bkg.stopwatch.desktop.view.component.dialog.FilterDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
-import by.bkg.stopwatch.desktop.view.model.DefaultSplitFilter;
-import by.bkg.stopwatch.desktop.view.model.ISplitFilter;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +43,9 @@ public class StopwatchFrame extends JFrame {
 
     @Autowired
     private RegisteredSportsmanDialog registeredSportsmanDialog;
+
+    @Autowired
+    private FilterDialog filterDialog;
 
     @Autowired
     private EditSplitDialog editSplitDialog;
@@ -61,16 +68,16 @@ public class StopwatchFrame extends JFrame {
 
     private JList splitsList;
 
-    private DefaultSplitFilter defaultFilter;
-
     public void init() {
         createPanels();
-        defaultFilter = new DefaultSplitFilter(appMessages);
         registeredSportsmanDialog.init();
         registeredSportsmanDialog.setLocationRelativeTo(this);
 
         editSplitDialog.init();
         editSplitDialog.setLocationRelativeTo(this);
+
+        filterDialog.init();
+        filterDialog.setLocationRelativeTo(this);
 
         setupFrame();
         pack();
@@ -88,6 +95,7 @@ public class StopwatchFrame extends JFrame {
         JToolBar toolBar = componentFactory.createToolBar();
         toolBar.add(componentFactory.createBtn("icons/x24/DocumentPlain.png", appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
+        toolBar.add(componentFactory.createBtn("icons/x24/Filter.png", appMessages.getString("btn.open-filter"), createOpenFilterBtnListener()));
         return toolBar;
     }
 
@@ -98,13 +106,9 @@ public class StopwatchFrame extends JFrame {
                 List<ISplitRecord> splits = controller.startNewEvent();
                 stopWatchPanel.reset();
                 showSplitsInList(splits);
-                showSplitsInTable(splits, getSelectedFilter());
+                showSplitsInTable(splits, filterDialog.unbind());
             }
         };
-    }
-
-    private ISplitFilter getSelectedFilter() {
-        return defaultFilter;
     }
 
     private ActionListener createViewSportsmenBtnListener() {
@@ -112,6 +116,20 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 registeredSportsmanDialog.open();
+            }
+        };
+    }
+
+    private ActionListener createOpenFilterBtnListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterDialog.open(new Callback<List<FilterCriteria>>() {
+                    @Override
+                    public void execute(List<FilterCriteria> filter) {
+                        showSplitsInTable(controller.getCurrentSplits(), filter);
+                    }
+                });
             }
         };
     }
@@ -142,7 +160,7 @@ public class StopwatchFrame extends JFrame {
             public void actionPerformed(final ActionEvent e) {
                 List<ISplitRecord> refreshedSplits = controller.deleteSplit((ISplitRecord) splitsList.getSelectedValue());
                 showSplitsInList(refreshedSplits);
-                showSplitsInTable(refreshedSplits, getSelectedFilter());
+                showSplitsInTable(refreshedSplits, filterDialog.unbind());
             }
         });
         deleteSplitBtn.setEnabled(false);
@@ -174,7 +192,7 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void execute(final List<ISplitRecord> refreshedSplits) {
                 showSplitsInList(refreshedSplits);
-                showSplitsInTable(refreshedSplits, getSelectedFilter());
+                showSplitsInTable(refreshedSplits, filterDialog.unbind());
             }
         });
     }
@@ -192,7 +210,7 @@ public class StopwatchFrame extends JFrame {
     private Callback<Void> createOnStartCallback() {
         return new Callback<Void>() {
             @Override
-            public void execute(final Void param) {
+            public void execute(final Void noResult) {
                 splitBtn.setEnabled(true);
                 startNumber.setEnabled(true);
             }
@@ -202,7 +220,7 @@ public class StopwatchFrame extends JFrame {
     private Callback<Void> createOnPauseCallback() {
         return new Callback<Void>() {
             @Override
-            public void execute(final Void param) {
+            public void execute(final Void noResult) {
                 splitBtn.setEnabled(false);
                 startNumber.setEnabled(false);
             }
@@ -212,7 +230,7 @@ public class StopwatchFrame extends JFrame {
     private Callback<Void> createOnStopCallback() {
         return new Callback<Void>() {
             @Override
-            public void execute(final Void param) {
+            public void execute(final Void noResult) {
                 splitBtn.setEnabled(false);
                 startNumber.setEnabled(false);
             }
@@ -229,30 +247,35 @@ public class StopwatchFrame extends JFrame {
         panel.setLayout(new BorderLayout());
 
         panel.add(createSplitFormPanel(), BorderLayout.NORTH);
-        panel.add(createSplitTable(), BorderLayout.CENTER);
+        panel.add(createSplitTables(), BorderLayout.CENTER);
         return panel;
     }
 
-    private JComponent createSplitTable() {
-        splitTable = new JTable();
+    private JScrollPane createSplitTables() {
+        // TODO ABA: add tabbed panel here?
+        splitTable = createSplitTable();
+        return new JScrollPane(splitTable);
+    }
+
+    private JTable createSplitTable() {
+        JTable splitTable = new JTable();
         splitTable.setFillsViewportHeight(true);
         splitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         splitTable.setDragEnabled(false);
         splitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         splitTable.getTableHeader().setReorderingAllowed(false);
+
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
         };
-        splitTable.setModel(model);
         String[] colNames = {String.format("%s %d", appMessages.getString("label.lap"), 1)}; // TODO ABA: add start number as column
         model.setColumnIdentifiers(colNames);
+        splitTable.setModel(model);
 
-//        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(splitTable.getModel());
-//        splitTable.setRowSorter(sorter);
-        return new JScrollPane(splitTable);
+        return splitTable;
     }
 
     /**
@@ -302,7 +325,7 @@ public class StopwatchFrame extends JFrame {
     private void onSplit() {
         List<ISplitRecord> refreshedSplits = controller.onSplit(startNumber.getText());
         showSplitsInList(refreshedSplits);
-        showSplitsInTable(refreshedSplits, getSelectedFilter());
+        showSplitsInTable(refreshedSplits, filterDialog.unbind());
         startNumber.setText("");
     }
 
@@ -314,11 +337,12 @@ public class StopwatchFrame extends JFrame {
         }
     }
 
-    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, ISplitFilter splitFilter) {
+    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, List<FilterCriteria> filterCriterias) {
         DefaultTableModel model = (DefaultTableModel) splitTable.getModel();
         model.setRowCount(0);
         model.setColumnCount(0);
-        model.setDataVector(splitFilter.getDataVector(refreshedSplits), splitFilter.getColumnIdentifiers(refreshedSplits));
+        SplitTableData data = controller.getSplitTableData(refreshedSplits, filterCriterias);
+        model.setDataVector(data.getDataVector(), data.getColumnIdentifiers());
     }
 
     private void setupFrame() {
