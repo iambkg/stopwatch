@@ -32,7 +32,7 @@ import java.util.List;
  * @author Alexey Baryshnev
  */
 @Component
-public class SportsmanDialog extends AbstractDialog<ISportsman> {
+public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>> {
 
     @Autowired
     private ComponentFactory componentFactory;

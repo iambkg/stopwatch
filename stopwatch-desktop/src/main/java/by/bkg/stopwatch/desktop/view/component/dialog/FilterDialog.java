@@ -1,7 +1,11 @@
 package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.FilterCriteria;
+import by.bkg.stopwatch.core.model.ICategory;
+import by.bkg.stopwatch.core.model.enums.FilterType;
+import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
+import by.bkg.stopwatch.desktop.view.model.SexModel;
 import by.bkg.stopwatch.desktop.view.model.factory.DataFactory;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
@@ -14,12 +18,14 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author Alexey Baryshnev
  */
 @Component
-public class FilterDialog extends AbstractDialog<FilterCriteria> {
+public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<FilterCriteria>> {
 
     @Autowired
     private ComponentFactory componentFactory;
@@ -141,6 +147,7 @@ public class FilterDialog extends AbstractDialog<FilterCriteria> {
     }
 
     private void onOkClick() {
+        operationPerformedCallback.execute(unbind());
         close();
     }
 
@@ -157,36 +164,66 @@ public class FilterDialog extends AbstractDialog<FilterCriteria> {
     }
 
     @Override
-    public void bind(FilterCriteria criteria) {
-//        selectSex(toBind);
-//        selectCategory(toBind);
+    public void bind(List<FilterCriteria> criterias) {
+        for (FilterCriteria criteria : criterias) {
+            switch (criteria.getFilterType()) {
+                case BY_SEX:
+                    selectSex((Sex) criteria.getValue());
+                    break;
+                case BY_CATEGORY:
+                    selectCategory((ICategory) criteria.getValue());
+                    break;
+
+            }
+        }
     }
 
-//    private void selectSex(ISportsman toBind) {
-//            for (int i = 0; i < sexField.getModel().getSize(); i++) {
-//                SexModel sexModel = (SexModel) sexField.getModel().getElementAt(i);
-//                if (sexModel.getSex().equals(toBind.getSex())) {
-//                    sexField.setSelectedItem(sexModel);
-//                    return;
-//                }
-//            }
-//        }
-//
-//        private void selectCategory(ISportsman toBind) {
-//            for (int i = 0; i < categoryField.getModel().getSize(); i++) {
-//                ICategory category = (ICategory) categoryField.getModel().getElementAt(i);
-//                if (category.equals(toBind.getCategory())) {
-//                    categoryField.setSelectedItem(category);
-//                    return;
-//                }
-//            }
-//        }
+    private void selectSex(Sex sex) {
+        for (int i = 0; i < sexField.getModel().getSize(); i++) {
+            SexModel sexModel = (SexModel) sexField.getModel().getElementAt(i);
+            if (sexModel.getSex().equals(sex)) {
+                sexField.setSelectedItem(sexModel);
+                return;
+            }
+        }
+    }
+
+    private void selectCategory(ICategory xCategory) {
+        for (int i = 0; i < categoryField.getModel().getSize(); i++) {
+            ICategory category = (ICategory) categoryField.getModel().getElementAt(i);
+            if (category.getName().equals(xCategory.getName())) {
+                categoryField.setSelectedItem(category);
+                return;
+            }
+        }
+    }
 
     @Override
-    public FilterCriteria unbind() {
-//        sportsman.setSex(((SexModel) sexField.getModel().getSelectedItem()).getSex());
-//                sportsman.setCategory((ICategory) categoryField.getModel().getSelectedItem());
-        clearInputs();
-        return null;
+    public List<FilterCriteria> unbind() {
+        List<FilterCriteria> result = new ArrayList<FilterCriteria>();
+
+        if (sexCheckbox.isSelected()) {
+            FilterCriteria sexCriteria = new FilterCriteria();
+            sexCriteria.setFilterType(FilterType.BY_SEX);
+            sexCriteria.setValue(((SexModel) sexField.getModel().getSelectedItem()).getSex());
+            result.add(sexCriteria);
+        }
+
+        if (categoryCheckbox.isSelected()) {
+            FilterCriteria categoryCriteria = new FilterCriteria();
+            categoryCriteria.setFilterType(FilterType.BY_CATEGORY);
+            categoryCriteria.setValue(((ICategory) categoryField.getModel().getSelectedItem()).getName());
+            result.add(categoryCriteria);
+        }
+
+        return result;
     }
+
+    @Override
+    public void close() {
+        setOperationPerformedCallback(null);
+        setVisible(false);
+    }
+
+
 }

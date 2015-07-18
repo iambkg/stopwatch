@@ -14,7 +14,7 @@ import java.util.List;
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Controller
-public class StopwatchFrameController {        // TODO ABA: add "implenets"
+public class StopwatchFrameController {        // TODO ABA: add "implements"
 
     @Autowired
     private ILogicService logicService;
@@ -40,5 +40,9 @@ public class StopwatchFrameController {        // TODO ABA: add "implenets"
         data.setDataVector(defaultFilter.getDataVector(splits, criterias));
         data.setColumnIdentifiers(defaultFilter.getColumnIdentifiers(splits, criterias));
         return data;
+    }
+
+    public List<ISplitRecord> getCurrentSplits() {
+        return logicService.getEvent().getSplits();
     }
 }
