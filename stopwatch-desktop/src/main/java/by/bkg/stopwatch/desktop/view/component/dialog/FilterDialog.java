@@ -45,7 +45,7 @@ public class FilterDialog extends AbstractDialog<FilterCriteria> {
     public void init() {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setTitle(appMessages.getString("label.filters"));
-        // TODO ABA: set icon
+        setIconImage(componentFactory.getImageIcon("icons/x16/Filter.png").getImage());
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
