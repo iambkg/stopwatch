@@ -267,12 +267,18 @@ public class StopwatchFrame extends JFrame {
         panel.setLayout(new BorderLayout());
 
         panel.add(createSplitFormPanel(), BorderLayout.NORTH);
-        panel.add(createSplitTable(), BorderLayout.CENTER);
+        panel.add(createSplitTables(), BorderLayout.CENTER);
         return panel;
     }
 
-    private JComponent createSplitTable() {
-        splitTable = new JTable();
+    private JScrollPane createSplitTables() {
+        // TODO ABA: add tabbed panel here.
+        splitTable = createSplitTable();
+        return new JScrollPane(splitTable);
+    }
+
+    private JTable createSplitTable() {
+        JTable splitTable = new JTable();
         splitTable.setFillsViewportHeight(true);
         splitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         splitTable.setDragEnabled(false);
@@ -289,7 +295,7 @@ public class StopwatchFrame extends JFrame {
         model.setColumnIdentifiers(colNames);
         splitTable.setModel(model);
 
-        return new JScrollPane(splitTable);
+        return splitTable;
     }
 
     /**

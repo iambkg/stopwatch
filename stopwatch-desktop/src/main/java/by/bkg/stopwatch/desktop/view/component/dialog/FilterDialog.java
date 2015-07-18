@@ -2,7 +2,6 @@ package by.bkg.stopwatch.desktop.view.component.dialog;
 
 import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
-import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.factory.DataFactory;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
@@ -15,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 /**
  * @author Alexey Baryshnev
