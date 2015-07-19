@@ -123,7 +123,7 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
     @Override
     protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener()));
+        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.done"), appMessages.getString("btn.done"), createOkBtnListener()));
         btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Delete.png", appMessages.getString("btn.clear"), appMessages.getString("btn.clear"), createClearBtnListener()));
         return btnPanel;
     }

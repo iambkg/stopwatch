@@ -15,9 +15,9 @@ public class LoggingService implements ILoggingService {
     private Logger log = Logger.getLogger("stopwatch");
 
     @Override
-    public void log(final List<ISportsman> sportsmen) {
+    public void debug(final List<ISportsman> sportsmen) {
         for (ISportsman sportsman : sportsmen) {
-            log.info(sportsman);
+            log.debug(sportsman);
         }
     }
 

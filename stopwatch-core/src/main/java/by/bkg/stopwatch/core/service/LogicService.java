@@ -4,6 +4,7 @@ import by.bkg.stopwatch.core.model.Event;
 import by.bkg.stopwatch.core.model.IEvent;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.ISportsman;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,9 +57,18 @@ public class LogicService implements ILogicService {
     }
 
     @Override
+    public boolean isStartNumberRegistered(final String startNumber) {
+        return getSportsmanByStartNumber(startNumber) != null;
+    }
+
+    @Override
     public List<ISportsman> addSportsman(final ISportsman sportsman) {
-        getEvent().getSportsmen().add(sportsman);
-        loggingService.log(getEvent().getSportsmen());
+        if (!StringUtils.isEmpty(sportsman.getStartNumber())) {
+            getEvent().getSportsmen().add(sportsman);
+            loggingService.debug(getEvent().getSportsmen());
+        } else {
+            loggingService.error("Sportsman start number not provided. Ignoring specified sportsman");
+        }
         return getEvent().getSportsmen();
     }
 

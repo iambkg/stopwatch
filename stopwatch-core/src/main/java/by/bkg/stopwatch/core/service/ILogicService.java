@@ -48,4 +48,6 @@ public interface ILogicService {
     List<ISportsman> getSportsmen();
 
     ISportsman getSportsmanByStartNumber(String startNumber);
+
+    boolean isStartNumberRegistered(String startNumber);
 }

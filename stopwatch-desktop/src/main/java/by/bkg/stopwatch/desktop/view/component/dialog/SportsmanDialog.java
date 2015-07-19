@@ -4,6 +4,10 @@ import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.desktop.model.AppConstants;
+import by.bkg.stopwatch.desktop.model.IDocumentListenerAction;
+import by.bkg.stopwatch.desktop.model.validation.ValidationChain;
+import by.bkg.stopwatch.desktop.model.validation.ValidationEntity;
+import by.bkg.stopwatch.desktop.model.validation.ValidationResult;
 import by.bkg.stopwatch.desktop.view.component.controller.SportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -17,9 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +56,10 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     private JTextField firstNameField;
     private JTextField middleNameField;
     private JTextField startNumberField;
+    private JLabel startNumberErrorMsg;
     private JDatePickerImpl dateOfBirthField;
+
+    private JButton okBtn;
 
     @Autowired
     private AppMessages appMessages;
@@ -65,6 +75,42 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         setMode(Mode.ADD);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setIconImage(componentFactory.getImageIcon("icons/x16/Buddy.png").getImage());
+        addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                // do nothing
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // do nothing
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // do nothing
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                // do nothing
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                // do nothing
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                startNumberField.requestFocus();
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                // do nothing
+            }
+        });
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
@@ -87,6 +133,9 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         SpringLayout layout = new SpringLayout();
         formPanel.setLayout(layout);
 
+        formPanel.add(new JLabel(appMessages.getString("label.start-number-long")));
+        formPanel.add(createStartNumberField());
+
         formPanel.add(new JLabel(appMessages.getString("label.category")));
         formPanel.add(createCategoryField());
 
@@ -102,8 +151,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         formPanel.add(new JLabel(appMessages.getString("label.date-of-birth")));
         formPanel.add(createDateOfBirthField());
 
-        formPanel.add(new JLabel(appMessages.getString("label.start-number-long")));
-        formPanel.add(createStartNumberField());
         return formPanel;
     }
 
@@ -138,7 +185,8 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     @Override
     protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener()));
+        okBtn = componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener());
+        btnPanel.add(okBtn);
         btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Delete.png", appMessages.getString("btn.cancel"), appMessages.getString("btn.cancel"), createCancelBtnListener()));
         return btnPanel;
     }
@@ -147,7 +195,16 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onOkClick();
+                switch (mode) {
+                    case ADD:
+                        operationPerformedCallback.execute(controller.addSportsman(unbind()));
+                        close();
+                        break;
+                    case EDIT:
+                        operationPerformedCallback.execute(controller.editSportsman(unbind()));
+                        close();
+                        break;
+                }
             }
         };
     }
@@ -156,28 +213,9 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onCancelClick();
+                close();
             }
         };
-    }
-
-    private void onOkClick() {
-        List<ISportsman> sportsmen;
-        switch (mode) {
-            case ADD:
-                sportsmen = controller.addSportsman(unbind());
-                operationPerformedCallback.execute(sportsmen);
-                break;
-            case EDIT:
-                sportsmen = controller.editSportsman(unbind());
-                operationPerformedCallback.execute(sportsmen);
-                break;
-        }
-        close();
-    }
-
-    private void onCancelClick() {
-        close();
     }
 
     private JComponent createCategoryField() {
@@ -205,7 +243,56 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     private JComponent createStartNumberField() {
         startNumberField = new JTextField();
         startNumberField.setEnabled(Mode.ADD.equals(mode));
-        return startNumberField;
+        startNumberField.requestFocus();
+        startNumberField.getDocument().addDocumentListener(componentFactory.createDocumentListener(new IDocumentListenerAction() {
+            @Override
+            public void act() {
+                okBtn.setEnabled(true);
+            }
+        }));
+
+        final ValidationChain<String> validationChain = new ValidationChain<String>()
+                .add(ValidationEntity.MANDATORY_TEXT_FIELD)
+                .add(ValidationEntity.DIGITS_TEXT_FIELD)
+                .add(new ValidationEntity<String>() {
+                    @Override
+                    public boolean isValid(final String typedValue) {
+                        return !controller.startNumberAlreadyRegistered(typedValue);
+                    }
+
+                    @Override
+                    public String getErrorMessage() {
+                        return "validation.start-number-already-registered";
+                    }
+                });
+
+        startNumberField.setInputVerifier(new InputVerifier() {
+            @Override
+            public boolean verify(final JComponent input) {
+                List<ValidationResult> results = validationChain.validate(((JTextComponent) input).getText());
+
+                for (ValidationResult result : results) {
+                    String errorMessage = result.getErrorMessage();
+                    if (!AppConstants.EMPTY_STRING.equals(errorMessage)) {
+                        startNumberErrorMsg.setText(appMessages.getString(errorMessage));
+                        okBtn.setEnabled(false);
+                        return false;
+                    }
+                }
+
+                startNumberErrorMsg.setText(AppConstants.EMPTY_STRING);
+                okBtn.setEnabled(true);
+                return true;
+            }
+        });
+
+        startNumberErrorMsg = componentFactory.createValidationMessageLabel();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(startNumberField);
+        panel.add(startNumberErrorMsg);
+        return panel;
     }
 
     @Override

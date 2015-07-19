@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ILoggingService {
 
-    void log(List<ISportsman> sportsmen);
+    void debug(List<ISportsman> sportsmen);
 
     void error(String message);
 }

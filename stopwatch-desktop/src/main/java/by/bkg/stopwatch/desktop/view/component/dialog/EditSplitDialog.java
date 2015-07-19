@@ -3,6 +3,10 @@ package by.bkg.stopwatch.desktop.view.component.dialog;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.SplitRecord;
 import by.bkg.stopwatch.desktop.model.AppConstants;
+import by.bkg.stopwatch.desktop.model.IDocumentListenerAction;
+import by.bkg.stopwatch.desktop.model.validation.ValidationChain;
+import by.bkg.stopwatch.desktop.model.validation.ValidationEntity;
+import by.bkg.stopwatch.desktop.model.validation.ValidationResult;
 import by.bkg.stopwatch.desktop.view.component.controller.EditSplitDialogController;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,9 +45,13 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
 
     private JTextField startNumberField;
 
+    private JLabel startNumberErrorMsg;
+
     private JTextField timestampField;
 
     private Long hiddenSplitTime;
+
+    private JButton okBtn;
 
     @Override
     public void init() {
@@ -81,7 +90,42 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
 
     private JComponent createStartNumberField() {
         startNumberField = new JTextField();
-        return startNumberField;
+        startNumberField.requestFocus();
+        startNumberField.getDocument().addDocumentListener(componentFactory.createDocumentListener(new IDocumentListenerAction() {
+            @Override
+            public void act() {
+                okBtn.setEnabled(true);
+            }
+        }));
+        startNumberField.setInputVerifier(new InputVerifier() {
+            @Override
+            public boolean verify(final JComponent input) {
+                ValidationChain<String> chain = new ValidationChain<String>()
+                        .add(ValidationEntity.MANDATORY_TEXT_FIELD)
+                        .add(ValidationEntity.DIGITS_TEXT_FIELD);
+                List<ValidationResult> results = chain.validate(((JTextComponent) input).getText());
+                for (ValidationResult result : results) {
+                    String errorMessage = result.getErrorMessage();
+                    if (!AppConstants.EMPTY_STRING.equals(errorMessage)) {
+                        startNumberErrorMsg.setText(appMessages.getString(errorMessage));
+                        okBtn.setEnabled(false);
+                        return false;
+                    }
+                }
+
+                startNumberErrorMsg.setText(AppConstants.EMPTY_STRING);
+                okBtn.setEnabled(true);
+                return true;
+            }
+        });
+
+        startNumberErrorMsg = componentFactory.createValidationMessageLabel();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(startNumberField);
+        panel.add(startNumberErrorMsg);
+        return panel;
     }
 
     private JComponent createTimestampField() {
@@ -93,7 +137,8 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
     @Override
     protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
-        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener()));
+        okBtn = componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener());
+        btnPanel.add(okBtn);
         btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Delete.png", appMessages.getString("btn.cancel"), appMessages.getString("btn.cancel"), createCancelBtnListener()));
         return btnPanel;
     }

@@ -17,12 +17,14 @@ public class SportsmanDialogController {    // TODO ABA: add "implenets"
     private ILogicService logicService;
 
     public List<ISportsman> addSportsman(final ISportsman sportsmanToAdd) {
-        List<ISportsman> sportsmen = logicService.addSportsman(sportsmanToAdd);
-        return sportsmen;
+        return logicService.addSportsman(sportsmanToAdd);
     }
 
     public List<ISportsman> editSportsman(final ISportsman sportsmanToEdit) {
-        List<ISportsman> sportsmen = logicService.editSportsman(sportsmanToEdit);
-        return sportsmen;
+        return logicService.editSportsman(sportsmanToEdit);
+    }
+
+    public boolean startNumberAlreadyRegistered(final String startNumber) {
+        return logicService.isStartNumberRegistered(startNumber);
     }
 }
