@@ -124,7 +124,7 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
     protected JComponent createButtonPanel() {
         JPanel btnPanel = new JPanel();
         btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Check.png", appMessages.getString("btn.ok"), appMessages.getString("btn.ok"), createOkBtnListener()));
-        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Delete.png", appMessages.getString("btn.cancel"), appMessages.getString("btn.cancel"), createCancelBtnListener()));
+        btnPanel.add(componentFactory.createBtn("icons/x16/Symbol-Delete.png", appMessages.getString("btn.clear"), appMessages.getString("btn.clear"), createClearBtnListener()));
         return btnPanel;
     }
 
@@ -132,27 +132,19 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onOkClick();
+                operationPerformedCallback.execute(unbind());
+                close();
             }
         };
     }
 
-    private ActionListener createCancelBtnListener() {
+    private ActionListener createClearBtnListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onCancelClick();
+                clearInputs();
             }
         };
-    }
-
-    private void onOkClick() {
-        operationPerformedCallback.execute(unbind());
-        close();
-    }
-
-    private void onCancelClick() {
-        close();
     }
 
     @Override
@@ -224,6 +216,4 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
         setOperationPerformedCallback(null);
         setVisible(false);
     }
-
-
 }
