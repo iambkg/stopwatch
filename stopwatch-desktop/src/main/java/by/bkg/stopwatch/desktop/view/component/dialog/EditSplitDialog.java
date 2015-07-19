@@ -177,6 +177,9 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
         startNumberField.setText(AppConstants.EMPTY_STRING);
         timestampField.setText(AppConstants.EMPTY_STRING);
         hiddenSplitTime = null;
+
+        startNumberErrorMsg.setText(AppConstants.EMPTY_STRING);
+        okBtn.setEnabled(true);
     }
 
     @Override

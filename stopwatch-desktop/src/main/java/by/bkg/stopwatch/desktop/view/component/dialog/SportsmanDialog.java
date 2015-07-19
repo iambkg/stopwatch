@@ -308,6 +308,9 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         firstNameField.setText(AppConstants.EMPTY_STRING);
         middleNameField.setText(AppConstants.EMPTY_STRING);
         startNumberField.setText(AppConstants.EMPTY_STRING);
+
+        startNumberErrorMsg.setText(AppConstants.EMPTY_STRING);
+        okBtn.setEnabled(true);
     }
 
     @Override
