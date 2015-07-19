@@ -303,7 +303,7 @@ public class StopwatchFrame extends JFrame {
 
     private JComponent createStartNumberInput() {
         startNumber = new JTextField();
-        startNumber.setPreferredSize(new Dimension(100, 25));
+//        startNumber.setPreferredSize(new Dimension(100, 25));
 //        JLabel label = new JLabel(appMessages.getString("label.start-number-short"));
 //        label.setLabelFor(startNumber);
 
@@ -343,7 +343,7 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void setupFrame() {
-        setLocation(200, 200);
+//        setLocation(200, 200); // TODO ABA: place to center
         setSize(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT);
         setMinimumSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
         setPreferredSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));

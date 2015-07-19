@@ -163,7 +163,7 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
 
     private void onOkClick() {
         List<ISplitRecord> splits = controller.editSplit(unbind());
-        operationPerformedCallback.execute(splits);
+        getOperationPerformedCallback().execute(splits);
         close();
     }
 

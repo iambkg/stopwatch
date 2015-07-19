@@ -51,6 +51,8 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     private static final Integer NUMBER_OF_ROWS = 6;
     private static final int NUMBER_OF_COLS = 2;
 
+    private static final int DEFAULT_YEAR_OF_BIRTH = 1990;
+
     private JComboBox categoryField;
     private JTextField lastNameField;
     private JTextField firstNameField;
@@ -197,12 +199,14 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
             public void actionPerformed(ActionEvent e) {
                 switch (mode) {
                     case ADD:
-                        operationPerformedCallback.execute(controller.addSportsman(unbind()));
+                        getOperationPerformedCallback().execute(controller.addSportsman(unbind()));
                         close();
                         break;
                     case EDIT:
-                        operationPerformedCallback.execute(controller.editSportsman(unbind()));
+                        getOperationPerformedCallback().execute(controller.editSportsman(unbind()));
                         close();
+                        break;
+                    default:
                         break;
                 }
             }
@@ -298,7 +302,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     @Override
     protected void clearInputs() {
         categoryField.setSelectedIndex(0);
-        dateOfBirthField.getModel().setDate(1990, 0, 1);
+        dateOfBirthField.getModel().setDate(DEFAULT_YEAR_OF_BIRTH, 0, 1);
         lastNameField.setText(AppConstants.EMPTY_STRING);
         firstNameField.setText(AppConstants.EMPTY_STRING);
         middleNameField.setText(AppConstants.EMPTY_STRING);

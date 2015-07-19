@@ -16,7 +16,7 @@ import java.util.Vector;
  * @author Alexey Baryshnev
  */
 @Component
-public class DataFactory {
+public final class DataFactory {
 
     @Autowired
     private AppMessages appMessages;

@@ -83,6 +83,8 @@ public class ExtendedSplitTableData {
                 case START_NUMBER:
                     colNames.add(appMessages.getString("label.start-number-split-table-header"));
                     break;
+                default:
+                    break;
             }
         }
     }

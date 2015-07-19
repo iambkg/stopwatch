@@ -3,7 +3,6 @@ package by.bkg.stopwatch.desktop.view.component.dialog;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 
 import javax.swing.*;
-import java.util.List;
 
 /**
  * @author Alexey Baryshnev
@@ -15,7 +14,7 @@ public abstract class AbstractDialog<T, CT> extends JDialog {
     protected static final int X_PAD = 6;
     protected static final int Y_PAD = 6;
 
-    protected Callback<CT> operationPerformedCallback;
+    private Callback<CT> operationPerformedCallback;
 
     public abstract void init();
 
@@ -47,5 +46,9 @@ public abstract class AbstractDialog<T, CT> extends JDialog {
 
     public void setOperationPerformedCallback(final Callback<CT> operationPerformedCallback) {
         this.operationPerformedCallback = operationPerformedCallback;
+    }
+
+    public Callback<CT> getOperationPerformedCallback() {
+        return operationPerformedCallback;
     }
 }

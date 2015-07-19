@@ -1,7 +1,5 @@
 package by.bkg.stopwatch.core.model;
 
-import by.bkg.stopwatch.core.model.enums.Sex;
-
 import java.util.Calendar;
 
 /**
@@ -78,11 +76,11 @@ public class Person implements IPerson {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                '}';
+        return "Person{"
+                + "firstName='" + firstName + '\''
+                + ", middleName='" + middleName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", dateOfBirth=" + dateOfBirth
+                + '}';
     }
 }

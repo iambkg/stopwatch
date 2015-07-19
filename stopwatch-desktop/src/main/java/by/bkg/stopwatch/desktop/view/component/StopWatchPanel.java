@@ -20,6 +20,7 @@ import java.util.TimerTask;
 @Component
 public class StopWatchPanel extends JToolBar {
 
+    public static final int TIME_LABEL_FONT_SIZE = 25;
     @Autowired
     private AppMessages appMessages;
 
@@ -101,6 +102,8 @@ public class StopWatchPanel extends JToolBar {
                             case PAUSED:
                                 onPauseCallback.execute(null);
                                 break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -136,6 +139,8 @@ public class StopWatchPanel extends JToolBar {
                     case STOPPED:
                         onStopCallback.execute(null);
                         break;
+                    default:
+                        break;
                 }
             }
         });
@@ -144,7 +149,7 @@ public class StopWatchPanel extends JToolBar {
     private JLabel getTimeLabel() {
         if (timeLabel == null) {
             timeLabel = new JLabel();
-            timeLabel.setFont(new Font(timeLabel.getFont().getName(), Font.PLAIN, 25));
+            timeLabel.setFont(new Font(timeLabel.getFont().getName(), Font.PLAIN, TIME_LABEL_FONT_SIZE));
         }
         return timeLabel;
     }

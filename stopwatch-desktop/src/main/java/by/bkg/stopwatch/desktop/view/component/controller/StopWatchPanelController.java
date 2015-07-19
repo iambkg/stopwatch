@@ -60,6 +60,8 @@ public class StopWatchPanelController {    // TODO ABA: add "implenets"
                 setTimerStatus(RUNNING);
                 logicService.resumeEvent();
                 break;
+            default:
+                break;
         }
         callback.execute(state);
     }
@@ -76,6 +78,8 @@ public class StopWatchPanelController {    // TODO ABA: add "implenets"
                 state.setStatus(STOPPED);
                 setTimerStatus(STOPPED);
                 logicService.stopEvent();
+                break;
+            default:
                 break;
         }
         callback.execute(state);

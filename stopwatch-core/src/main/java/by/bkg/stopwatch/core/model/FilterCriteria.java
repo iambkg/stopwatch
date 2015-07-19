@@ -21,8 +21,9 @@ public class FilterCriteria {
                 return sportsman.getCategory().getName().equals(value);
             case BY_SEX:
                 return sportsman.getCategory().getSex().equals(value);
+            default:
+                return false;
         }
-        return false;
     }
 
     public FilterType getFilterType() {

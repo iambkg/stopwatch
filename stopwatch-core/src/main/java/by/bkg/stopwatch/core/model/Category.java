@@ -32,17 +32,4 @@ public class Category implements ICategory {
     public String toString() {
         return getName();
     }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj instanceof Category) {
-            return this.name.equals(((Category)obj).getName());
-        }
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return 31 * name.hashCode();
-    }
 }

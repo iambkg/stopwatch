@@ -12,7 +12,10 @@ import java.awt.*;
  *
  * @author Alexey Baryshnev
  */
-public class Main {
+public final class Main {
+
+    private Main() {
+    }
 
     public static void main(final String[] args) {
         try {

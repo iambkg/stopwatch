@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,7 +132,7 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                operationPerformedCallback.execute(unbind());
+                getOperationPerformedCallback().execute(unbind());
                 close();
             }
         };
@@ -165,7 +165,8 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
                 case BY_CATEGORY:
                     selectCategory((ICategory) criteria.getValue());
                     break;
-
+                default:
+                    break;
             }
         }
     }
