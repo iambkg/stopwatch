@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>stopwatch</groupId>
+        <groupId>bkg.stopwatch</groupId>
         <artifactId>stopwatch-project</artifactId>
-        <version>1.0</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>stopwatch-desktop</artifactId>
 
@@ -63,9 +63,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>stopwatch</groupId>
+            <groupId>bkg.stopwatch</groupId>
             <artifactId>stopwatch-core</artifactId>
-            <version>1.0</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
