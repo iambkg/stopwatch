@@ -63,7 +63,6 @@ public class SplitFilterForTable implements ISplitFilterForTable {
         int numberOfLaps = countLaps(orderedSplits);
         Vector<String> result = new Vector<String>();
 
-//        result.add(appMessages.getString("label.number"));
         for (int lap = 1; lap <= numberOfLaps; lap++) {
             result.add(String.format("%s %d", appMessages.getString("label.lap"), lap));
         }

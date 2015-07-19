@@ -2,10 +2,7 @@ package by.bkg.stopwatch.desktop.view;
 
 import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
-import by.bkg.stopwatch.core.model.enums.FilterType;
-import by.bkg.stopwatch.core.model.enums.Sex;
 import by.bkg.stopwatch.desktop.model.AppConstants;
-import by.bkg.stopwatch.desktop.model.SplitTableData;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
@@ -13,6 +10,7 @@ import by.bkg.stopwatch.desktop.view.component.dialog.FilterDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
+import by.bkg.stopwatch.desktop.view.model.ExtendedSplitTableData;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -272,8 +269,7 @@ public class StopwatchFrame extends JFrame {
                 return false;
             }
         };
-        String[] colNames = {String.format("%s %d", appMessages.getString("label.lap"), 1)}; // TODO ABA: add start number as column
-        model.setColumnIdentifiers(colNames);
+        model.setColumnIdentifiers(new ExtendedSplitTableData(appMessages).getInitialColumnNames());
         splitTable.setModel(model);
 
         return splitTable;
@@ -338,11 +334,11 @@ public class StopwatchFrame extends JFrame {
         }
     }
 
-    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, List<FilterCriteria> filterCriterias) {
+    private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
         DefaultTableModel model = (DefaultTableModel) splitTable.getModel();
         model.setRowCount(0);
         model.setColumnCount(0);
-        SplitTableData data = controller.getSplitTableData(refreshedSplits, filterCriterias);
+        ExtendedSplitTableData data = controller.getSplitTableData(refreshedSplits, filterCriterias);
         model.setDataVector(data.getDataVector(), data.getColumnIdentifiers());
     }
 
