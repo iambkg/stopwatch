@@ -213,6 +213,7 @@ public class StopwatchFrame extends JFrame {
             public void execute(final Void noResult) {
                 splitBtn.setEnabled(true);
                 startNumber.setEnabled(true);
+                startNumber.requestFocus();
             }
         };
     }
