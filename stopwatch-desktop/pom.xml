@@ -21,6 +21,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -44,6 +49,37 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!--<plugin>-->
+                <!--<artifactId>maven-resources-plugin</artifactId>-->
+                <!--<version>2.5</version>-->
+                <!--<executions>-->
+                <!--<execution>-->
+                <!--<id>copy-resources</id>-->
+                <!--<phase>validate</phase>-->
+                <!--<goals>-->
+                <!--<goal>copy-resources</goal>-->
+                <!--</goals>-->
+                <!--<configuration>-->
+                <!--<outputDirectory>${project.build.outputDirectory}/com/khmb/${project.name}</outputDirectory>-->
+                <!--<resources>-->
+                <!--<resource>-->
+                <!--<directory>${project.build.sourceDirectory}/com/khmb/${project.name}</directory>-->
+                <!--<filtering>true</filtering>-->
+                <!--<includes>-->
+                <!--<include>**/*.properties</include>-->
+                <!--</includes>-->
+                <!--</resource>-->
+                <!--<resource>-->
+                <!--<directory>${project.build.sourceDirectory}/com/khmb/${project.name}</directory>-->
+                <!--<includes>-->
+                <!--<include>**/*.png</include>-->
+                <!--</includes>-->
+                <!--</resource>-->
+                <!--</resources>-->
+                <!--</configuration>-->
+                <!--</execution>-->
+                <!--</executions>-->
+                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -52,10 +88,52 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>lib/</classpathPrefix>
+                                <!--<classpathLayoutType>simple</classpathLayoutType>-->
                                 <mainClass>by.bkg.stopwatch.desktop.Main</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                    <artifactId>launch4j-maven-plugin</artifactId>
+                    <version>1.7.7</version>
+                    <executions>
+                        <execution>
+                            <id>l4j-clui</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>launch4j</goal>
+                            </goals>
+                            <configuration>
+                                <headerType>gui</headerType>
+                                <outfile>target/stopwatch-${project.version}.exe</outfile>
+                                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+                                <!--<errTitle>${product.title}</errTitle>-->
+                                <!--<icon>favicon.ico</icon>-->
+                                <classPath>
+                                    <mainClass>by.bkg.stopwatch.desktop.Main</mainClass>
+                                    <addDependencies>true</addDependencies>
+                                    <preCp>anything</preCp>
+                                </classPath>
+                                <jre>
+                                    <minVersion>1.6</minVersion>
+                                </jre>
+                                <!--<versionInfo>-->
+                                <!--<fileVersion>${project.version}.0</fileVersion>-->
+                                <!--<txtFileVersion>${project.version}</txtFileVersion>-->
+                                <!--<fileDescription>Программа для блокировки счетов в соответствии со списком</fileDescription>-->
+                                <!--<copyright>Copyright © 2011 ${product.company}</copyright>-->
+                                <!--<productVersion>${project.version}.0</productVersion>-->
+                                <!--<txtProductVersion>${project.version}</txtProductVersion>-->
+                                <!--<companyName>${product.company}</companyName>-->
+                                <!--<productName>${product.title}</productName>-->
+                                <!--<internalName>${exeFileName}</internalName>-->
+                                <!--<originalFilename>${exeFileName}.exe</originalFilename>-->
+                                <!--</versionInfo>-->
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -121,4 +199,19 @@
             <artifactId>swingx</artifactId>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>akathist-repository</id>
+            <name>Akathist Repository</name>
+            <url>http://www.9stmaryrd.com/maven</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>akathist-repository</id>
+            <name>Akathist Repository</name>
+            <url>http://www.9stmaryrd.com/maven</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
