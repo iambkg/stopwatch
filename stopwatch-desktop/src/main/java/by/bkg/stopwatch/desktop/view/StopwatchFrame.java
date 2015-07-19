@@ -78,6 +78,7 @@ public class StopwatchFrame extends JFrame {
 
         setupFrame();
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -343,7 +344,6 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void setupFrame() {
-//        setLocation(200, 200); // TODO ABA: place to center
         setSize(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT);
         setMinimumSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));
         setPreferredSize(new Dimension(AppConstants.DEFAULT_WIDTH, AppConstants.DEFAULT_HEIGHT));

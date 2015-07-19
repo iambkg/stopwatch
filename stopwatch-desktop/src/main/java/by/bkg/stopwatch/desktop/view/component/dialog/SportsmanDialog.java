@@ -127,6 +127,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         setModalityType(ModalityType.APPLICATION_MODAL);
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     @Override

@@ -65,6 +65,7 @@ public class FilterDialog extends AbstractDialog<List<FilterCriteria>, List<Filt
         clearInputs();
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     @Override

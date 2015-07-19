@@ -74,6 +74,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
         add(createButtonPanel(), BorderLayout.SOUTH);
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     private JComponent createLogicButtonPanel() {

@@ -71,6 +71,7 @@ public class EditSplitDialog extends AbstractDialog<ISplitRecord, List<ISplitRec
         SpringLayoutUtilities.makeCompactGrid(formPanel, NUMBER_OF_ROWS, NUMBER_OF_COLS, INITIAL_X, INITIAL_Y, X_PAD, Y_PAD);
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     @Override
