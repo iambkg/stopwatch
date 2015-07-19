@@ -17,8 +17,6 @@ public interface IPerson {
 
     Calendar getDateOfBirth();
 
-    Sex getSex();
-
     void setFirstName(String firstName);
 
     void setMiddleName(String middleName);
@@ -26,6 +24,4 @@ public interface IPerson {
     void setLastName(String lastName);
 
     void setDateOfBirth(Calendar dateOfBirth);
-
-    void setSex(Sex sex);
 }

@@ -33,10 +33,6 @@ public interface ISportsman {
 
     void setLastName(String lastName);
 
-    Sex getSex();
-
-    void setSex(Sex sex);
-
     Calendar getDateOfBirth();
 
     void setDateOfBirth(Calendar dateOfBirth);

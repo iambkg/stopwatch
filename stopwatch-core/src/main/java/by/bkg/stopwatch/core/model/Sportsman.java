@@ -37,10 +37,6 @@ public class Sportsman implements ISportsman {
         getPerson().setLastName(sportsman.getLastName());
 //        }
 
-//        if (sportsman.getSex() != ISportsmanData.EMPTY) {
-        getPerson().setSex(sportsman.getSex());
-//        }
-
 //        if (sportsman.getDateOfBirth() != ISportsmanData.EMPTY) {
         getPerson().setDateOfBirth(sportsman.getDateOfBirth());
 //        }
@@ -108,16 +104,6 @@ public class Sportsman implements ISportsman {
     @Override
     public void setLastName(final String lastName) {
         getPerson().setLastName(lastName);
-    }
-
-    @Override
-    public Sex getSex() {
-        return getPerson().getSex();
-    }
-
-    @Override
-    public void setSex(final Sex sex) {
-        getPerson().setSex(sex);
     }
 
     // TODO ABA: use class without time

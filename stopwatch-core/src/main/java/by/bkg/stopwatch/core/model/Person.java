@@ -29,11 +29,6 @@ public class Person implements IPerson {
      */
     private Calendar dateOfBirth;
 
-    /**
-     * Sex
-     */
-    private Sex sex;
-
 //    private City city;
 
 //    private Country country;
@@ -82,23 +77,12 @@ public class Person implements IPerson {
     }
 
     @Override
-    public Sex getSex() {
-        return sex;
-    }
-
-    @Override
-    public void setSex(final Sex sex) {
-        this.sex = sex;
-    }
-
-    @Override
     public String toString() {
         return "Person{" +
                 "firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", sex=" + sex +
                 '}';
     }
 }

@@ -20,7 +20,7 @@ public class FilterCriteria {
             case BY_CATEGORY:
                 return sportsman.getCategory().getName().equals(value);
             case BY_SEX:
-                return sportsman.getSex().equals(value);
+                return sportsman.getCategory().getSex().equals(value);
         }
         return false;
     }

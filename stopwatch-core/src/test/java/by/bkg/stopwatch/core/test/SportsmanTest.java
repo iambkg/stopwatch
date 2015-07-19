@@ -53,7 +53,7 @@ public class SportsmanTest {
         assertEquals(F_NAME, sportsmanToTest.getFirstName());
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
         assertEquals(L_NAME, sportsmanToTest.getLastName());
-        assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(Sex.MALE, sportsmanToTest.getCategory().getSex());
         assertEquals(START_NUMBER, sportsmanToTest.getStartNumber());
         assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
         assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
@@ -81,7 +81,7 @@ public class SportsmanTest {
         assertEquals(newFirstName, sportsmanToTest.getFirstName());
         assertEquals(M_NAME, sportsmanToTest.getMiddleName());
         assertEquals(L_NAME, sportsmanToTest.getLastName());
-        assertEquals(Sex.MALE, sportsmanToTest.getSex());
+        assertEquals(Sex.MALE, sportsmanToTest.getCategory().getSex());
         assertEquals(START_NUMBER, sportsmanToTest.getStartNumber());
         assertEquals(1988, dateOfBirthCalendar.get(Calendar.YEAR));
         assertEquals(10, dateOfBirthCalendar.get(Calendar.MONTH));
@@ -112,7 +112,6 @@ public class SportsmanTest {
         sportsman.setMiddleName(M_NAME);
         sportsman.setLastName(L_NAME);
         sportsman.setDateOfBirth(dateOfBirthCalendar);
-        sportsman.setSex(Sex.MALE);
         sportsman.setCategory(new CategoryDictionary().getAvailableCategories().firstElement());
         sportsman.setStartNumber(START_NUMBER);
 

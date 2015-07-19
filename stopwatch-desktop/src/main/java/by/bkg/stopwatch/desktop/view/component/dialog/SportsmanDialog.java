@@ -7,7 +7,6 @@ import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.component.controller.SportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
-import by.bkg.stopwatch.desktop.view.model.SexModel;
 import by.bkg.stopwatch.desktop.view.model.factory.DataFactory;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
 import by.bkg.stopwatch.desktop.view.utilities.SpringLayoutUtilities;
@@ -40,13 +39,12 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     private Mode mode;
 
     private static final int MIN_WIDTH = 400;
-    private static final int MIN_HEIGHT = 280;
+    private static final int MIN_HEIGHT = 250;
 
-    private static final Integer NUMBER_OF_ROWS = 7;
+    private static final Integer NUMBER_OF_ROWS = 6;
     private static final int NUMBER_OF_COLS = 2;
 
     private JComboBox categoryField;
-    private JComboBox sexField;
     private JTextField lastNameField;
     private JTextField firstNameField;
     private JTextField middleNameField;
@@ -100,9 +98,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
 
         formPanel.add(new JLabel(appMessages.getString("label.middle-name")));
         formPanel.add(createMiddleNameField());
-
-        formPanel.add(new JLabel(appMessages.getString("label.sex")));
-        formPanel.add(createSexField());
 
         formPanel.add(new JLabel(appMessages.getString("label.date-of-birth")));
         formPanel.add(createDateOfBirthField());
@@ -192,13 +187,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         return categoryField;
     }
 
-    private JComponent createSexField() {
-        sexField = new JComboBox();
-        sexField.setModel(new DefaultComboBoxModel(dataFactory.getSexValues()));
-        sexField.setSelectedIndex(0);
-        return sexField;
-    }
-
     private JComponent createLastNameField() {
         lastNameField = new JTextField();
         return lastNameField;
@@ -223,7 +211,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     @Override
     protected void clearInputs() {
         categoryField.setSelectedIndex(0);
-        sexField.setSelectedIndex(0);
         dateOfBirthField.getModel().setDate(1990, 0, 1);
         lastNameField.setText(AppConstants.EMPTY_STRING);
         firstNameField.setText(AppConstants.EMPTY_STRING);
@@ -237,19 +224,8 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         middleNameField.setText(toBind.getMiddleName());
         lastNameField.setText(toBind.getLastName());
         setDateOfBirthFieldValue(toBind);
-        selectSex(toBind);
         selectCategory(toBind);
         startNumberField.setText(toBind.getStartNumber());
-    }
-
-    private void selectSex(ISportsman toBind) {
-        for (int i = 0; i < sexField.getModel().getSize(); i++) {
-            SexModel sexModel = (SexModel) sexField.getModel().getElementAt(i);
-            if (sexModel.getSex().equals(toBind.getSex())) {
-                sexField.setSelectedItem(sexModel);
-                return;
-            }
-        }
     }
 
     private void selectCategory(ISportsman toBind) {
@@ -274,7 +250,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
         sportsman.setMiddleName(middleNameField.getText());
         sportsman.setLastName(lastNameField.getText());
         sportsman.setDateOfBirth(getDateOfBirthFromField());
-        sportsman.setSex(((SexModel) sexField.getModel().getSelectedItem()).getSex());
         sportsman.setCategory((ICategory) categoryField.getModel().getSelectedItem());
         sportsman.setStartNumber(startNumberField.getText());
         clearInputs();
