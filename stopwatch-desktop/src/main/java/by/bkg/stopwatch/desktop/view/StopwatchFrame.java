@@ -261,7 +261,7 @@ public class StopwatchFrame extends JFrame {
         splitTable.setFillsViewportHeight(true);
         splitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         splitTable.setDragEnabled(false);
-        splitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        splitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // TODO ABA: should remove after export to excel enabled?
         splitTable.getTableHeader().setReorderingAllowed(false);
 
         DefaultTableModel model = new DefaultTableModel() {
