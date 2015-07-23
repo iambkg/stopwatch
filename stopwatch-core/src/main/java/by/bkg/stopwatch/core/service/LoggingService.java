@@ -22,6 +22,11 @@ public class LoggingService implements ILoggingService {
     }
 
     @Override
+    public void debug(String message) {
+        log.debug(message);
+    }
+
+    @Override
     public void error(final String message) {
         log.error(message);
     }

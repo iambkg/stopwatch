@@ -94,6 +94,13 @@ public class StopwatchFrame extends JFrame {
         toolBar.add(componentFactory.createBtn("icons/x24/DocumentPlain.png", appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Filter.png", appMessages.getString("btn.open-filter"), createOpenFilterBtnListener()));
+        toolBar.add(componentFactory.createBtn("export", new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                String path = "stubPathThatIsIgnoredSoFar";
+                controller.exportToExcel(path);
+            }
+        }));
         return toolBar;
     }
 

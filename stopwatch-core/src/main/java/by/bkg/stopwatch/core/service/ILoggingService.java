@@ -11,5 +11,7 @@ public interface ILoggingService {
 
     void debug(List<ISportsman> sportsmen);
 
+    void debug(String message);
+
     void error(String message);
 }
