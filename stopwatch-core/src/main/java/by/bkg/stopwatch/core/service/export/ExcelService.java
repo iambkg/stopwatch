@@ -1,6 +1,5 @@
 package by.bkg.stopwatch.core.service.export;
 
-import au.com.bytecode.opencsv.CSVWriter;
 import by.bkg.stopwatch.core.service.ILoggingService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,25 +10,22 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * @author Alexey Baryshnev
+ * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Service
-public class ExportService implements IExportService {
+public class ExcelService implements IExportImportService {
 
     @Autowired
     private ILoggingService loggingService;
 
     @Override
-    public void export(final String path) {
+    public void doExport(final String path, final List<String[]> data) {
         //Blank workbook
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -37,19 +33,19 @@ public class ExportService implements IExportService {
         XSSFSheet sheet = workbook.createSheet("Event Data");
 
         //This data needs to be written (Object[])
-        Map<String, Object[]> data = new TreeMap<String, Object[]>();
-        data.put("1", new Object[]{"ID", "NAME", "LASTNAME"});
-        data.put("2", new Object[]{1, "Amit", "Shukla"});
-        data.put("3", new Object[]{2, "Lokesh", "Gupta"});
-        data.put("4", new Object[]{3, "John", "Adwards"});
-        data.put("5", new Object[]{4, "Brian", "Schultz"});
+        Map<String, Object[]> xData = new TreeMap<String, Object[]>();
+        xData.put("1", new Object[]{"ID", "NAME", "LASTNAME"});
+        xData.put("2", new Object[]{1, "Amit", "Shukla"});
+        xData.put("3", new Object[]{2, "Lokesh", "Gupta"});
+        xData.put("4", new Object[]{3, "John", "Adwards"});
+        xData.put("5", new Object[]{4, "Brian", "Schultz"});
 
         //Iterate over data and write to sheet
-        Set<String> keyset = data.keySet();
+        Set<String> keyset = xData.keySet();
         int rownum = 0;
         for (String key : keyset) {
             Row row = sheet.createRow(rownum++);
-            Object[] objArr = data.get(key);
+            Object[] objArr = xData.get(key);
             int cellnum = 0;
             for (Object obj : objArr) {
                 Cell cell = row.createCell(cellnum++);
@@ -69,19 +65,6 @@ public class ExportService implements IExportService {
             loggingService.debug("export results are in " + file.getAbsolutePath());
         } catch (Exception e) {
             // TODO ABA: log, send message
-        }
-    }
-
-    @Override
-    public void exportOpenCSV(final String path) {
-        try {
-            CSVWriter writer = new CSVWriter(new FileWriter(new SimpleDateFormat("YYYY-mm-DD_HH_MM_SS").format(new Date())));
-            // feed in your array (or convert your data to an array)
-            String[] entries = new String[] {"one", "B1", "3rd"};
-            writer.writeNext(entries);
-            writer.close();
-        } catch (IOException e) {
-            // TODO ABA: make something, do not panoc
         }
     }
 }

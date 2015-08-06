@@ -3,13 +3,14 @@ package by.bkg.stopwatch.desktop.view.component.controller;
 import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.service.ILogicService;
-import by.bkg.stopwatch.core.service.export.IExportService;
+import by.bkg.stopwatch.core.service.export.CSVService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.ExtendedSplitTableData;
 import by.bkg.stopwatch.desktop.view.model.ISplitFilterForTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class StopwatchFrameController {        // TODO ABA: add "implements"
     private AppMessages appMessages;
 
     @Autowired
-    private IExportService exportService;
+    private CSVService exportService;
 
     public List<ISplitRecord> onSplit(final String startNumber) {
         return logicService.doSplit(startNumber);
@@ -54,7 +55,6 @@ public class StopwatchFrameController {        // TODO ABA: add "implements"
     }
 
     public void exportToExcel(final String path) {
-//        exportService.export(path);
-        exportService.exportOpenCSV(path);
+        exportService.doExport(path, new ArrayList<String[]>()); // TODO ABA: path actaul data into service
     }
 }
