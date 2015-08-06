@@ -5,9 +5,7 @@ import java.util.List;
 /**
  * @author Alexey Baryshnev
  */
-public interface IExportImportService {
+public interface IExportService {
 
     void doExport(String path, List<String[]> data);
-
-    // TODO ABA: add import
 }

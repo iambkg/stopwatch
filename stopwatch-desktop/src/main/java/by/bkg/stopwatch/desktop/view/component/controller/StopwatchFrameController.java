@@ -2,6 +2,7 @@ package by.bkg.stopwatch.desktop.view.component.controller;
 
 import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.service.ILogicService;
 import by.bkg.stopwatch.core.service.export.CSVService;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
@@ -54,7 +56,25 @@ public class StopwatchFrameController {        // TODO ABA: add "implements"
         return logicService.getEvent().getSplits();
     }
 
-    public void exportToCSV(final String path) {
-        csvService.doExport(path, new ArrayList<String[]>()); // TODO ABA: path actaul data into service
+    public void exportToCSV(final String path, final Vector<Vector<String>> dataVector) {
+        csvService.doExport(path, convertToExportData(dataVector));
+    }
+
+    private List<String[]> convertToExportData(Vector<Vector<String>> dataVector) {
+        List<String[]> result = new ArrayList<String[]>();
+        for (Vector<String> row : dataVector) {
+            String[] rowToExport = new String[row.size() + 1];
+            ISportsman sportsman = logicService.getSportsmanByStartNumber(row.firstElement());
+            String fullName = "[UNKNOWN]";
+            if (sportsman != null) {
+                fullName = String.format("%s %s %s", sportsman.getLastName(), sportsman.getFirstName(), sportsman.getMiddleName());
+            }
+            rowToExport[0] = fullName;
+            for (int i = 0; i < row.size(); i++) {
+                rowToExport[i + 1] = row.get(i);
+            }
+            result.add(rowToExport);
+        }
+        return result;
     }
 }

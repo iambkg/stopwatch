@@ -19,7 +19,7 @@ import java.util.TreeMap;
  * <a href"mailto:alexey.baryshnev@ctco.lv">Alexey Baryshnev</a>
  */
 @Service
-public class ExcelService implements IExportImportService {
+public class ExcelService implements IExportService {
 
     @Autowired
     private ILoggingService loggingService;

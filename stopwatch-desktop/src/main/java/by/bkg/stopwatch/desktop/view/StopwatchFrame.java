@@ -98,7 +98,7 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 String path = "stubPathThatIsIgnoredSoFar";
-                controller.exportToCSV(path);
+                controller.exportToCSV(path, ((DefaultTableModel) splitTable.getModel()).getDataVector());
             }
         }));
         return toolBar;
