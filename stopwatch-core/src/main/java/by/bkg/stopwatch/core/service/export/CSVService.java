@@ -35,6 +35,7 @@ public class CSVService implements IExportImportService {
             writer.close();
         } catch (IOException e) {
             // TODO ABA: make something, do not panic
+            loggingService.error(e);
         }
     }
 
@@ -45,8 +46,10 @@ public class CSVService implements IExportImportService {
             return myEntries;
         } catch (FileNotFoundException e) {
             // TODO ABA: make something, do not panic
+            loggingService.error(e);
         } catch (IOException e) {
             // TODO ABA: make something, do not panic
+            loggingService.error(e);
         }
         return null;
     }

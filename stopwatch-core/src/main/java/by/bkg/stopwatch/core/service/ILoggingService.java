@@ -14,4 +14,8 @@ public interface ILoggingService {
     void debug(String message);
 
     void error(String message);
+
+    void error(Throwable throwable);
+
+    void info(String message);
 }

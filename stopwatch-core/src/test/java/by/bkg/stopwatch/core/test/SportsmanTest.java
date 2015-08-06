@@ -1,9 +1,10 @@
 package by.bkg.stopwatch.core.test;
 
+import by.bkg.stopwatch.core.model.Category;
+import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.core.model.Sportsman;
 import by.bkg.stopwatch.core.model.enums.Sex;
-import by.bkg.stopwatch.core.model.stub.CategoryDictionary;
 import by.bkg.stopwatch.core.service.ILogicService;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,8 @@ public class SportsmanTest {
     private final String L_NAME = "lName";
 
     private final String START_NUMBER = "123";
+
+    private ICategory CATEGORY = new Category("fake", Sex.MALE);
 
     @Before
     public void doBeforeTest() {
@@ -112,7 +115,7 @@ public class SportsmanTest {
         sportsman.setMiddleName(M_NAME);
         sportsman.setLastName(L_NAME);
         sportsman.setDateOfBirth(dateOfBirthCalendar);
-        sportsman.setCategory(new CategoryDictionary().getAvailableCategories().firstElement());
+        sportsman.setCategory(CATEGORY);
         sportsman.setStartNumber(START_NUMBER);
 
         return sportsman;

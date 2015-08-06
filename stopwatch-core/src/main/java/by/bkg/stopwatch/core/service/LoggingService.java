@@ -30,4 +30,14 @@ public class LoggingService implements ILoggingService {
     public void error(final String message) {
         log.error(message);
     }
+
+    @Override
+    public void error(final Throwable throwable) {
+        log.error("", throwable);
+    }
+
+    @Override
+    public void info(String message) {
+        log.info(message);
+    }
 }

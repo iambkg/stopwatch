@@ -29,7 +29,7 @@ public class StopwatchFrameController {        // TODO ABA: add "implements"
     private AppMessages appMessages;
 
     @Autowired
-    private CSVService exportService;
+    private CSVService csvService;
 
     public List<ISplitRecord> onSplit(final String startNumber) {
         return logicService.doSplit(startNumber);
@@ -54,7 +54,7 @@ public class StopwatchFrameController {        // TODO ABA: add "implements"
         return logicService.getEvent().getSplits();
     }
 
-    public void exportToExcel(final String path) {
-        exportService.doExport(path, new ArrayList<String[]>()); // TODO ABA: path actaul data into service
+    public void exportToCSV(final String path) {
+        csvService.doExport(path, new ArrayList<String[]>()); // TODO ABA: path actaul data into service
     }
 }

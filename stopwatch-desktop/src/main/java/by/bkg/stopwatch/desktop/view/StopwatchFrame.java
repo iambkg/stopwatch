@@ -98,7 +98,7 @@ public class StopwatchFrame extends JFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 String path = "stubPathThatIsIgnoredSoFar";
-                controller.exportToExcel(path);
+                controller.exportToCSV(path);
             }
         }));
         return toolBar;

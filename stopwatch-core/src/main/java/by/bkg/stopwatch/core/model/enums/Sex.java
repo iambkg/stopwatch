@@ -16,4 +16,13 @@ public enum Sex {
     public String getI18nKey() {
         return i18nKey;
     }
+
+    public static boolean contains(String sexAsText) {
+        for (Sex sex : values()) {
+            if (sex.toString().equals(sexAsText)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
