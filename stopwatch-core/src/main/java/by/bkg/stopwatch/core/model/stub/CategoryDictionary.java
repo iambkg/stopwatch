@@ -5,9 +5,10 @@ import by.bkg.stopwatch.core.model.Category;
 import by.bkg.stopwatch.core.model.ICategory;
 import by.bkg.stopwatch.core.model.enums.Sex;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Vector;
 
@@ -20,7 +21,7 @@ public class CategoryDictionary {
 
     public Vector<ICategory> getAvailableCategories() {
         try {
-            CSVReader reader = new CSVReader(new FileReader("categories.csv"));
+            CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("categories.csv"), "UTF-8"));
             List<String[]> myEntries = reader.readAll();
             return convert(myEntries);
         } catch (FileNotFoundException e) {
