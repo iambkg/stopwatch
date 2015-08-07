@@ -1,7 +1,8 @@
 package by.bkg.stopwatch.desktop.view.component;
 
-import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
+import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.component.controller.StopWatchPanelController;
+import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.StopWatchPanelState;
 import by.bkg.stopwatch.desktop.view.utilities.ComponentFactory;
@@ -20,7 +21,6 @@ import java.util.TimerTask;
 @Component
 public class StopWatchPanel extends JToolBar {
 
-    public static final int TIME_LABEL_FONT_SIZE = 25;
     @Autowired
     private AppMessages appMessages;
 
@@ -39,7 +39,7 @@ public class StopWatchPanel extends JToolBar {
     private Callback<Void> onStopCallback;
     private Callback<Void> onPauseCallback;
 
-    public StopWatchPanel init(Callback<Void> onStartCallback, Callback<Void> onPauseCallback, Callback<Void> onStopCallback) {
+    public StopWatchPanel init(final Callback<Void> onStartCallback, final Callback<Void> onPauseCallback, final Callback<Void> onStopCallback) {
         this.onStartCallback = onStartCallback;
         this.onStopCallback = onStopCallback;
         this.onPauseCallback = onPauseCallback;
@@ -63,12 +63,6 @@ public class StopWatchPanel extends JToolBar {
         stopBtn = componentFactory.createBtn("icons/x24/Timer-Stop.png", appMessages.getString("btn.stop"), createStopBtnListener());
         stopBtn.setEnabled(false);
 
-//        splitBtn = new JButton(appMessages.getString("btn.split"));
-//        getSplitBtn().addActionListener(getSplitBtnListener());
-
-//        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-
-//        setLayout(new BorderLayout());
         add(getTimeLabel());
         add(startBtn);
         add(stopBtn);
@@ -91,7 +85,7 @@ public class StopWatchPanel extends JToolBar {
             public void actionPerformed(ActionEvent evt) {
                 getController().onStart(new Callback<StopWatchPanelState>() {
                     @Override
-                    public void execute(StopWatchPanelState state) {
+                    public void execute(final StopWatchPanelState state) {
                         startBtn.setToolTipText(state.getStartBtnTooltipText());
                         startBtn.setIcon(componentFactory.getImageIcon(state.getStartBtnIcon()));
                         stopBtn.setEnabled(state.getStopBtnEnabled());
@@ -119,7 +113,7 @@ public class StopWatchPanel extends JToolBar {
     private ActionListener createStopBtnListener() {
         return new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(final ActionEvent evt) {
                 onStop();
             }
         };
@@ -128,7 +122,7 @@ public class StopWatchPanel extends JToolBar {
     private void onStop() {
         getController().onStop(new Callback<StopWatchPanelState>() {
             @Override
-            public void execute(StopWatchPanelState state) {
+            public void execute(final StopWatchPanelState state) {
                 startBtn.setToolTipText(state.getStartBtnTooltipText());
                 startBtn.setIcon(componentFactory.getImageIcon(state.getStartBtnIcon()));
                 stopBtn.setEnabled(state.getStopBtnEnabled());
@@ -149,7 +143,7 @@ public class StopWatchPanel extends JToolBar {
     private JLabel getTimeLabel() {
         if (timeLabel == null) {
             timeLabel = new JLabel();
-            timeLabel.setFont(new Font(timeLabel.getFont().getName(), Font.PLAIN, TIME_LABEL_FONT_SIZE));
+            timeLabel.setFont(new Font(timeLabel.getFont().getName(), Font.PLAIN, AppConstants.TIME_LABEL_FONT_SIZE));
         }
         return timeLabel;
     }

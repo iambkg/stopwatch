@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class LoggingService implements ILoggingService {
 
-    private Logger log = Logger.getLogger("stopwatch");
+    private final Logger log = Logger.getLogger("stopwatch");
 
     @Override
     public void debug(final List<ISportsman> sportsmen) {

@@ -20,9 +20,9 @@ public class ExtendedSplitTableData {
 
     private Vector<Vector<ISplitRecord>> originalData;
 
-    private AppMessages appMessages;
+    private final AppMessages appMessages;
 
-    private List<ExtraColumn> extraColumns;
+    private final List<ExtraColumn> extraColumns;
 
     public ExtendedSplitTableData(final AppMessages appMessages) {
         this.appMessages = appMessages;

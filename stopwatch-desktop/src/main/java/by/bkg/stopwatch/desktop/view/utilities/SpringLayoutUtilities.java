@@ -15,16 +15,6 @@ public final class SpringLayoutUtilities {
     }
 
     /**
-     * A debugging utility that prints to stdout the component's
-     * minimum, preferred, and maximum sizes.
-     */
-    public static void printSizes(final Component c) {
-        System.out.println("minimumSize = " + c.getMinimumSize());
-        System.out.println("preferredSize = " + c.getPreferredSize());
-        System.out.println("maximumSize = " + c.getMaximumSize());
-    }
-
-    /**
      * Aligns the first <code>rows</code> * <code>cols</code>
      * components of <code>parent</code> in
      * a grid. Each component is as big as the maximum

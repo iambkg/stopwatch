@@ -159,7 +159,8 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
 
     private JDatePickerImpl createDateOfBirthField() {
         JFormattedTextField.AbstractFormatter formatter = new JFormattedTextField.AbstractFormatter() {
-            private SimpleDateFormat dateFormatter = new SimpleDateFormat(appMessages.getString("inner.date-format"));
+
+            private final SimpleDateFormat dateFormatter = new SimpleDateFormat(appMessages.getString("inner.date-format"));
 
             @Override
             public Object stringToValue(String text) throws ParseException {
@@ -395,7 +396,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     }
 
     @Override
-    public void open(Callback<List<ISportsman>> callback) {
+    public void open(final Callback<List<ISportsman>> callback) {
         open(Mode.ADD, callback);
     }
 
@@ -403,7 +404,7 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
 
         ADD("label.add-sportsman"), EDIT("label.edit-sportsman");
 
-        private String titleI18NKey;
+        private final String titleI18NKey;
 
         Mode(final String titleI18NKey) {
             this.titleI18NKey = titleI18NKey;

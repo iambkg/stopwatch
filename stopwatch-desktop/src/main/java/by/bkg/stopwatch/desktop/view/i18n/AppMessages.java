@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 @Component
 public class AppMessages {
 
-    private ResourceBundle rb;
+    private final ResourceBundle rb;
 
     public AppMessages() {
         this.rb = ResourceBundle.getBundle("AppMessages", Locale.getDefault());

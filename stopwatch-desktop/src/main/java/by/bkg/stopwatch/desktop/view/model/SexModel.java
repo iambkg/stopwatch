@@ -9,9 +9,9 @@ import by.bkg.stopwatch.core.model.enums.Sex;
  */
 public class SexModel {
 
-    private Sex sex;
+    private final Sex sex;
 
-    private String displayText;
+    private final String displayText;
 
     public SexModel(final Sex sex, final String displayText) {
         this.sex = sex;

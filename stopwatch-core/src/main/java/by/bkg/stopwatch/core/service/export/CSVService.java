@@ -24,7 +24,8 @@ public class CSVService implements IExportService {
     @Override
     public void doExport(final String path, final List<String[]> data) {
         try {
-            CSVWriter writer = new CSVWriter(new OutputStreamWriter(new FileOutputStream(new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()).concat(".csv")), "UTF-8"));
+            String fileName = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()).concat(".csv");
+            CSVWriter writer = new CSVWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"));
             for (String[] row : data) {
                 writer.writeNext(row);
             }

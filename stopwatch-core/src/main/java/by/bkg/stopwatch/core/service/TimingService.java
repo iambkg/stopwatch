@@ -12,7 +12,7 @@ public class TimingService implements ITimingService {
 
     private StopWatch stopWatch;
 
-    public static final String ZERO_TIME = "00:00:00.000";
+    private static final String ZERO_TIME = "00:00:00.000";
 
     @Override
     public void init() {

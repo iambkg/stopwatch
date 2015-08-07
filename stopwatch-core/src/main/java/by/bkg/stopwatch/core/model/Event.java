@@ -8,9 +8,9 @@ import java.util.List;
  */
 public class Event implements IEvent {
 
-    private List<ISportsman> sportsmen;
+    private final List<ISportsman> sportsmen;
 
-    private List<ISplitRecord> splits;
+    private final List<ISplitRecord> splits;
 
     public Event() {
         this.sportsmen = new ArrayList<ISportsman>();

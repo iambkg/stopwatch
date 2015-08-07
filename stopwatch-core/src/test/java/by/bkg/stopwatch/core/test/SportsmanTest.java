@@ -37,7 +37,7 @@ public class SportsmanTest {
 
     private final String START_NUMBER = "123";
 
-    private ICategory CATEGORY = new Category("fake", Sex.MALE);
+    private final ICategory CATEGORY = new Category("fake", Sex.MALE);
 
     @Before
     public void doBeforeTest() {

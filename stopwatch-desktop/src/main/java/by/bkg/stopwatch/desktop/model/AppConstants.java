@@ -13,6 +13,8 @@ public final class AppConstants {
 
     public static final String EMPTY_STRING = "";
 
+    public static final int TIME_LABEL_FONT_SIZE = 25;
+
     private AppConstants() {
     }
 }

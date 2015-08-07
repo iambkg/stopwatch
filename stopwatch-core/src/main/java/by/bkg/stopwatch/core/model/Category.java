@@ -9,9 +9,9 @@ import by.bkg.stopwatch.core.model.enums.Sex;
  */
 public class Category implements ICategory {
 
-    private String name;
+    private final String name;
 
-    private Sex sex;
+    private final Sex sex;
 
     public Category(final String name, final Sex sex) {
         this.name = name;

@@ -32,8 +32,7 @@ public class CategoryDictionary {
 //            loggingService.error(e);
         }
 
-        Vector<ICategory> result = new Vector<ICategory>();             // TODO ABA: remove
-        return result;
+        return new Vector<ICategory>();
     }
 
     private Vector<ICategory> convert(List<String[]> categories) {
