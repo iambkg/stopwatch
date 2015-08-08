@@ -14,6 +14,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -60,6 +62,23 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
                 deletePersonBtn.setEnabled(sportsmanSelected);
             }
         });
+        sportsmenList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    // double-click
+                    startEditing(getSelectedSportsman());
+                }
+            }
+
+            @Override
+            public void mousePressed(final MouseEvent evt) {
+                if (SwingUtilities.isRightMouseButton(evt)) {
+                    int index = sportsmenList.locationToIndex(evt.getPoint());
+                    doRemove((ISportsman) sportsmenList.getModel().getElementAt(index));
+                }
+            }
+        });
 
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setTitle(appMessages.getString("label.sportsmen"));
@@ -75,6 +94,24 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
 
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void startEditing(final ISportsman sportsmanToEdit) {
+        sportsmanDialog.open(SportsmanDialog.Mode.EDIT, sportsmanToEdit, new Callback<List<ISportsman>>() {
+            @Override
+            public void execute(List<ISportsman> refreshedSportsmenList) {
+                showSportsmenList(refreshedSportsmenList);
+            }
+        });
+    }
+
+    private void doRemove(final ISportsman sportsmanToDelete) {
+        getController().delete(sportsmanToDelete, new Callback<List<ISportsman>>() {
+            @Override
+            public void execute(List<ISportsman> refreshedSportsmenList) {
+                showSportsmenList(refreshedSportsmenList);
+            }
+        });
     }
 
     private JComponent createLogicButtonPanel() {
@@ -108,12 +145,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sportsmanDialog.open(SportsmanDialog.Mode.EDIT, getSelectedSportsman(), new Callback<List<ISportsman>>() {
-                    @Override
-                    public void execute(List<ISportsman> refreshedSportsmenList) {
-                        showSportsmenList(refreshedSportsmenList);
-                    }
-                });
+                startEditing(getSelectedSportsman());
             }
         };
     }
@@ -122,12 +154,7 @@ public class RegisteredSportsmanDialog extends JDialog {    // TODO ABA: make it
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().delete(getSelectedSportsman(), new Callback<List<ISportsman>>() {
-                    @Override
-                    public void execute(List<ISportsman> refreshedSportsmenList) {
-                        showSportsmenList(refreshedSportsmenList);
-                    }
-                });
+                doRemove(getSelectedSportsman());
             }
         };
     }
