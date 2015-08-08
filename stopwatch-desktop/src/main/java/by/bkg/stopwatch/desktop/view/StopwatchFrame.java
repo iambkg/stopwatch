@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -94,6 +96,8 @@ public class StopwatchFrame extends JFrame {
         toolBar.add(componentFactory.createBtn("icons/x24/DocumentPlain.png", appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Filter.png", appMessages.getString("btn.open-filter"), createOpenFilterBtnListener()));
+        toolBar.add(new JToolBar.Separator());
+//        toolBar.add(componentFactory.createBtn("icons/x24/ExtensionCsv.png", appMessages.getString("btn.export"), new ActionListener() {
         toolBar.add(componentFactory.createBtn("export", new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -163,9 +167,7 @@ public class StopwatchFrame extends JFrame {
         deleteSplitBtn = componentFactory.createBtn("icons/x16/Symbol-Remove.png", appMessages.getString("btn.delete-split"), new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                List<ISplitRecord> refreshedSplits = controller.deleteSplit((ISplitRecord) splitsList.getSelectedValue());
-                showSplitsInList(refreshedSplits);
-                showSplitsInTable(refreshedSplits, filterDialog.unbind());
+                doRemove((ISplitRecord) splitsList.getSelectedValue());
             }
         });
         deleteSplitBtn.setEnabled(false);
@@ -187,6 +189,23 @@ public class StopwatchFrame extends JFrame {
                 deleteSplitBtn.setEnabled(valueSelected);
             }
         });
+        splitsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    // double-click
+                    startEditing((ISplitRecord) splitsList.getSelectedValue());
+                }
+            }
+
+            @Override
+            public void mousePressed(final MouseEvent evt) {
+                if (SwingUtilities.isRightMouseButton(evt)) {
+                    int index = splitsList.locationToIndex(evt.getPoint());
+                    doRemove((ISplitRecord) splitsList.getModel().getElementAt(index));
+                }
+            }
+        });
 
         panel.add(new JScrollPane(splitsList), BorderLayout.CENTER);
         return panel;
@@ -200,6 +219,12 @@ public class StopwatchFrame extends JFrame {
                 showSplitsInTable(refreshedSplits, filterDialog.unbind());
             }
         });
+    }
+
+    private void doRemove(final ISplitRecord selected) {
+        List<ISplitRecord> refreshedSplits = controller.deleteSplit(selected);
+        showSplitsInList(refreshedSplits);
+        showSplitsInTable(refreshedSplits, filterDialog.unbind());
     }
 
     private JComponent createRightComponent() {
