@@ -365,6 +365,7 @@ public class StopwatchFrame extends JFrame {
         for (ISplitRecord refreshedSplit : refreshedSplits) {
             splitsListModel.addElement(refreshedSplit);
         }
+        splitsList.ensureIndexIsVisible(splitsListModel.getSize() - 1);
     }
 
     private void showSplitsInTable(final List<ISplitRecord> refreshedSplits, final List<FilterCriteria> filterCriterias) {
