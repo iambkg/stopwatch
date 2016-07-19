@@ -2,12 +2,14 @@ package by.bkg.stopwatch.desktop.view;
 
 import by.bkg.stopwatch.core.model.FilterCriteria;
 import by.bkg.stopwatch.core.model.ISplitRecord;
+import by.bkg.stopwatch.core.model.ISportsman;
 import by.bkg.stopwatch.desktop.model.AppConstants;
 import by.bkg.stopwatch.desktop.view.component.StopWatchPanel;
+import by.bkg.stopwatch.desktop.view.component.controller.RegisteredSportsmanDialogController;
 import by.bkg.stopwatch.desktop.view.component.controller.StopwatchFrameController;
 import by.bkg.stopwatch.desktop.view.component.dialog.EditSplitDialog;
 import by.bkg.stopwatch.desktop.view.component.dialog.FilterDialog;
-import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredSportsmanDialog;
+import by.bkg.stopwatch.desktop.view.component.dialog.RegisteredItemDialog;
 import by.bkg.stopwatch.desktop.view.i18n.AppMessages;
 import by.bkg.stopwatch.desktop.view.model.Callback;
 import by.bkg.stopwatch.desktop.view.model.ExtendedSplitTableData;
@@ -41,7 +43,10 @@ public class StopwatchFrame extends JFrame {
     private StopWatchPanel stopWatchPanel;
 
     @Autowired
-    private RegisteredSportsmanDialog registeredSportsmanDialog;
+    private RegisteredItemDialog<ISportsman> registeredSportsmanDialog;
+
+//    @Autowired
+//    private RegisteredItemDialog<ITeam> registeredTeamDialog;
 
     @Autowired
     private FilterDialog filterDialog;
@@ -54,6 +59,9 @@ public class StopwatchFrame extends JFrame {
 
     @Autowired
     private ComponentFactory componentFactory;
+
+    @Autowired
+    private RegisteredSportsmanDialogController sportsmenDialogController;
 
     private JTextField startNumber;
 
@@ -69,8 +77,11 @@ public class StopwatchFrame extends JFrame {
 
     public void init() {
         createPanels();
-        registeredSportsmanDialog.init();
+        registeredSportsmanDialog.init(sportsmenDialogController);
         registeredSportsmanDialog.setLocationRelativeTo(this);
+
+//        registeredTeamDialog.init(sportsmenDialogController);
+//        registeredTeamDialog.setLocationRelativeTo(this);
 
         editSplitDialog.init();
         editSplitDialog.setLocationRelativeTo(this);
@@ -95,6 +106,7 @@ public class StopwatchFrame extends JFrame {
         JToolBar toolBar = componentFactory.createToolBar();
         toolBar.add(componentFactory.createBtn("icons/x24/DocumentPlain.png", appMessages.getString("btn.new-event"), createNewEventBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Buddy.png", appMessages.getString("btn.view-sportsmen"), createViewSportsmenBtnListener()));
+//        toolBar.add(componentFactory.createBtn(/*"icons/x24/Buddy.png", */appMessages.getString("btn.view-teams"), createViewTeamsBtnListener()));
         toolBar.add(componentFactory.createBtn("icons/x24/Filter.png", appMessages.getString("btn.open-filter"), createOpenFilterBtnListener()));
         toolBar.add(new JToolBar.Separator());
 //        toolBar.add(componentFactory.createBtn("icons/x24/ExtensionCsv.png", appMessages.getString("btn.export"), new ActionListener() {
@@ -128,6 +140,15 @@ public class StopwatchFrame extends JFrame {
             }
         };
     }
+
+//    private ActionListener createViewTeamsBtnListener() {
+//        return new ActionListener() {
+//            @Override
+//            public void actionPerformed(final ActionEvent e) {
+//                registeredTeamDialog.open();
+//            }
+//        };
+//    }
 
     private ActionListener createOpenFilterBtnListener() {
         return new ActionListener() {
