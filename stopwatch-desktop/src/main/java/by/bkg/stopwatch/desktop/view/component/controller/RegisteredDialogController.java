@@ -13,8 +13,6 @@ public interface RegisteredDialogController<T> {
 
     void init(RegisteredItemDialog<T> dialog);
 
-    void delete(T selected, Callback<List<T>> deleteCallback);
-
     List<T> getAll();
 
     void startEditing(T itemToEdit, Callback<List<T>> callback);

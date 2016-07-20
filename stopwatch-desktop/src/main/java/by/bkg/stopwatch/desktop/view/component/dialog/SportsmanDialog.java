@@ -41,7 +41,16 @@ import java.util.List;
 public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>> {
 
     @Autowired
+    private AppMessages appMessages;
+
+    @Autowired
+    private DataFactory dataFactory;
+
+    @Autowired
     private ComponentFactory componentFactory;
+
+    @Autowired
+    private SportsmanDialogController controller;
 
     private Mode mode;
 
@@ -62,15 +71,6 @@ public class SportsmanDialog extends AbstractDialog<ISportsman, List<ISportsman>
     private JDatePickerImpl dateOfBirthField;
 
     private JButton okBtn;
-
-    @Autowired
-    private AppMessages appMessages;
-
-    @Autowired
-    private DataFactory dataFactory;
-
-    @Autowired
-    private SportsmanDialogController controller;
 
     @Override
     public void init() {

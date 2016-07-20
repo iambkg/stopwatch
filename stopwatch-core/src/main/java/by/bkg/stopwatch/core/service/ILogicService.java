@@ -3,6 +3,7 @@ package by.bkg.stopwatch.core.service;
 import by.bkg.stopwatch.core.model.IEvent;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.ISportsman;
+import by.bkg.stopwatch.core.model.ITeam;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ public interface ILogicService {
     List<ISportsman> editSportsman(ISportsman sportsman);
 
     List<ISportsman> deleteSportsman(ISportsman selectedSportsman);
+
+    List<ITeam> addTeam(ITeam team);
+
+    List<ITeam> editTeam(ITeam team);
+
+    List<ITeam> deleteTeam(final ITeam team);
 
     IEvent getEvent();
 
@@ -46,6 +53,8 @@ public interface ILogicService {
     List<ISplitRecord> startNewEvent();
 
     List<ISportsman> getSportsmen();
+
+    List<ITeam> getTeams();
 
     ISportsman getSportsmanByStartNumber(String startNumber);
 

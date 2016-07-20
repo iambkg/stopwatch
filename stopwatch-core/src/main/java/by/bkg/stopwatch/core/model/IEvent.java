@@ -9,5 +9,7 @@ public interface IEvent {
 
     List<ISportsman> getSportsmen();
 
+    List<ITeam> getTeams();
+
     List<ISplitRecord> getSplits();
 }

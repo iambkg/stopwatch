@@ -4,6 +4,7 @@ import by.bkg.stopwatch.core.model.Event;
 import by.bkg.stopwatch.core.model.IEvent;
 import by.bkg.stopwatch.core.model.ISplitRecord;
 import by.bkg.stopwatch.core.model.ISportsman;
+import by.bkg.stopwatch.core.model.ITeam;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,11 @@ public class LogicService implements ILogicService {
     }
 
     @Override
+    public List<ITeam> getTeams() {
+        return getEvent().getTeams();
+    }
+
+    @Override
     public ISportsman getSportsmanByStartNumber(String startNumber) {
         for (ISportsman sportsman : getEvent().getSportsmen()) {
             if (sportsman.getStartNumber().equals(startNumber)) {
@@ -65,7 +71,7 @@ public class LogicService implements ILogicService {
     public List<ISportsman> addSportsman(final ISportsman sportsman) {
         if (!StringUtils.isEmpty(sportsman.getStartNumber())) {
             getEvent().getSportsmen().add(sportsman);
-            loggingService.debug(getEvent().getSportsmen());
+            loggingService.debugSportsmen(getEvent().getSportsmen());
         } else {
             loggingService.error("Sportsman start number not provided. Ignoring specified sportsman");
         }
@@ -92,6 +98,39 @@ public class LogicService implements ILogicService {
             loggingService.error(String.format("DELETE: Could not find sportsman (ID = %s) among event members", sportsmanToDelete.getStartNumber()));
         }
         return getEvent().getSportsmen();
+    }
+
+    @Override
+    public List<ITeam> addTeam(ITeam team) {
+        if (!StringUtils.isEmpty(team.getStartNumber())) {
+            getEvent().getTeams().add(team);
+            loggingService.debugTeams(getEvent().getTeams());
+        } else {
+            loggingService.error("Team start number not provided. Ignoring specified team");
+        }
+        return getEvent().getTeams();
+    }
+
+    @Override
+    public List<ITeam> editTeam(ITeam teamToEdit) {
+        ITeam team = findTeam(teamToEdit.getStartNumber());
+        if (team != null) {
+            team.refresh(teamToEdit);
+        } else {
+            loggingService.error(String.format("EDIT: Could not find team (ID = %s) among event members", teamToEdit.getStartNumber()));
+        }
+        return getEvent().getTeams();
+    }
+
+    @Override
+    public List<ITeam> deleteTeam(final ITeam teamToDelete) {
+        ITeam team = findTeam(teamToDelete.getStartNumber());
+        if (team != null) {
+            getEvent().getTeams().remove(team);
+        } else {
+            loggingService.error(String.format("DELETE: Could not find team (ID = %s) among event members", teamToDelete.getStartNumber()));
+        }
+        return getEvent().getTeams();
     }
 
     @Override
@@ -173,6 +212,16 @@ public class LogicService implements ILogicService {
             }
         }
         loggingService.error(String.format("Did not find sportsman (start number %s)", startNumber));
+        return null;
+    }
+
+    private ITeam findTeam(final String startNumber) {
+        for (ITeam team : getEvent().getTeams()) {
+            if (startNumber.equals(team.getStartNumber())) {
+                return team;
+            }
+        }
+        loggingService.error(String.format("Did not find team (start number %s)", startNumber));
         return null;
     }
 

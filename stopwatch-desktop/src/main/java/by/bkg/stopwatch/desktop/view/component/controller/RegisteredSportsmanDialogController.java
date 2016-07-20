@@ -34,12 +34,6 @@ public class RegisteredSportsmanDialogController implements RegisteredDialogCont
     }
 
     @Override
-    public void delete(final ISportsman selectedSportsman, final Callback<List<ISportsman>> deleteCallback) {
-        List<ISportsman> refreshedList = logicService.deleteSportsman(selectedSportsman);
-        deleteCallback.execute(refreshedList);
-    }
-
-    @Override
     public final List<ISportsman> getAll() {
         return logicService.getSportsmen();
     }
@@ -56,7 +50,8 @@ public class RegisteredSportsmanDialogController implements RegisteredDialogCont
 
     @Override
     public void doRemove(final ISportsman sportsmanToDelete, Callback<List<ISportsman>> callback) {
-        delete(sportsmanToDelete, callback);
+        List<ISportsman> refreshedList = logicService.deleteSportsman(sportsmanToDelete);
+        callback.execute(refreshedList);
     }
 
     @Override

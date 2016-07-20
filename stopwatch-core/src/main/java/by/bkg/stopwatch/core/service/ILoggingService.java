@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.core.service;
 
 import by.bkg.stopwatch.core.model.ISportsman;
+import by.bkg.stopwatch.core.model.ITeam;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ import java.util.List;
  */
 public interface ILoggingService {
 
-    void debug(List<ISportsman> sportsmen);
+    void debugSportsmen(List<ISportsman> sportsmen);
+
+    void debugTeams(List<ITeam> teams);
 
     void debug(String message);
 

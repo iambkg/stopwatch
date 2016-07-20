@@ -1,6 +1,7 @@
 package by.bkg.stopwatch.core.service;
 
 import by.bkg.stopwatch.core.model.ISportsman;
+import by.bkg.stopwatch.core.model.ITeam;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,16 @@ public class LoggingService implements ILoggingService {
     private final Logger log = Logger.getLogger("stopwatch");
 
     @Override
-    public void debug(final List<ISportsman> sportsmen) {
+    public void debugSportsmen(final List<ISportsman> sportsmen) {
         for (ISportsman sportsman : sportsmen) {
             log.debug(sportsman);
+        }
+    }
+
+    @Override
+    public void debugTeams(List<ITeam> teams) {
+        for (ITeam team : teams) {
+            log.debug(team);
         }
     }
 
